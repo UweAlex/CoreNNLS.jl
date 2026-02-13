@@ -1,5 +1,5 @@
 name = "CoreNNLS"
-uuid = "e1b6a7e8-6b5c-4a9d-9e6f-2c3d4e5f6a7b" # Generierte UUID (bitte ersetzen durch `pkg> generate`)
+uuid = "e1b6a7e8-6b5c-4a9d-9e6f-2c3d4e5f6a7b"
 authors = ["UweAlex"]
 version = "0.0.1"
 
@@ -8,3 +8,10 @@ LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [compat]
 julia = "1.6"
+
+# --- DAS FEHLTE ---
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
