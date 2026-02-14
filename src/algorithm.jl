@@ -73,7 +73,7 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
             # -----------------------------
             # Robust rank guard
             # -----------------------------
-            # FIX: Construct R manually from factors to avoid F.R issues on Julia 1.6
+            # Construct R manually from factors for Julia 1.6 compatibility
             R_view = UpperTriangular(@view F.factors[1:n_p, 1:n_p])
             
             diagmax = zero(T)
@@ -81,12 +81,14 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
                 diagmax = max(diagmax, abs(R_view[k,k]))
             end
 
+            # Check for complete singularity
             if diagmax == zero(T)
                 ws.passive_set[idx_move] = false
-                ws.w[idx_move] = zero(T)
+                # Do NOT zero w here; allow standard gradient to handle it later
                 break
             end
 
+            # Check for rank deficiency
             rank_deficient = false
             for k in 1:n_p
                 if abs(R_view[k,k]) <= ws.options.rank_tol * diagmax
@@ -97,20 +99,18 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
 
             if rank_deficient
                 ws.passive_set[idx_move] = false
-                ws.w[idx_move] = zero(T)
+                # Do NOT zero w here
                 break
             end
 
             # -----------------------------
             # LS solve: r = Q' * b
             # -----------------------------
-            # Copy b into r buffer
             ws.r .= b
 
-            # FIX: Use mul! instead of manual LAPACK.ormqr!
-            # This works for Float64 (fast LAPACK), BigFloat (generic), and Julia 1.6 (compatibility)
-            # It computes: ws.r <- Q' * ws.r
-            mul!(ws.r, LinearAlgebra.adjoint(F.Q), ws.r)
+            # FIX: Use lmul! for strictly in-place operation: r <- Q' * r
+            # This works for Float64, BigFloat, and Julia 1.6+
+            LinearAlgebra.lmul!(LinearAlgebra.adjoint(F.Q), ws.r)
 
             # solve R * s = r[1:n_p]
             @inbounds for k in 1:n_p
