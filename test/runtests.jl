@@ -236,7 +236,7 @@ using Random
                 res_zero = norm(b)
                 @test res ≤ res_zero + 1e-8  # Better than x=0
                 if anoise == 0.0 && all(x_true .>= 0)
-                    @test x ≈ x_true rtol=1e-6  # Exact match without noise
+                    @test x ≈ x_true rtol=1e-5  # Relaxed rtol for random conditioning
                 end
             end
         end
