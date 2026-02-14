@@ -1,5 +1,4 @@
 # src/algorithm.jl
-
 using LinearAlgebra
 
 """
@@ -21,7 +20,7 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
         ws.iter += 1
         (ws.iter > ws.options.max_iter) && return (:MaxIter, ws.x)
 
-        # --- 1. Optimality Check (Deterministic Scan) ---
+        # --- 1. Optimality Check ---
         max_w = -typemax(T)
         idx_move = 0
         
@@ -35,19 +34,18 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
             end
         end
         
-        # Termination: No positive gradient component left
         if idx_move == 0 || max_w <= ws.options.w_tol
             return (:Success, ws.x)
         end
 
-        # --- 2. Move to Passive Set ---
+        # --- 2. Move variable to passive set ---
         ws.passive_set[idx_move] = true
         
-        # --- 3. Inner Loop: Solve Least Squares ---
+        # --- 3. Inner Loop ---
         while true
             n_p = count(ws.passive_set)
             
-            # Build Submatrix A_p (In-place copy)
+            # Build A_p
             col_ptr = 1
             for j in 1:n
                 if ws.passive_set[j]
@@ -58,11 +56,11 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
                 end
             end
             
-            # QR Decomposition (In-place on buffer)
+            # QR factorization
             F = qr!(@view ws.A_passive[1:m, 1:n_p])
             R = F.R
 
-            # --- 3a. Robust Rank-Deficiency Guard (FIXED) ---
+            # --- Rank Guard (robust) ---
             diagmax = zero(T)
             for k in 1:n_p
                 diagmax = max(diagmax, abs(R[k,k]))
@@ -77,26 +75,32 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
             end
 
             if is_singular
-                # Backtrack: move idx_move back to Z, zero its dual to prevent cycling
                 ws.passive_set[idx_move] = false
                 ws.w[idx_move] = zero(T)
                 break
             end
+
+            # --- Correct Least Squares Solve ---
+            # tmp = Q' * b  (reuse ws.r as buffer)
+            mul!(ws.r, transpose(F.Q), b)
+
+            # Solve R * s = tmp[1:n_p]
+            ldiv!(
+                @view(ws.s[1:n_p]),
+                UpperTriangular(@view R[1:n_p, 1:n_p]),
+                @view(ws.r[1:n_p])
+            )
             
-            # Solve least squares: R * s = Q' * b
-            s_view = @view ws.s[1:n_p]
-            ldiv!(s_view, F, b)
-            
-            # --- 4. Feasibility Check ---
-            is_feasible = true
+            # --- Feasibility Check ---
+            feasible = true
             for k in 1:n_p
-                if s_view[k] < -ws.options.w_tol
-                    is_feasible = false
+                if ws.s[k] < -ws.options.w_tol
+                    feasible = false
                     break
                 end
             end
 
-            if is_feasible
+            if feasible
                 # Accept step
                 col_ptr = 1
                 for j in 1:n
@@ -114,7 +118,7 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
                 break
             end
             
-            # --- 5. Boundary Step ---
+            # --- Boundary Step ---
             alpha = one(T)
             col_ptr = 1
             
@@ -141,7 +145,7 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
                 end
             end
             
-            # Remove near-zero entries from passive set
+            # Remove near-zero components
             for j in 1:n
                 if ws.passive_set[j] && ws.x[j] < ws.options.w_tol
                     ws.passive_set[j] = false
