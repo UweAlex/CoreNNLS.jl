@@ -5,7 +5,7 @@ using LinearAlgebra
     nnls!(ws::NNLSWorkspace, A, b) -> (status, x)
 
 Deterministic Lawson–Hanson NNLS.
-Allocations-free inside iteration loop.
+Allocations-free inside iteration loop for standard float types.
 """
 function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T}) where {T}
 
@@ -73,10 +73,12 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
             # -----------------------------
             # Robust rank guard
             # -----------------------------
-            R = F.R
+            # FIX 1: Manually construct R view to avoid getproperty error on Julia 1.6 / SubArrays
+            R_view = UpperTriangular(@view F.factors[1:n_p, 1:n_p])
+            
             diagmax = zero(T)
             for k in 1:n_p
-                diagmax = max(diagmax, abs(R[k,k]))
+                diagmax = max(diagmax, abs(R_view[k,k]))
             end
 
             if diagmax == zero(T)
@@ -85,28 +87,43 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
                 break
             end
 
+            # Check for rank deficiency
+            rank_deficient = false
             for k in 1:n_p
-                if abs(R[k,k]) <= ws.options.rank_tol * diagmax
-                    ws.passive_set[idx_move] = false
-                    ws.w[idx_move] = zero(T)
-                    continue
+                if abs(R_view[k,k]) <= ws.options.rank_tol * diagmax
+                    rank_deficient = true
+                    break
                 end
             end
 
+            if rank_deficient
+                ws.passive_set[idx_move] = false
+                ws.w[idx_move] = zero(T)
+                break
+            end
+
             # -----------------------------
-            # Correct LS solve WITHOUT Q allocation
+            # Correct LS solve WITH Generic Fallback
             # -----------------------------
 
             # copy b into r buffer
             ws.r .= b
 
-            # r ← Q' * b   (in-place, no alloc)
-            LinearAlgebra.LAPACK.ormqr!(
-                'L', 'T',
-                F.factors,
-                F.τ,
-                ws.r
-            )
+            # r <- Q' * b
+            # FIX 2: Dispatch based on element type to support BigFloat/Generic
+            if T <: Union{Float32, Float64, ComplexF32, ComplexF64}
+                # Fast path: LAPACK (in-place, no allocation)
+                LinearAlgebra.LAPACK.ormqr!(
+                    'L', 'T',
+                    F.factors,
+                    F.τ,
+                    ws.r
+                )
+            else
+                # Generic path: Uses implicit Q multiplication (works for BigFloat)
+                # This computes ws.r = Q' * ws.r efficiently without forming Q
+                LinearAlgebra.lmul!(LinearAlgebra.adjoint(F.Q), ws.r)
+            end
 
             # solve R * s = r[1:n_p]
             @inbounds for k in 1:n_p
@@ -114,7 +131,7 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
             end
 
             ldiv!(
-                UpperTriangular(@view R[1:n_p,1:n_p]),
+                R_view,
                 @view ws.s[1:n_p]
             )
 
