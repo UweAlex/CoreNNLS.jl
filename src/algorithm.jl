@@ -84,7 +84,7 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
             # Check for complete singularity
             if diagmax == zero(T)
                 ws.passive_set[idx_move] = false
-                # Do NOT zero w here; allow standard gradient to handle it later
+                ws.w[idx_move] = zero(T) # FIX: Prevent cycling
                 break
             end
 
@@ -99,7 +99,7 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
 
             if rank_deficient
                 ws.passive_set[idx_move] = false
-                # Do NOT zero w here
+                ws.w[idx_move] = zero(T) # FIX: Prevent cycling
                 break
             end
 
@@ -108,9 +108,14 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
             # -----------------------------
             ws.r .= b
 
-            # FIX: Use lmul! for strictly in-place operation: r <- Q' * r
-            # This works for Float64, BigFloat, and Julia 1.6+
-            LinearAlgebra.lmul!(LinearAlgebra.adjoint(F.Q), ws.r)
+            # FIX: Dispatch to handle BigFloat vs Float64 performance
+            if T <: Union{Float32, Float64, ComplexF32, ComplexF64}
+                # Fast path (0 allocations), works on Julia 1.6+
+                LinearAlgebra.lmul!(LinearAlgebra.adjoint(F.Q), ws.r)
+            else
+                # Generic path (works for BigFloat, may allocate)
+                ws.r .= LinearAlgebra.adjoint(F.Q) * ws.r
+            end
 
             # solve R * s = r[1:n_p]
             @inbounds for k in 1:n_p
