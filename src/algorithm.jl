@@ -1,42 +1,29 @@
-#src/algorithm.jl
+# src/algorithm.jl
 using LinearAlgebra
 
 """
     nnls!(ws::NNLSWorkspace, A, b) -> (status, x)
 
-Solves min ||Ax - b|| s.t. x >= 0 using the Lawson-Hanson algorithm.
-Deterministic, in-place, standard QR.
+Solves min ||Ax - b|| s.t. x >= 0 using a deterministic Lawson-Hanson implementation.
 """
 function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T}) where {T}
     
-    # --- 0. Initialization & Reset ---
+    # --- 0. Initialization ---
     m, n = ws.m, ws.n
     fill!(ws.x, zero(T))
-    fill!(ws.passive_set, false) # All start in Active Set Z
-    
-    # Initial Residual: r = b (since Ax=0)
+    fill!(ws.passive_set, false)
     ws.r .= b
-    
-    # Initial Dual: w = A'b
     mul!(ws.w, transpose(A), ws.r)
-    
     ws.iter = 0
     
-    # --- Main Loop ---
     while true
         ws.iter += 1
-        if ws.iter > ws.options.max_iter
-            @warn "NNLS max iterations reached"
-            return (:MaxIter, ws.x)
-        end
+        (ws.iter > ws.options.max_iter) && return (:MaxIter, ws.x)
 
-        # --- 1. Optimality Check ---
-        # Find index j in Z with maximum w_j.
-        # We want to move x_i up if w_i > 0.
-        max_w = zero(T)
+        # --- 1. Optimality Check (Deterministic Scan) ---
+        max_w = -typemax(T) # Start at negative infinity for correct max search
         idx_move = 0
         
-        # Deterministic scan: first index wins in case of tie
         for j in 1:n
             if !ws.passive_set[j]
                 wj = ws.w[j]
@@ -47,115 +34,118 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
             end
         end
         
-        # Termination Condition
-        if max_w <= ws.options.w_tol || idx_move == 0
-            # Optimal found
-            # Post-check (debug) - only if contracts are enabled/debug mode
-            # validate_nnls_post(A, b, ws.x, ws.w, ws.options.w_tol)
+        # Termination: No positive gradient component left
+        if idx_move == 0 || max_w <= ws.options.w_tol
             return (:Success, ws.x)
         end
 
         # --- 2. Move to Passive Set ---
         ws.passive_set[idx_move] = true
         
-        # --- 3. Inner Loop: Solve Least Squares for Passive Set ---
+        # --- 3. Inner Loop: Solve Least Squares ---
         while true
-            n_passive = count(ws.passive_set)
+            n_p = count(ws.passive_set)
             
-            # Build Submatrix A_passive = A[:, P]
-            # Copy into pre-allocated buffer
-            col_idx = 1
+            # Build Submatrix A_p (In-place copy)
+            col_ptr = 1
             for j in 1:n
                 if ws.passive_set[j]
                     for i in 1:m
-                        ws.A_passive[i, col_idx] = A[i, j]
+                        ws.A_passive[i, col_ptr] = A[i, j]
                     end
-                    col_idx += 1
+                    col_ptr += 1
                 end
             end
             
-            # QR Decomposition of A_passive
-            F = qr!(@view ws.A_passive[:, 1:n_passive])
+            # QR Decomposition (In-place on buffer)
+            F = qr!(@view ws.A_passive[1:m, 1:n_p])
             
-            # --- 3a. Rank Guard (CORRECTED) ---
-            R_diag = diag(F.R)
-            if any(abs.(R_diag) .< ws.options.rank_tol)
-                # Rank deficiency detected!
-                # Strategy: We cannot add this column. 
-                # FIX: Set w[idx_move] = 0 to prevent immediate re-selection
-                # and move it back to Z.
-                ws.w[idx_move] = zero(T) 
-                ws.passive_set[idx_move] = false 
-                break # Break inner loop, continue outer loop
+            # --- 3a. Rank-Deficiency Guard (Allokationsfrei) ---
+            # Check diagonal of R relative to the first element
+            r11 = abs(F.R[1,1])
+            is_singular = false
+            for k in 1:n_p
+                if abs(F.R[k,k]) <= ws.options.rank_tol * r11
+                    is_singular = true; break
+                end
             end
-            
-            # Solve LS: min || A_p * s - b ||
-            fill!(ws.s, zero(T))
-            s_view = @view ws.s[1:n_passive]
+
+            if is_singular
+                # Backtrack: move idx_move back to Z, zero its dual to prevent cycling
+                ws.passive_set[idx_move] = false
+                ws.w[idx_move] = zero(T) 
+                break # Exit inner loop, pick next best w in outer loop
+            end
             
             # Solve R * s = Q' * b
+            s_view = @view ws.s[1:n_p]
             ldiv!(s_view, F, b)
             
-            # --- 4. Feasibility Check ---
-            if all(s_view .>= zero(T))
-                # Feasible step found! Update x.
-                col_idx = 1
+            # --- 4. Feasibility Check (With Tolerance) ---
+            # We check if s_view >= -tol to avoid noise-driven boundary steps
+            is_feasible = true
+            for k in 1:n_p
+                if s_view[k] < -ws.options.w_tol
+                    is_feasible = false; break
+                end
+            end
+
+            if is_feasible
+                # Accept step: Update x from s
+                col_ptr = 1
                 for j in 1:n
                     if ws.passive_set[j]
-                        ws.x[j] = ws.s[col_idx]
-                        col_idx += 1
+                        ws.x[j] = ws.s[col_ptr]
+                        col_ptr += 1
                     end
                 end
-                
-                # Update Residual r = b - A*x
+                # UPDATE RESIDUAL AND DUAL (Crucial for next outer iteration)
                 ws.r .= b
                 mul!(ws.r, A, ws.x, -one(T), one(T))
-                
-                # Update Dual w = A'r
                 mul!(ws.w, transpose(A), ws.r)
-                
-                break # Exit Inner Loop
+                break # Success in inner loop
             end
             
-            # --- 5. Boundary Step ---
+            # --- 5. Boundary Step (Variables hitting zero) ---
             alpha = one(T)
+            col_ptr = 1
+            idx_boundary = 0
             
-            # Map passive indices to vector s
-            # Note: findall allocates. For Phase 1 acceptable, 
-            # for Phase 3 SLSQP consider maintaining an index list in workspace.
-            passive_indices = findall(ws.passive_set)
-            
-            # Find minimum ratio alpha
-            for (k, j) in enumerate(passive_indices)
-                sj = ws.s[k]
-                xj = ws.x[j]
-                
-                # Only consider variables that would go negative (sj < 0)
-                if sj < zero(T)
-                    # Ratio xj / (xj - sj)
-                    # Example: x=10, s=-10 -> ratio = 10/20 = 0.5 -> x_new = 0
-                    ratio = xj / (xj - sj)
-                    if ratio < alpha
-                        alpha = ratio
+            for j in 1:n
+                if ws.passive_set[j]
+                    sj = ws.s[col_ptr]
+                    xj = ws.x[j]
+                    if sj < -ws.options.w_tol # Component wants to become negative
+                        ratio = xj / (xj - sj)
+                        if ratio < alpha
+                            alpha = ratio
+                            idx_boundary = j
+                        end
                     end
+                    col_ptr += 1
                 end
             end
             
-            # Apply Step: x = x + alpha * (s - x)
-            for (k, j) in enumerate(passive_indices)
-                ws.x[j] += alpha * (ws.s[k] - ws.x[j])
+            # Interpolate: x = x + alpha * (s - x)
+            col_ptr = 1
+            for j in 1:n
+                if ws.passive_set[j]
+                    ws.x[j] += alpha * (ws.s[col_ptr] - ws.x[j])
+                    col_ptr += 1
+                end
             end
             
-            # Move zeroed out variables back to Z
-            # Use a small tolerance to detect 'zero'
-            for j in passive_indices
-                if ws.x[j] < ws.options.w_tol 
+            # Move zeroed variables back to Active Set Z
+            # Forensic Fix: Ensure values < tol are strictly zeroed
+            for j in 1:n
+                if ws.passive_set[j] && ws.x[j] < ws.options.w_tol
                     ws.passive_set[j] = false
-                    ws.x[j] = zero(T) 
+                    ws.x[j] = zero(T)
                 end
             end
             
-            # Inner loop continues with reduced Passive Set
+            # IMPORTANT: In LH-Algorithm, we stay in inner loop after boundary step
+            # but we need to re-build A_p for the reduced passive set.
         end
     end
 end
