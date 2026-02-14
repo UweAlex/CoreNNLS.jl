@@ -18,6 +18,16 @@ Unlike existing wrappers or direct Fortran ports, CoreNNLS.jl focuses on:
 3. **Type Genericity:** Leveraging Julia's multiple dispatch to support `Float32`, `Float64`, and high-precision types like `BigFloat` or `Double64` without binary overhead.
 
 ---
+## Standalone Rationale: Breaking the Float64 Barrier
+
+While the Julia ecosystem already offers NNLS solutions, most existing packages are either wrappers around legacy C/Fortran code or are internally restricted to `Float64` precision. This creates a significant bottleneck for:
+
+1. **High-Precision Research:** Solving pathologically ill-conditioned problems (e.g., Hilbert or large-scale Vandermonde matrices).
+2. **Numerical Forensics:** Verifying if a solver's failure is due to algorithmic issues or pure rounding errors.
+3. **Differentiable Programming:** Integrating NNLS sub-problems into Automatic Differentiation (AD) workflows that require generic types (like `DualNumbers`).
+
+**CoreNNLS.jl** was granted standalone status because it bridges this gap. By utilizing Julia's native type-genericity, it allows users to switch from `Float64` to `BigFloat` or `Double64` with a single type-parameter change—a feat impossible for legacy-wrapped solvers. This makes it not just a component of SLSQP.jl, but a vital tool for high-stakes numerical analysis.
+---
 
 ## Installation
 
