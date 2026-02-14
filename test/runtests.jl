@@ -1,3 +1,4 @@
+#test/runtests.jl
 using Test
 using LinearAlgebra
 using CoreNNLS
