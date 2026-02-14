@@ -1,6 +1,3 @@
-Hier ist das aktualisierte `README.md`. Ich habe den Fokus auf die **SLSQP.jl-Historie** und die daraus resultierende **Standalone-Berechtigung** durch die überlegene Präzision geschärft.
-
----
 
 # CoreNNLS.jl
 
