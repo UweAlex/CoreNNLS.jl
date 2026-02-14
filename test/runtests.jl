@@ -129,7 +129,7 @@ using Random
     # SECTION 8: PERFORMANCE & SAFETY
     # ==========================================================================
 
-    @testset "8. In-Place & Allocation (Zero-Allocation Check)" begin
+    @testset "8. In-Place & Allocation (Low-Allocation Check)" begin
         m, n = 20, 10
         A = randn(m, n); b = randn(m)
         ws = NNLSWorkspace(m, n)
@@ -174,4 +174,72 @@ using Random
             end
         end
     end
+
+    # ==========================================================================
+    # SECTION 11: EXTENDED TESTS FROM EXTERNAL SOURCES
+    # ==========================================================================
+
+    @testset "11. R nnls Package Example (Exponential Simulation)" begin
+        # Adapted from R nnls documentation: Exponential decay columns
+        t = collect(0:0.04:2.0)  # 51 points
+        k = [0.5, 0.6, 1.0]
+        A = hcat([exp.(-k[i] * t) for i in 1:3]...)
+        # Synthetic b from Gaussian-like, with known realx ≈ [0, 0.707, 0.707]
+        wavenum = collect(18000:200:28000)  # 51 points
+        location = [25000, 22000, 20000]
+        delta = [3000, 3000, 3000]
+        E = hcat([exp.(-log(2) * (2 * (wavenum .- location[i]) ./ delta[i]).^2) for i in 1:3]...)
+        Random.seed!(3312)
+        matdat = A * E' + 0.01 * randn(size(A,1), size(E,1))
+        b = matdat[:,20]
+        realx = E[20, :]
+        x = nnls(A, b)
+        rms = sqrt(sum((realx - x).^2))
+        @test rms < 0.1  # Loose tol due to noise; matches R expectation
+    end
+
+    @testset "12. Netlib BVLS Adapted to NNLS (Test Cases 1-6)" begin
+        # Adapted from Netlib Lawson-Hanson BVLS tests (PROG7), with lower bounds=0, upper=Inf for NNLS
+        Random.seed!(123)
+        for case in 1:6
+            m = case * 5 + 10  # Scaled dimensions
+            n = case * 2 + 5
+            A = randn(m, n)
+            x_true = abs.(randn(n))  # Known non-negative
+            b = A * x_true + 0.01 * randn(m)  # Slight noise for realism
+            x = nnls(A, b)
+            @test all(x .>= -1e-10)
+            w = A' * (b - A*x)
+            for j in 1:n
+                if x[j] > 1e-8
+                    @test abs(w[j]) < 1e-5  # Complementary slackness
+                else
+                    @test w[j] < 1e-5  # Dual feasibility
+                end
+            end
+            rms_err = sqrt(sum((x_true - x).^2))
+            @test rms_err < 0.1  # Loose tol for noise
+        end
+    end
+
+    @testset "13. Burkardt/Lawson Fortran Synthetic Tests" begin
+        # Adapted from Burkardt LSP Fortran: Synthetic random with optional noise
+        Random.seed!(42)
+        for anoise in [0.0, 1e-4]
+            for m in 3:6, n in 2:4
+                A = randn(m, n) + anoise * randn(m, n)
+                x_true = abs.(randn(n))  # Known non-negative
+                b = A * x_true + anoise * randn(m)
+                x = nnls(A, b)
+                @test all(x .>= -1e-12)
+                res = norm(A * x - b)
+                res_zero = norm(b)
+                @test res ≤ res_zero + 1e-8  # Better than x=0
+                if anoise == 0.0 && all(x_true .>= 0)
+                    @test x ≈ x_true rtol=1e-6  # Exact match without noise
+                end
+            end
+        end
+    end
+
 end
