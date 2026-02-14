@@ -1,54 +1,39 @@
-
 # CoreNNLS.jl
 
-**CoreNNLS.jl** is a high-precision, pure-Julia implementation of the Non-Negative Least Squares (NNLS) algorithm, based on the classic Lawson–Hanson framework.
+**Status:** Phase 1 Release (Pre-Registration / Development)  
+**License:** MIT
 
-### Origin & Purpose
+**CoreNNLS.jl** is a pure-Julia implementation of the **Lawson-Hanson algorithm** for solving Non-Negative Least Squares (NNLS) problems.
 
-Originally conceived as the foundational numerical engine for the **SLSQP.jl** reproduction project, CoreNNLS.jl has evolved into a powerful **standalone tool**. Its ability to break through the limitations of standard 64-bit floating-point solvers gives it a unique position in the Julia optimization ecosystem. While other solvers are bound by legacy C or Fortran wrappers, CoreNNLS.jl leverages Julia's native genericity to provide a path for **numerical forensics** and **arbitrary-precision optimization**.
-
----
-
-## The Precision Advantage: Breaking the `Float64` Barrier
-
-In the context of Sequential Quadratic Programming (SQP), the NNLS sub-problem often becomes extremely ill-conditioned as the solver approaches a boundary. Standard implementations (like those in SciPy or NLopt) often fail or return significant errors in these regimes.
-
-By supporting generic types like `BigFloat` and `Double64`, **CoreNNLS.jl** can solve pathologically ill-conditioned problems where standard `Float64` solvers diverge or lose all significant digits.
-
-### Precision Benchmark Results
-
-The following table shows the forward error () for problems with a **known exact solution** (). These results are automatically verified during CI on every push.
-
-| Matrix Type | n | Cond(A) | Float64 Error | BigFloat Error | Precision Gain |
-| --- | --- | --- | --- | --- | --- |
-| **Pascal (Lower)** | 25 |  |  |  | **** |
-| **Hilbert Matrix** | 12 |  |  |  | **** |
-| **Vandermonde** | 15 |  |  |  | **** |
+This package is the first standalone product of the **SLSQP.jl** reproduction project. It provides a validated, reference-compatible foundation for solving the Quadratic Programming (QP) sub-problems required in Sequential Quadratic Programming.
 
 ---
 
-## Key Features
+## Why CoreNNLS.jl?
 
-* **Generic Type Support:** Fully compatible with `Float32`, `Float64`, `BigFloat`, and `Double64`.
-* **Zero-Allocation Path:** High-performance in-place API (`nnls!`) using a pre-allocated `NNLSWorkspace` to prevent Garbage Collector (GC) overhead.
-* **Forensic Determinism:** Guaranteed reproducible results through deterministic tie-breaking and strict control flow.
-* **Design-by-Contract (DbC):** Integrated verification layer for pre- and post-condition checks (KKT-stationarity, feasibility).
+Unlike existing wrappers or direct Fortran ports, CoreNNLS.jl focuses on:
+
+1. **Equivalence Axiom:** Deterministic behavior that matches the mathematical specification of Lawson & Hanson (1974) and established reference implementations (SciPy/NLopt).
+2. **Numerical Forensics:** A transparent, idiomatic Julia codebase that allows for deep inspection of the solver state (via `NNLSWorkspace`).
+3. **Type Genericity:** Leveraging Julia's multiple dispatch to support `Float32`, `Float64`, and high-precision types like `BigFloat` or `Double64` without binary overhead.
 
 ---
 
 ## Installation
 
+The package is currently in development and not yet registered in the General Registry. Install it directly via the repository URL:
+
 ```julia
 using Pkg
-Pkg.add("CoreNNLS")
+Pkg.add(url="[https://github.com/UweAlex/CoreNNLS.jl](https://github.com/UweAlex/CoreNNLS.jl)")
 
 ```
 
 ---
 
-## Quick Start
+## Usage
 
-### Standard Usage
+### High-Level API (Convenience)
 
 ```julia
 using CoreNNLS
@@ -60,45 +45,47 @@ x = nnls(A, b)
 
 ```
 
-### High-Precision & Zero-Allocation Usage
+### In-Place API (For Optimization Loops)
+
+Avoids memory allocations by re-using the workspace—ideal for SQP solvers.
 
 ```julia
 using CoreNNLS
 
-n, m = 10, 20
-ws = NNLSWorkspace(m, n, BigFloat) 
+# Initialize workspace for dimensions (m x n)
+ws = NNLSWorkspace(3, 2, Float64)
 
-# Re-use workspace for multiple solves without allocations
-status, x = nnls!(ws, A_big, b_big)
+# Solve (mutates ws)
+status, x = nnls!(ws, A, b)
 
-if status == SUCCESS
-    println("Solution found. Stationarity: ", ws.stationarity)
+if status == :Success
+    println("Solution: ", x)
+    println("Iterations: ", ws.iter)
 end
 
 ```
 
 ---
 
-## Mathematical Specification
+## Technical Features
 
-CoreNNLS.jl solves the problem:
-
-
-The implementation follows the **Lawson–Hanson active-set strategy**, augmented by:
-
-* **Rank-deficiency guards:** Automatic handling of singular sub-problems.
-* **Anti-cycling logic:** Deterministic index selection to prevent infinite loops in degenerate cases.
+* **Algorithm:** Lawson-Hanson (Active-Set Strategy).
+* **Linear Algebra:** Standard QR decomposition (Householder).
+* **Robustness:** Includes rank-deficiency guards and deterministic tie-breaking (anti-cycling).
+* **Verification:** Integrated Design-by-Contract (DbC) layer for KKT-stationarity checks.
 
 ---
 
-## License
+## Strategic Context
 
-This project is licensed under the MIT License.
-
----
-
-**Strategic Context:** This package serves as the verified foundation for bit-wise reproducible non-linear optimization in the `SLSQP.jl` ecosystem.
+CoreNNLS.jl was developed following the principle: **Reproduction → Stabilization → Integration**.
+While originally built for `SLSQP.jl`, its generic implementation allows it to handle extremely ill-conditioned problems using `BigFloat`, where legacy 64-bit wrappers typically diverge.
 
 ---
 
-**Nächster Schritt:** Damit ist die Dokumentationsbasis für den ersten Release-Kandidaten von `CoreNNLS.jl` perfekt. Möchtest du, dass ich dir nun bei der finalen Zusammenstellung der `Project.toml` helfe, um die Versionierung und Abhängigkeiten sauber zu definieren?
+## References
+
+* Lawson, C. L., & Hanson, R. J. (1974). *Solving Least Squares Problems*.
+* Part of the [SLSQP.jl](https://www.google.com/search?q=https://github.com/UweAlex/SLSQP.jl) Project.
+
+```
