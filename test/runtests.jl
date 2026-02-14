@@ -114,5 +114,43 @@ using Random
                 end
             end
         end
+        @testset "7. Advanced & Pathological Cases" begin
+    
+    @testset "Underdetermined (n > m)" begin
+        # Mehr Variablen als Zeilen. NNLS muss eine sparse Lösung finden.
+        Random.seed!(1); m, n = 20, 50
+        A = randn(m, n)
+        x_true = zeros(n); x_true[1:5] = rand(5) # Nur 5 sind aktiv
+        b = A * x_true
+        
+        x_nnls = nnls(A, b)
+        @test norm(A*x_nnls - b) < 1e-10
+        @test count(x -> x > 1e-10, x_nnls) <= m # Theoretisches Limit
+    end
+
+    @testset "Collinear / Ill-conditioned" begin
+        # Zwei Spalten fast identisch
+        eps_val = 1e-13
+        A = [1.0 1.0+eps_val; 
+             1.0 1.0]
+        b = [2.0, 2.0]
+        
+        # Float64 könnte hier numerisch "wackeln"
+        x = nnls(A, b)
+        @test norm(A*x - b) < 1e-12
+    end
+
+    @testset "KKT-Complementarity (Forensic Check)" begin
+        # Ein Test, der explizit prüft, ob x_i * w_i ≈ 0 gilt
+        A = randn(10, 5); b = randn(10)
+        ws = NNLSWorkspace(10, 5)
+        status, x = nnls!(ws, A, b)
+        
+        # Dual-Vektor w ist in ws.w gespeichert
+        # Für jedes i muss gelten: entweder x[i] == 0 oder w[i] == 0
+        complementarity = [x[i] * ws.w[i] for i in 1:5]
+        @test all(abs.(complementarity) .< 1e-10)
+    end
+end
     end
 end
