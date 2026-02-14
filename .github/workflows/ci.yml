@@ -33,3 +33,6 @@ jobs:
       - uses: codecov/codecov-action@v3
         with:
           file: lcov.info
+
+- name: Run Precision Benchmarks
+  run: julia --project=@. test/benchmarks_precision.jl
