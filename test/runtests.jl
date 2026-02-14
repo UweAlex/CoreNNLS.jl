@@ -3,7 +3,7 @@ using LinearAlgebra
 using CoreNNLS
 using Random
 
-@testset "CoreNNLS.jl - Full Forensic Suite (LAPACK-Ready)" begin
+@testset "CoreNNLS.jl - Full Forensic Suite (Pure Julia)" begin
     
     # 1. BASICS
     @testset "1. Interior & Boundary Basics" begin
@@ -49,24 +49,25 @@ using Random
         @test norm(b - A*x) ≈ 0.70710678 rtol=1e-3
     end
 
-    # 7. HIGH-PRECISION (Fallback Check)
+    # 7. HIGH-PRECISION (Pure Julia Generic Support)
+    # Pure Julia unterstützt beliebige Float-Typen (BigFloat) ohne LAPACK-Wrapper.
     @testset "7. High-Precision (BigFloat)" begin
-        # LAPACK funktioniert nur mit Float32/64, daher testet dies den Fallback
         T = BigFloat
         setprecision(128) do
             A = T[1.0 0.5; 0.5 2.0]; b = T[3.0, 4.0]
-            @test nnls(A, b) ≈ T[16/7, 10/7]
+            @test nnls(A, b) ≈ [big"16/7", big"10/7"]
         end
     end
 
-    # 8. PERFORMANCE (The LAPACK Promise)
+    # 8. PERFORMANCE (Zero-Alloc Promise)
     @testset "8. In-Place & Allocation" begin
         m, n = 20, 10
         A = randn(m, n); b = randn(m); ws = NNLSWorkspace(m, n)
-        nnls!(ws, A, b) # Warmup
+        nnls!(ws, A, b) # Warmup (Initialisierung/Speicher)
         allocs = @allocated nnls!(ws, A, b)
-        # Wenn ormqr! korrekt arbeitet, sind wir unter 1KB Overhead
-        @test allocs < 1024 
+        # Pure Julia In-Place sollte strikt < 64 Bytes sein (nur Stack-Variablen).
+        # Wir setzen das Limit strikter als bei LAPACK.
+        @test allocs < 64 
     end
 
     # 9. SAFETY
@@ -97,6 +98,8 @@ using Random
         Random.seed!(3312)
         b = A * [0.0, 0.7, 0.7] + 0.01 * randn(length(t))
         x = nnls(A, b)
+        # Active-Set (Pure Julia) bevorzugt sparse Lösungen.
+        # Daher sollte x[1] wieder deutlich unter 0.1 liegen.
         @test x[1] < 0.1
         @test norm(A*x - b) < 0.1
     end
