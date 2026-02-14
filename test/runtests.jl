@@ -103,7 +103,8 @@ using Random
         # CHECK:
         # The residual for this ill-conditioned problem is approx 0.707 (sqrt(0.5)).
         r = b - A*x
-        @test norm(r) ≈ sqrt(0.5) rtol=0.1  # Relaxed for numerical variation in CI
+        println("Turkey residual: ", norm(r))  # Debug print
+        @test norm(r) ≈ sqrt(0.5) rtol=0.05  # Relaxed for numerical variation in CI
     end
 
     # ==========================================================================
@@ -135,7 +136,7 @@ using Random
         nnls!(ws, A, b) # Warmup
         
         allocs = @allocated nnls!(ws, A, b)
-        
+        println("Allocated bytes: ", allocs)  # Debug print
         # CORRECTION:
         # Limit increased to 64000 bytes for CI with coverage overhead.
         @test allocs < 64000 
@@ -232,6 +233,7 @@ using Random
                 res_zero = norm(b)
                 @test res ≤ res_zero + 1e-8  # Better than x=0
                 if anoise == 0.0 && all(x_true .>= 0)
+                    println("Burkardt Test m=$m n=$n: norm(x - x_true) = ", norm(x - x_true))  # Debug print
                     @test x ≈ x_true rtol=1e-1  # Further relaxed for random conditioning in CI
                 end
             end
