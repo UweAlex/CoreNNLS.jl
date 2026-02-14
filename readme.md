@@ -27,6 +27,7 @@ While the Julia ecosystem already offers NNLS solutions, most existing packages 
 3. **Differentiable Programming:** Integrating NNLS sub-problems into Automatic Differentiation (AD) workflows that require generic types (like `DualNumbers`).
 
 **CoreNNLS.jl** was granted standalone status because it bridges this gap. By utilizing Julia's native type-genericity, it allows users to switch from `Float64` to `BigFloat` or `Double64` with a single type-parameter change—a feat impossible for legacy-wrapped solvers. This makes it not just a component of SLSQP.jl, but a vital tool for high-stakes numerical analysis.
+
 ---
 
 ## Installation
