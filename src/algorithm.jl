@@ -21,7 +21,7 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
         (ws.iter > ws.options.max_iter) && return (:MaxIter, ws.x)
 
         # --- 1. Optimality Check (Deterministic Scan) ---
-        max_w = -typemax(T) # Start at negative infinity for correct max search
+        max_w = -typemax(T)
         idx_move = 0
         
         for j in 1:n
@@ -59,39 +59,44 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
             
             # QR Decomposition (In-place on buffer)
             F = qr!(@view ws.A_passive[1:m, 1:n_p])
-            
-            # --- 3a. Rank-Deficiency Guard (Allokationsfrei) ---
-            # Check diagonal of R relative to the first element
-            r11 = abs(F.R[1,1])
+            R = F.R
+
+            # --- 3a. Robust Rank-Deficiency Guard (FIXED) ---
+            diagmax = zero(T)
+            for k in 1:n_p
+                diagmax = max(diagmax, abs(R[k,k]))
+            end
+
             is_singular = false
             for k in 1:n_p
-                if abs(F.R[k,k]) <= ws.options.rank_tol * r11
-                    is_singular = true; break
+                if abs(R[k,k]) <= ws.options.rank_tol * diagmax
+                    is_singular = true
+                    break
                 end
             end
 
             if is_singular
                 # Backtrack: move idx_move back to Z, zero its dual to prevent cycling
                 ws.passive_set[idx_move] = false
-                ws.w[idx_move] = zero(T) 
-                break # Exit inner loop, pick next best w in outer loop
+                ws.w[idx_move] = zero(T)
+                break
             end
             
-            # Solve R * s = Q' * b
+            # Solve least squares: R * s = Q' * b
             s_view = @view ws.s[1:n_p]
             ldiv!(s_view, F, b)
             
-            # --- 4. Feasibility Check (With Tolerance) ---
-            # We check if s_view >= -tol to avoid noise-driven boundary steps
+            # --- 4. Feasibility Check ---
             is_feasible = true
             for k in 1:n_p
                 if s_view[k] < -ws.options.w_tol
-                    is_feasible = false; break
+                    is_feasible = false
+                    break
                 end
             end
 
             if is_feasible
-                # Accept step: Update x from s
+                # Accept step
                 col_ptr = 1
                 for j in 1:n
                     if ws.passive_set[j]
@@ -99,34 +104,34 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
                         col_ptr += 1
                     end
                 end
-                # UPDATE RESIDUAL AND DUAL (Crucial for next outer iteration)
+
+                # Update residual and dual
                 ws.r .= b
                 mul!(ws.r, A, ws.x, -one(T), one(T))
                 mul!(ws.w, transpose(A), ws.r)
-                break # Success in inner loop
+
+                break
             end
             
-            # --- 5. Boundary Step (Variables hitting zero) ---
+            # --- 5. Boundary Step ---
             alpha = one(T)
             col_ptr = 1
-            idx_boundary = 0
             
             for j in 1:n
                 if ws.passive_set[j]
                     sj = ws.s[col_ptr]
                     xj = ws.x[j]
-                    if sj < -ws.options.w_tol # Component wants to become negative
+                    if sj < -ws.options.w_tol
                         ratio = xj / (xj - sj)
                         if ratio < alpha
                             alpha = ratio
-                            idx_boundary = j
                         end
                     end
                     col_ptr += 1
                 end
             end
             
-            # Interpolate: x = x + alpha * (s - x)
+            # Interpolate
             col_ptr = 1
             for j in 1:n
                 if ws.passive_set[j]
@@ -135,17 +140,13 @@ function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T})
                 end
             end
             
-            # Move zeroed variables back to Active Set Z
-            # Forensic Fix: Ensure values < tol are strictly zeroed
+            # Remove near-zero entries from passive set
             for j in 1:n
                 if ws.passive_set[j] && ws.x[j] < ws.options.w_tol
                     ws.passive_set[j] = false
                     ws.x[j] = zero(T)
                 end
             end
-            
-            # IMPORTANT: In LH-Algorithm, we stay in inner loop after boundary step
-            # but we need to re-build A_p for the reduced passive set.
         end
     end
 end
