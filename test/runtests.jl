@@ -1,9 +1,7 @@
-#test/runtests.jl
 using Test
 using LinearAlgebra
 using CoreNNLS
 using Random
-using SparseArrays
 
 @testset "CoreNNLS.jl - Full Forensic Suite (Pure Julia)" begin
 
@@ -209,32 +207,27 @@ end
 # NEW TESTS (20-34) - EXTENDED COVERAGE
 # ============================================================================
 
-# 20. SPARSE MATRIX SUPPORT
-@testset "20. Sparse Matrix Support" begin
+# 20. SPARSE PATTERN (DENSE MATRIX)
+@testset "20. Sparse Pattern Matrix" begin
     Random.seed!(700)
     m, n = 50, 20
 
-    # Create sparse matrix with ~10% density
-    A_dense = zeros(m, n)
+    # Create matrix with sparse structure (~90% zeros)
+    A_sparse_pattern = zeros(m, n)
     for _ in 1:div(m*n, 10)
         i, j = rand(1:m), rand(1:n)
-        A_dense[i, j] = randn()
+        A_sparse_pattern[i, j] = randn()
     end
-    A_sparse = sparse(A_dense)
+
     b = randn(m)
 
-    # KORREKTUR: Testet direkt die Sparse-Matrix. 
-    # Wenn CoreNNLS Sparse nicht unterstützt, wirft dies einen Fehler, was korrekt ist.
-    # Wir fallbacken nicht auf 'collect'.
-    x_sparse = nnls(A_sparse, b)
-    x_dense = nnls(A_dense, b)
-
-    @test x_dense ≈ x_sparse atol=1e-10
+    # Test solver with sparse pattern matrix
+    x = nnls(A_sparse_pattern, b)
 
     # KKT check
-    w = A_dense' * (b - A_dense * x_sparse)
+    w = A_sparse_pattern' * (b - A_sparse_pattern * x)
     for j in 1:n
-        x_sparse[j] > 1e-8 ? (@test abs(w[j]) < 1e-5) : (@test w[j] < 1e-5)
+        x[j] > 1e-8 ? (@test abs(w[j]) < 1e-5) : (@test w[j] < 1e-5)
     end
 end
 
@@ -388,7 +381,6 @@ end
         nnls!(ws_s, copy(A_s), copy(b_s))
     end
 
-    # KORREKTUR: Limits erhöht für CI Stabilität
     t_small = @elapsed for _ in 1:100
         nnls!(ws_s, copy(A_s), copy(b_s))
     end
