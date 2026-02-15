@@ -1,4 +1,3 @@
-# src/types.jl
 """
     NNLSOptions{T}
 
@@ -12,13 +11,30 @@ Parameters controlling solver behavior.
 - `max_iter`:  Maximum outer iterations (anti-cycling safeguard).
 - `check_contracts`: Enable runtime DbC post-condition checks (default: false).
 """
-Base.@kwdef struct NNLSOptions{T<:AbstractFloat}
-    dual_tol::T        = T(100) * eps(T)   # Dual feasibility / optimality
-    feas_tol::T        = T(100) * eps(T)   # LS sub-problem feasibility
-    zero_tol::T        = T(100) * eps(T)   # Zero-clamping threshold
-    rank_tol::T        = T(10)  * eps(T)   # QR rank detection
-    max_iter::Int      = 1000              # Safety break
-    check_contracts::Bool = false           # Enable DbC post-condition checks
+struct NNLSOptions{T<:AbstractFloat}
+    dual_tol::T
+    feas_tol::T
+    zero_tol::T
+    rank_tol::T
+    max_iter::Int
+    check_contracts::Bool
+end
+
+# Manual keyword constructor — robust on Julia 1.6+
+function NNLSOptions{T}(;
+    dual_tol::T        = T(100) * eps(T),
+    feas_tol::T        = T(100) * eps(T),
+    zero_tol::T        = T(100) * eps(T),
+    rank_tol::T        = T(10)  * eps(T),
+    max_iter::Int      = 1000,
+    check_contracts::Bool = false,
+) where {T<:AbstractFloat}
+    return NNLSOptions{T}(dual_tol, feas_tol, zero_tol, rank_tol, max_iter, check_contracts)
+end
+
+# Convenience: infer T from first positional argument (rarely used directly)
+function NNLSOptions(dual_tol::T; kwargs...) where {T<:AbstractFloat}
+    return NNLSOptions{T}(; dual_tol=dual_tol, kwargs...)
 end
 
 """
@@ -46,7 +62,7 @@ mutable struct NNLSWorkspace{T<:AbstractFloat}
     n_passive::Int                  # Current count of passive variables
 
     # Internal Buffers for QR Decomposition
-    A_passive::Matrix{T}           # Buffer for sub-matrix A[:, P] (max size m × n)
+    A_passive::Matrix{T}           # Buffer for sub-matrix A[:, P] (max size m x n)
 
     # Configuration
     options::NNLSOptions{T}
@@ -58,7 +74,7 @@ end
 """
     NNLSWorkspace(m, n, [T=Float64]; kwargs...)
 
-Construct workspace for an m×n NNLS problem with element type `T`.
+Construct workspace for an m x n NNLS problem with element type `T`.
 All keyword arguments are forwarded to [`NNLSOptions`](@ref).
 """
 function NNLSWorkspace(m::Int, n::Int, ::Type{T}=Float64; kwargs...) where {T<:AbstractFloat}
@@ -73,7 +89,7 @@ function NNLSWorkspace(m::Int, n::Int, ::Type{T}=Float64; kwargs...) where {T<:A
         0,                  # n_passive
         zeros(T, m, n),     # A_passive buffer
         NNLSOptions{T}(; kwargs...),
-        0,
+        0
     )
 end
 
@@ -85,6 +101,7 @@ end
 function reset_passive!(ws::NNLSWorkspace)
     fill!(ws.passive_set, false)
     ws.n_passive = 0
+    return nothing
 end
 
 """Add column `j` to the passive set."""
@@ -94,8 +111,9 @@ function add_passive!(ws::NNLSWorkspace, j::Int)
         ws.n_passive += 1
         ws.passive_indices[ws.n_passive] = j
         # keep sorted for deterministic QR column order
-        sort!(@view ws.passive_indices[1:ws.n_passive])
+        sort!(view(ws.passive_indices, 1:ws.n_passive))
     end
+    return nothing
 end
 
 """Remove column `j` from the passive set."""
@@ -112,5 +130,5 @@ function remove_passive!(ws::NNLSWorkspace, j::Int)
         end
         ws.n_passive = write_pos
     end
-end
+    return nothing
 end
