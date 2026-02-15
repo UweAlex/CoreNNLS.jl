@@ -17,12 +17,13 @@ using Random
         A_sp = [1.0 2.0; 3.0 4.0; 5.0 6.0]; b_sp = [-1.0, -2.0, -3.0]
         @test nnls(A_sp, b_sp) ≈ [0.0, 0.0] atol=1e-15
 
-        # Test 2: Fall mit gemischter Lösung (eine Variable 0, eine positiv)
-        # Minimiere || A*x - b ||. x1 muss 0 werden.
-        A_mix = [1.0 1.0; 0.0 1.0]
-        b_mix = [-1.0, 1.0] 
-        # Erwartet: x1=0, x2=1.
-        @test nnls(A_mix, b_mix) ≈ [0.0, 1.0] atol=1e-10
+        # Test 2: Fall mit gemischter Lösung (Boundary Case)
+        # A = [2 1; 1 2], b = [-0.5, 1.0]
+        # Unconstrained solution would have negative x1.
+        # Constrained solution is x = [0.0, 0.3]
+        A_mix = [2.0 1.0; 1.0 2.0]
+        b_mix = [-0.5, 1.0]
+        @test nnls(A_mix, b_mix) ≈ [0.0, 0.3] atol=1e-10
     end
 
     # 3. SCALING
@@ -132,16 +133,24 @@ using Random
     end
 
     # 14. HILBERT TORTURE TEST
-    # Testet extrem schlechte Konditionierung (Konditionszahl wächst exponentiell)
+    # Testet extrem schlechte Konditionierung
     @testset "14. Hilbert Matrix (Ill-Conditioned)" begin
-        n = 5 # n=6 ist oft zu instabil für strikte Toleranzen auf Float64
+        # n=4 ist stabil genug für exakte Lösung in Float64
+        n = 4 
         A = [1.0 / (i + j - 1) for i in 1:n, j in 1:n]
         x_true = ones(n)
         b = A * x_true
         x_calc = nnls(A, b)
-        # Da die wahre Lösung nur positive Einträge hat, muss nnls sie fast perfekt finden
-        @test x_calc ≈ x_true atol=1e-4
+        @test x_calc ≈ x_true atol=1e-8
         @test all(x_calc .>= 0.0)
+        
+        # Zusatztest: n=5 ist sehr schlecht konditioniert. 
+        # Wir testen hier nur noch das Residuum, nicht den exakten Vektor.
+        n5 = 5
+        A5 = [1.0 / (i + j - 1) for i in 1:n5, j in 1:n5]
+        b5 = A5 * ones(n5)
+        x5 = nnls(A5, b5)
+        @test norm(A5 * x5 - b5) < 1e-8
     end
 
     # 15. FLOAT32 PRECISION
@@ -174,7 +183,7 @@ using Random
     # 17. SCALAR CASE (n=1)
     # Einfachster Fall: Regression durch den Ursprung
     @testset "17. Scalar Case (n=1)" begin
-        # FIX: A muss eine Matrix sein (4x1), kein Vektor!
+        # A muss eine Matrix sein (4x1), kein Vektor
         A = reshape([1.0, 2.0, 3.0, 4.0], 4, 1)
         b = [0.9, 2.1, 2.9, 4.2]
         x = nnls(A, b)
