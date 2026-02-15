@@ -55,7 +55,7 @@ using Random
         T = BigFloat
         setprecision(128) do
             A = T[1.0 0.5; 0.5 2.0]; b = T[3.0, 4.0]
-            # KORREKTUR: Berechnung über BigFloat(16)/7
+            # Nutzung von BigFloat(16)/7 für valide Syntax
             @test nnls(A, b) ≈ [BigFloat(16)/7, BigFloat(10)/7]
         end
     end
@@ -66,8 +66,7 @@ using Random
         A = randn(m, n); b = randn(m); ws = NNLSWorkspace(m, n)
         nnls!(ws, A, b) # Warmup
         allocs = @allocated nnls!(ws, A, b)
-        # KORREKTUR: Erhöht auf 10KB. macOS/Julia 1.12 allokiert etwas mehr als Linux.
-        # Dies ist immer noch sehr wenig und bestätigt "In-Place" Verhalten.
+        # Limit 10KB für macOS/Julia 1.12 Overhead
         @test allocs < 10240 
     end
 
@@ -99,13 +98,13 @@ using Random
         Random.seed!(3312)
         b = A * [0.0, 0.7, 0.7] + 0.01 * randn(length(t))
         x = nnls(A, b)
-        # Lockierung beibehalten, da Algorithmus collinearität unterschiedlich gewichtet
         @test x[1] < 0.5
         @test norm(A*x - b) < 0.1
     end
 
     # 12. NETLIB BVLS
     @testset "12. Netlib BVLS Cases" begin
+        Random.seed!(123) # Hinzugefügt für Reproduzierbarkeit
         for i in 1:3
             A = randn(20, 10); b = randn(20); x = nnls(A, b)
             w = A' * (b - A*x)
