@@ -1,191 +1,189 @@
-# src/algorithm.jl
-using LinearAlgebra
-
 """
-    nnls!(ws::NNLSWorkspace, A, b) -> (status, x)
+    nnls!(ws::NNLSWorkspace, A, b) -> (status::Symbol, x::Vector)
 
-Deterministic Lawson–Hanson NNLS.
-Allocations-free inside iteration loop.
+Deterministic Lawson–Hanson NNLS solver (in-place).
+
+Solves  min ||Ax - b||₂  subject to  x ≥ 0.
+
+Mutates `ws` and returns `(status, ws.x)` where `status` is one of:
+- `:Success`  — KKT conditions satisfied within tolerance
+- `:MaxIter`  — iteration limit reached (solution may be suboptimal)
+
+# Pre-conditions
+- `size(A) == (ws.m, ws.n)` and `length(b) == ws.m`
+- All entries of `A` and `b` must be finite
 """
-function nnls!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T}) where {T}
+function nnls!(
+    ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T}
+) where {T}
+
+    # ------------------------------------------------------------------
+    # 0. Input validation
+    # ------------------------------------------------------------------
+    validate_nnls_inputs(A, b, ws)
 
     m, n = ws.m, ws.n
+    opts = ws.options
 
+    # ------------------------------------------------------------------
+    # 1. Initialisation
+    # ------------------------------------------------------------------
     fill!(ws.x, zero(T))
-    fill!(ws.passive_set, false)
+    reset_passive!(ws)
 
+    # r = b - A*x = b  (since x = 0)
     ws.r .= b
+    # w = A' * r  (dual / gradient)
     mul!(ws.w, transpose(A), ws.r)
 
     ws.iter = 0
 
+    # ------------------------------------------------------------------
+    # 2. Main (outer) loop — add one variable at a time to passive set
+    # ------------------------------------------------------------------
     while true
         ws.iter += 1
-        ws.iter > ws.options.max_iter && return (:MaxIter, ws.x)
+        if ws.iter > opts.max_iter
+            _run_post_checks(ws, A, b)
+            return (:MaxIter, ws.x)
+        end
 
-        # -------------------------------------------------
-        # 1. Optimality check
-        # -------------------------------------------------
-        max_w = zero(T)
+        # ----- Optimality check: find max dual in active set -----
+        max_w   = zero(T)
         idx_move = 0
-
         for j in 1:n
             if !ws.passive_set[j]
                 wj = ws.w[j]
-                if wj > max_w + ws.options.w_tol
-                    max_w = wj
+                if wj > max_w + opts.dual_tol
+                    max_w  = wj
                     idx_move = j
                 end
             end
         end
 
+        # All duals non-positive in active set → optimal
         if idx_move == 0
+            _run_post_checks(ws, A, b)
             return (:Success, ws.x)
         end
 
-        ws.passive_set[idx_move] = true
+        # Move variable idx_move into passive set
+        add_passive!(ws, idx_move)
 
-        # -------------------------------------------------
-        # 2. Inner loop
-        # -------------------------------------------------
+        # ----- Inner loop: solve LS on passive set, enforce feasibility -----
         while true
+            n_p = ws.n_passive
 
-            # count passive
-            n_p = 0
-            for j in 1:n
-                n_p += ws.passive_set[j]
-            end
-
-            # build A_p
-            col_ptr = 1
-            for j in 1:n
-                if ws.passive_set[j]
-                    @inbounds for i in 1:m
-                        ws.A_passive[i, col_ptr] = A[i, j]
-                    end
-                    col_ptr += 1
+            # Build A_passive from passive index list (O(m * n_p))
+            for (col, j) in enumerate(@view ws.passive_indices[1:n_p])
+                @inbounds for i in 1:m
+                    ws.A_passive[i, col] = A[i, j]
                 end
             end
 
-            # QR in place
+            # QR factorisation of passive sub-matrix
+            # NOTE: qr! on a view allocates the QRCompactWY struct internally.
+            #       For truly zero-alloc inner loops a hand-rolled Householder
+            #       with pre-allocated tau would be needed.
             F = qr!(@view ws.A_passive[:, 1:n_p])
 
-            # -----------------------------
-            # Robust rank guard
-            # -----------------------------
-            # Construct R manually from factors for Julia 1.6 compatibility
+            # ---- Rank guard ----
             R_view = UpperTriangular(@view F.factors[1:n_p, 1:n_p])
-            
             diagmax = zero(T)
             for k in 1:n_p
-                diagmax = max(diagmax, abs(R_view[k,k]))
+                diagmax = max(diagmax, abs(R_view[k, k]))
             end
 
-            # Check for complete singularity
             if diagmax == zero(T)
-                ws.passive_set[idx_move] = false
-                ws.w[idx_move] = zero(T) # FIX: Prevent cycling
+                # Completely singular — back out the last variable
+                remove_passive!(ws, idx_move)
+                ws.w[idx_move] = zero(T)   # prevent cycling
                 break
             end
 
-            # Check for rank deficiency
             rank_deficient = false
             for k in 1:n_p
-                if abs(R_view[k,k]) <= ws.options.rank_tol * diagmax
+                if abs(R_view[k, k]) <= opts.rank_tol * diagmax
                     rank_deficient = true
                     break
                 end
             end
-
             if rank_deficient
-                ws.passive_set[idx_move] = false
-                ws.w[idx_move] = zero(T) # FIX: Prevent cycling
+                remove_passive!(ws, idx_move)
+                ws.w[idx_move] = zero(T)   # prevent cycling
                 break
             end
 
-            # -----------------------------
-            # LS solve: r = Q' * b
-            # -----------------------------
+            # ---- LS solve: s = R⁻¹ Q' b ----
             ws.r .= b
-
-            # FIX: Dispatch to handle BigFloat vs Float64 performance
+            # Apply Q' to r  (dispatch for performance)
             if T <: Union{Float32, Float64, ComplexF32, ComplexF64}
-                # Fast path (0 allocations), works on Julia 1.6+
                 LinearAlgebra.lmul!(LinearAlgebra.adjoint(F.Q), ws.r)
             else
-                # Generic path (works for BigFloat, may allocate)
+                # Generic path (BigFloat etc., may allocate)
                 ws.r .= LinearAlgebra.adjoint(F.Q) * ws.r
             end
 
-            # solve R * s = r[1:n_p]
             @inbounds for k in 1:n_p
                 ws.s[k] = ws.r[k]
             end
+            ldiv!(R_view, @view ws.s[1:n_p])
 
-            ldiv!(
-                R_view,
-                @view ws.s[1:n_p]
-            )
-
-            # -----------------------------
-            # Feasibility check
-            # -----------------------------
+            # ---- Feasibility check ----
             feasible = true
             for k in 1:n_p
-                if ws.s[k] < -ws.options.w_tol
+                if ws.s[k] < -opts.feas_tol
                     feasible = false
                     break
                 end
             end
 
             if feasible
-                col_ptr = 1
-                for j in 1:n
-                    if ws.passive_set[j]
-                        ws.x[j] = ws.s[col_ptr]
-                        col_ptr += 1
-                    end
+                # Accept solution — scatter s → x via passive index list
+                for (k, j) in enumerate(@view ws.passive_indices[1:n_p])
+                    ws.x[j] = ws.s[k]
                 end
-
+                # Update residual and dual
                 ws.r .= b
-                mul!(ws.r, A, ws.x, -one(T), one(T))
-                mul!(ws.w, transpose(A), ws.r)
-
+                mul!(ws.r, A, ws.x, -one(T), one(T))   # r = b - A*x
+                mul!(ws.w, transpose(A), ws.r)            # w = A' * r
                 break
             end
 
-            # -----------------------------
-            # Boundary step
-            # -----------------------------
+            # ---- Boundary step (interpolation towards feasibility) ----
             alpha = one(T)
-            col_ptr = 1
-
-            for j in 1:n
-                if ws.passive_set[j]
-                    sj = ws.s[col_ptr]
-                    xj = ws.x[j]
-                    if sj < -ws.options.w_tol
-                        ratio = xj / (xj - sj)
-                        alpha = min(alpha, ratio)
-                    end
-                    col_ptr += 1
+            for (k, j) in enumerate(@view ws.passive_indices[1:n_p])
+                sj = ws.s[k]
+                xj = ws.x[j]
+                if sj < -opts.feas_tol
+                    ratio = xj / (xj - sj)
+                    alpha = min(alpha, ratio)
                 end
             end
 
-            col_ptr = 1
-            for j in 1:n
-                if ws.passive_set[j]
-                    ws.x[j] += alpha * (ws.s[col_ptr] - ws.x[j])
-                    col_ptr += 1
-                end
+            # Interpolate:  x ← x + α(s - x)
+            for (k, j) in enumerate(@view ws.passive_indices[1:n_p])
+                ws.x[j] += alpha * (ws.s[k] - ws.x[j])
             end
 
-            for j in 1:n
-                if ws.passive_set[j] && ws.x[j] <= ws.options.w_tol
-                    ws.passive_set[j] = false
+            # Clamp near-zero passives back to active set
+            # Iterate in reverse because remove_passive! compacts the list
+            for idx in ws.n_passive:-1:1
+                j = ws.passive_indices[idx]
+                if ws.x[j] <= opts.zero_tol
+                    remove_passive!(ws, j)
                     ws.x[j] = zero(T)
                 end
             end
-        end
+        end # inner loop
+    end # outer loop
+end
+
+# --------------------------------------------------------------------------
+# Optional post-condition check
+# --------------------------------------------------------------------------
+function _run_post_checks(ws::NNLSWorkspace{T}, A, b) where {T}
+    if ws.options.check_contracts
+        validate_nnls_post(A, b, ws.x, ws.w, ws.options)
     end
 end
