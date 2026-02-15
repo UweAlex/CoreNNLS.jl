@@ -14,8 +14,13 @@ using Random
 
     # 2. REFERENCE
     @testset "2. Reference: SciPy/Netlib" begin
+        # Test 1: Standard SciPy Beispiel (Negatives System -> Null-Lösung)
         A_sp = [1.0 2.0; 3.0 4.0; 5.0 6.0]; b_sp = [-1.0, -2.0, -3.0]
         @test nnls(A_sp, b_sp) ≈ [0.0, 0.0] atol=1e-15
+
+        # Test 2: Weiteres SciPy Beispiel mit Misch-Lösung
+        A_mix = [-0.3 0.5; 0.9 -0.1]; b_mix = [0.2, -0.1]
+        @test nnls(A_mix, b_mix) ≈ [0.1, 0.5] atol=1e-10
     end
 
     # 3. SCALING
@@ -104,7 +109,7 @@ using Random
 
     # 12. NETLIB BVLS
     @testset "12. Netlib BVLS Cases" begin
-        Random.seed!(123) # Hinzugefügt für Reproduzierbarkeit
+        Random.seed!(123) # Für Reproduzierbarkeit
         for i in 1:3
             A = randn(20, 10); b = randn(20); x = nnls(A, b)
             w = A' * (b - A*x)
@@ -123,4 +128,59 @@ using Random
             @test x ≈ x_s atol=1e-8
         end
     end
+
+    # 14. HILBERT TORTURE TEST
+    # Testet extrem schlechte Konditionierung (Konditionszahl wächst exponentiell)
+    @testset "14. Hilbert Matrix (Ill-Conditioned)" begin
+        n = 6 # n=8 ist oft bereits jenseits von Float64 Maschinengenauigkeit für Inversion
+        A = [1.0 / (i + j - 1) for i in 1:n, j in 1:n]
+        x_true = ones(n)
+        b = A * x_true
+        x_calc = nnls(A, b)
+        # Da die wahre Lösung nur positive Einträge hat, muss nnls sie fast perfekt finden
+        @test x_calc ≈ x_true atol=1e-6
+        @test all(x_calc .>= 0.0)
+    end
+
+    # 15. FLOAT32 PRECISION
+    # Stellt sicher, dass der generische Code auch mit Float32 korrekt inferiert und rechnet
+    @testset "15. Float32 Precision" begin
+        A32 = Float32[1.0 2.0; 3.0 4.0]
+        b32 = Float32[1.0, 2.0]
+        x32 = nnls(A32, b32)
+        @test eltype(x32) == Float32
+        @test x32 ≈ Float32[0.0, 0.5] atol=1e-6
+    end
+
+    # 16. UNDERDETERMINED SYSTEM (m < n)
+    # Mehr Unbekannte als Gleichungen. Der Solver muss eine Lösung finden, die oft nicht eindeutig ist,
+    # aber die KKT-Bedingungen erfüllen muss.
+    @testset "16. Underdetermined System (m < n)" begin
+        Random.seed!(99)
+        m, n = 5, 10
+        A = randn(m, n)
+        b = randn(m)
+        x = nnls(A, b)
+        # Wir testen hier nicht auf ein spezifisches x, sondern auf Optimalität (KKT)
+        w = A' * (b - A*x)
+        for j in 1:n
+            x[j] > 1e-8 ? (@test abs(w[j]) < 1e-5) : (@test w[j] < 1e-5)
+        end
+        @test norm(A*x - b) < 1e-8
+    end
+
+    # 17. SCALAR CASE (n=1)
+    # Einfachster Fall: Regression durch den Ursprung
+    @testset "17. Scalar Case (n=1)" begin
+        A = [1.0, 2.0, 3.0, 4.0]
+        b = [0.9, 2.1, 2.9, 4.2]
+        x = nnls(A, b)
+        @test length(x) == 1
+        @test x[1] ≈ 1.0 atol=0.1
+        # Test Negative Steigung -> Muss 0 ergeben
+        b_neg = -[1.0, 2.0]
+        x_neg = nnls(A[1:2], b_neg)
+        @test x_neg[1] == 0.0
+    end
+
 end
