@@ -17,6 +17,12 @@ function nnls(A::AbstractMatrix{T}, b::AbstractVector{T}; kwargs...) where {T}
     m, n = size(A)
     ws = NNLSWorkspace(m, n, T; kwargs...)
     status, x = nnls!(ws, A, b)
+    
+    # FIX 1: Warn user if max iterations reached
+    if status == :MaxIter
+        @warn "NNLS did not converge within $(ws.options.max_iter) iterations. Result may be inaccurate."
+    end
+    
     return x
 end
 
