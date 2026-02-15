@@ -164,20 +164,21 @@ using Random
     end
 
     # 16. UNDERDETERMINED SYSTEM (m < n)
-    # Mehr Unbekannte als Gleichungen. Der Solver muss eine Lösung finden, die oft nicht eindeutig ist,
-    # aber die KKT-Bedingungen erfüllen muss.
+    # Mehr Unbekannte als Gleichungen.
+    # KORREKTUR: Residuums-Check entfernt. Bei m < n ist nicht garantiert, dass b
+    # im Positiven Kegel der Spalten liegt, daher kann das Residuum > 0 sein.
+    # Die Optimalität wird einzig über die KKT-Bedingungen sichergestellt.
     @testset "16. Underdetermined System (m < n)" begin
         Random.seed!(99)
         m, n = 5, 10
         A = randn(m, n)
         b = randn(m)
         x = nnls(A, b)
-        # Wir testen hier nicht auf ein spezifisches x, sondern auf Optimalität (KKT)
+        # Wir testen hier nur auf Optimalität (KKT)
         w = A' * (b - A*x)
         for j in 1:n
             x[j] > 1e-8 ? (@test abs(w[j]) < 1e-5) : (@test w[j] < 1e-5)
         end
-        @test norm(A*x - b) < 1e-8
     end
 
     # 17. SCALAR CASE (n=1)
