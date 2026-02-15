@@ -18,9 +18,6 @@ using Random
         @test nnls(A_sp, b_sp) ≈ [0.0, 0.0] atol=1e-15
 
         # Test 2: Fall mit gemischter Lösung (Boundary Case)
-        # A = [2 1; 1 2], b = [-0.5, 1.0]
-        # Unconstrained solution would have negative x1.
-        # Constrained solution is x = [0.0, 0.3]
         A_mix = [2.0 1.0; 1.0 2.0]
         b_mix = [-0.5, 1.0]
         @test nnls(A_mix, b_mix) ≈ [0.0, 0.3] atol=1e-10
@@ -63,7 +60,6 @@ using Random
         T = BigFloat
         setprecision(128) do
             A = T[1.0 0.5; 0.5 2.0]; b = T[3.0, 4.0]
-            # Nutzung von BigFloat(16)/7 für valide Syntax
             @test nnls(A, b) ≈ [BigFloat(16)/7, BigFloat(10)/7]
         end
     end
@@ -74,7 +70,6 @@ using Random
         A = randn(m, n); b = randn(m); ws = NNLSWorkspace(m, n)
         nnls!(ws, A, b) # Warmup
         allocs = @allocated nnls!(ws, A, b)
-        # Limit 10KB für macOS/Julia 1.12 Overhead
         @test allocs < 10240 
     end
 
@@ -112,7 +107,7 @@ using Random
 
     # 12. NETLIB BVLS
     @testset "12. Netlib BVLS Cases" begin
-        Random.seed!(123) # Für Reproduzierbarkeit
+        Random.seed!(123)
         for i in 1:3
             A = randn(20, 10); b = randn(20); x = nnls(A, b)
             w = A' * (b - A*x)
@@ -133,9 +128,7 @@ using Random
     end
 
     # 14. HILBERT TORTURE TEST
-    # Testet extrem schlechte Konditionierung
     @testset "14. Hilbert Matrix (Ill-Conditioned)" begin
-        # n=4 ist stabil genug für exakte Lösung in Float64
         n = 4 
         A = [1.0 / (i + j - 1) for i in 1:n, j in 1:n]
         x_true = ones(n)
@@ -144,8 +137,6 @@ using Random
         @test x_calc ≈ x_true atol=1e-8
         @test all(x_calc .>= 0.0)
         
-        # Zusatztest: n=5 ist sehr schlecht konditioniert. 
-        # KORREKTUR: Toleranz erhöht auf 1e-5.
         n5 = 5
         A5 = [1.0 / (i + j - 1) for i in 1:n5, j in 1:n5]
         b5 = A5 * ones(n5)
@@ -154,7 +145,6 @@ using Random
     end
 
     # 15. FLOAT32 PRECISION
-    # Stellt sicher, dass der generische Code auch mit Float32 korrekt inferiert und rechnet
     @testset "15. Float32 Precision" begin
         A32 = Float32[1.0 2.0; 3.0 4.0]
         b32 = Float32[1.0, 2.0]
@@ -164,17 +154,12 @@ using Random
     end
 
     # 16. UNDERDETERMINED SYSTEM (m < n)
-    # Mehr Unbekannte als Gleichungen.
-    # KORREKTUR: Residuums-Check entfernt. Bei m < n ist nicht garantiert, dass b
-    # im Positiven Kegel der Spalten liegt, daher kann das Residuum > 0 sein.
-    # Die Optimalität wird einzig über die KKT-Bedingungen sichergestellt.
     @testset "16. Underdetermined System (m < n)" begin
         Random.seed!(99)
         m, n = 5, 10
         A = randn(m, n)
         b = randn(m)
         x = nnls(A, b)
-        # Wir testen hier nur auf Optimalität (KKT)
         w = A' * (b - A*x)
         for j in 1:n
             x[j] > 1e-8 ? (@test abs(w[j]) < 1e-5) : (@test w[j] < 1e-5)
@@ -182,19 +167,51 @@ using Random
     end
 
     # 17. SCALAR CASE (n=1)
-    # Einfachster Fall: Regression durch den Ursprung
     @testset "17. Scalar Case (n=1)" begin
-        # A muss eine Matrix sein (4x1), kein Vektor
         A = reshape([1.0, 2.0, 3.0, 4.0], 4, 1)
         b = [0.9, 2.1, 2.9, 4.2]
         x = nnls(A, b)
         @test length(x) == 1
         @test x[1] ≈ 1.0 atol=0.1
         
-        # Test Negative Steigung -> Muss 0 ergeben
         b_neg = -[1.0, 2.0]
         x_neg = nnls(A[1:2, :], b_neg)
         @test x_neg[1] == 0.0
+    end
+
+    # 18. LARGER SCALE TEST (Inspired by NonNegLeastSquares.jl)
+    # Testet Stabilität bei größeren Problemen (200x100)
+    @testset "18. Larger Scale Stability" begin
+        Random.seed!(500)
+        m, n = 200, 100
+        A = randn(m, n)
+        # Erzeuge eine sparse ground truth
+        x_true = zeros(n)
+        x_true[1:10] = rand(10) .+ 0.1
+        b = A * x_true
+        
+        x_calc = nnls(A, b)
+        
+        # Prüfe ob die Null-Struktur erhalten bleibt (Tolerance für numerisches Noise)
+        zeros_count = count(x -> x < 1e-6, x_calc)
+        @test zeros_count >= 85 # Wir erwarten, dass die meisten Nullen gefunden werden
+        @test norm(b - A*x_calc) / norm(b) < 1e-5
+    end
+
+    # 19. PSEUDO-INVERSE CONSISTENCY (Inspired by NonNegLeastSquares.jl)
+    # Wenn die Least Squares Lösung schon nicht-negativ ist, muss NNLS sie finden
+    @testset "19. Pseudo-Inverse Consistency" begin
+        Random.seed!(600)
+        A = randn(20, 10)
+        x_true = abs.(randn(10)) # Garantiert positive Lösung
+        b = A * x_true
+        
+        x_nnls = nnls(A, b)
+        x_pinv = pinv(A) * b
+        
+        # Da x_pinv die unconstrained Least Squares Lösung ist und positiv ist,
+        # muss sie identisch zur NNLS Lösung sein.
+        @test x_nnls ≈ x_pinv atol=1e-6
     end
 
 end
