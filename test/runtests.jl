@@ -410,13 +410,17 @@ end
 end
 
 @testset "27. Orthogonal & Near-Orthogonal Matrices" begin
+    Random.seed!(2700)
     n = 5
     Q, _ = qr(randn(n, n))
     A_orth = Matrix(Q); b_orth = ones(n)
     x_orth = nnls(A_orth, b_orth)
     @test all(x_orth .>= -1e-12)
-    @test norm(A_orth * x_orth - b_orth) < 1e-10 ||
-          norm(A_orth * x_orth - b_orth) < norm(b_orth)
+    # KKT check: more robust than residual threshold for orthogonal matrices
+    w_orth = A_orth' * (b_orth - A_orth * x_orth)
+    for j in 1:n
+        x_orth[j] > 1e-8 ? (@test abs(w_orth[j]) < 1e-5) : (@test w_orth[j] < 1e-5)
+    end
 end
 
 @testset "32. Workspace Reuse Consistency" begin
