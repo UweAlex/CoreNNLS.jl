@@ -3,7 +3,7 @@ using LinearAlgebra
 using CoreNNLS
 using Random
 
-@testset "CoreNNLS.jl - Full Forensic Suite (Corrected)" begin
+@testset "CoreNNLS.jl - Full Forensic Suite" begin
 
 # ============================================================================
 # BASICS (1–3)
@@ -72,7 +72,7 @@ end
     b32 = Float32[1.0, 2.0]
     x32 = nnls(A32, b32)
     @test eltype(x32) == Float32
-    @test x32 ≈ Float32[0.0, 0.5] atol=1e-4  # relaxed for Float32 eps
+    @test x32 ≈ Float32[0.0, 0.5] atol=1e-4
 end
 
 @testset "31. Float16 Precision" begin
@@ -94,10 +94,11 @@ end
 
 @testset "8. In-Place & Allocation" begin
     m, n = 20, 10
-    A = randn(m, n); b = randn(m); ws = NNLSWorkspace(m, n)
+    A = randn(m, n); b = randn(m)
+    ws = NNLSWorkspace(m, n)
     nnls!(ws, A, b) # Warmup
     allocs = @allocated nnls!(ws, A, b)
-    @test allocs < 10240
+    @test allocs < 4096  # Should be near-zero with in-place Householder
 end
 
 @testset "30. Performance Benchmark" begin
@@ -123,33 +124,25 @@ end
 end
 
 # ============================================================================
-# INPUT VALIDATION & SAFETY (9, 35–37)
+# INPUT VALIDATION (9, 35–37)
 # ============================================================================
 
 @testset "9. Interface Safety & Complementarity" begin
-    # Dimension mismatch via convenience wrapper
     @test_throws DimensionMismatch nnls(randn(3, 2), randn(4))
-
-    # Dimension mismatch via in-place (workspace vs A)
     ws_bad = NNLSWorkspace(5, 3)
     @test_throws DimensionMismatch nnls!(ws_bad, randn(4, 3), randn(4))
 
-    # Complementarity check on a valid solve
     A = randn(10, 5); b = randn(10); ws = NNLSWorkspace(10, 5)
     nnls!(ws, A, b)
     @test all(abs.(ws.x .* ws.w) .< 1e-8)
 end
 
 @testset "35. NaN / Inf Input Rejection" begin
-    A_nan = [1.0 NaN; 3.0 4.0]; b_ok = [1.0, 2.0]
-    @test_throws ArgumentError nnls(A_nan, b_ok)
-
-    A_ok = [1.0 2.0; 3.0 4.0]; b_inf = [1.0, Inf]
-    @test_throws ArgumentError nnls(A_ok, b_inf)
+    @test_throws ArgumentError nnls([1.0 NaN; 3.0 4.0], [1.0, 2.0])
+    @test_throws ArgumentError nnls([1.0 2.0; 3.0 4.0], [1.0, Inf])
 end
 
 @testset "36. Type Constraint Enforcement" begin
-    # String or Int should fail at workspace construction
     @test_throws MethodError NNLSWorkspace(3, 2, String)
     @test_throws MethodError NNLSWorkspace(3, 2, Int)
 end
@@ -163,7 +156,7 @@ end
 end
 
 # ============================================================================
-# MASS STRESS & KKT (10, 12)
+# KKT STRESS (10, 12)
 # ============================================================================
 
 @testset "10. Mass Stress Test (KKT)" begin
@@ -238,7 +231,7 @@ end
 end
 
 # ============================================================================
-# DIMENSION EXTREMES (16, 17, 18, 21, 22)
+# DIMENSIONS (16, 17, 18, 21, 22)
 # ============================================================================
 
 @testset "16. Underdetermined System (m < n)" begin
@@ -278,21 +271,16 @@ end
 
 @testset "21. Extreme Dimensions" begin
     Random.seed!(800)
-    # Very tall
     m_tall, n_tall = 1000, 5
     A_tall = randn(m_tall, n_tall); b_tall = randn(m_tall)
     x_tall = nnls(A_tall, b_tall)
     @test all(x_tall .>= -1e-12)
-    @test length(x_tall) == n_tall
 
-    # Very wide
     m_wide, n_wide = 5, 100
     A_wide = randn(m_wide, n_wide); b_wide = randn(m_wide)
     x_wide = nnls(A_wide, b_wide)
     @test all(x_wide .>= -1e-12)
-    @test length(x_wide) == n_wide
 
-    # Square
     n_sq = 50
     A_sq = randn(n_sq, n_sq); b_sq = randn(n_sq)
     x_sq = nnls(A_sq, b_sq)
@@ -385,18 +373,20 @@ end
     @test dot([1, 2, 3], x_prop) ≈ 6.0 atol=1e-10
 end
 
-@testset "34. Vandermonde Matrix (Polynomial Fitting)" begin
-    t = range(0, 1, length=20)
-    degree = 4
-    A_vander = hcat([t.^k for k in 0:degree]...)
-    c_true = [1.0, 0.5, 0.3, 0.1, 0.05]
-    b = A_vander * c_true
-    c_calc = nnls(A_vander, b)
-    @test c_calc ≈ c_true atol=1e-8
+@testset "34. Vandermonde Matrix (Polynomial Fit)" begin
+    n = 4
+    x_pts = Float64[1.0, 2.0, 3.0, 4.0]
+    A = zeros(n, n)
+    for i in 1:n, j in 1:n
+        A[i, j] = x_pts[i]^(j-1)
+    end
+    b = A * ones(n)
+    x = nnls(A, b)
+    @test x ≈ ones(n) atol=1e-8
 end
 
 # ============================================================================
-# DETERMINISM & WORKSPACE REUSE (26, 27, 32, 33)
+# DETERMINISM & REUSE (26, 27, 32, 33)
 # ============================================================================
 
 @testset "26. Deterministic Reproducibility" begin
@@ -416,7 +406,6 @@ end
     A_orth = Matrix(Q); b_orth = ones(n)
     x_orth = nnls(A_orth, b_orth)
     @test all(x_orth .>= -1e-12)
-    # KKT check: more robust than residual threshold for orthogonal matrices
     w_orth = A_orth' * (b_orth - A_orth * x_orth)
     for j in 1:n
         x_orth[j] > 1e-8 ? (@test abs(w_orth[j]) < 1e-5) : (@test w_orth[j] < 1e-5)

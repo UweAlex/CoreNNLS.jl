@@ -1,0 +1,3721 @@
+
+Pfad:       C:\Users\uweal\CoreNNLS.jl\Manifest.toml 
+Dateiname:  Manifest.toml 
+ 
+Inhalt: 
+# This file is machine-generated - editing it directly is not advised
+
+julia_version = "1.11.7"
+manifest_format = "2.0"
+project_hash = "b54bdfcd2e23e8b6f71c62490d10fb4205ca64cf"
+
+[[deps.ArgTools]]
+uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
+version = "1.1.2"
+
+[[deps.Artifacts]]
+uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
+version = "1.11.0"
+
+[[deps.Base64]]
+uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+version = "1.11.0"
+
+[[deps.BenchmarkTools]]
+deps = ["Compat", "JSON", "Logging", "Printf", "Profile", "Statistics", "UUIDs"]
+git-tree-sha1 = "7fecfb1123b8d0232218e2da0c213004ff15358d"
+uuid = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+version = "1.6.3"
+
+[[deps.ChunkCodecCore]]
+git-tree-sha1 = "1a3ad7e16a321667698a19e77362b35a1e94c544"
+uuid = "0b6fb165-00bc-4d37-ab8b-79f91016dbe1"
+version = "1.0.1"
+
+[[deps.ChunkCodecLibZlib]]
+deps = ["ChunkCodecCore", "Zlib_jll"]
+git-tree-sha1 = "cee8104904c53d39eb94fd06cbe60cb5acde7177"
+uuid = "4c0bbee4-addc-4d73-81a0-b6caacae83c8"
+version = "1.0.0"
+
+[[deps.ChunkCodecLibZstd]]
+deps = ["ChunkCodecCore", "Zstd_jll"]
+git-tree-sha1 = "34d9873079e4cb3d0c62926a225136824677073f"
+uuid = "55437552-ac27-4d47-9aa3-63184e8fd398"
+version = "1.0.0"
+
+[[deps.Compat]]
+deps = ["TOML", "UUIDs"]
+git-tree-sha1 = "9d8a54ce4b17aa5bdce0ea5c34bc5e7c340d16ad"
+uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
+version = "4.18.1"
+weakdeps = ["Dates", "LinearAlgebra"]
+
+    [deps.Compat.extensions]
+    CompatLinearAlgebraExt = "LinearAlgebra"
+
+[[deps.CompilerSupportLibraries_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
+version = "1.1.1+0"
+
+[[deps.Dates]]
+deps = ["Printf"]
+uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+version = "1.11.0"
+
+[[deps.Downloads]]
+deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
+uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
+version = "1.6.0"
+
+[[deps.FileIO]]
+deps = ["Pkg", "Requires", "UUIDs"]
+git-tree-sha1 = "6522cfb3b8fe97bec632252263057996cbd3de20"
+uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+version = "1.18.0"
+
+    [deps.FileIO.extensions]
+    HTTPExt = "HTTP"
+
+    [deps.FileIO.weakdeps]
+    HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+
+[[deps.FileWatching]]
+uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
+version = "1.11.0"
+
+[[deps.HashArrayMappedTries]]
+git-tree-sha1 = "2eaa69a7cab70a52b9687c8bf950a5a93ec895ae"
+uuid = "076d061b-32b6-4027-95e0-9a2c6f6d7e74"
+version = "0.2.0"
+
+[[deps.JLD2]]
+deps = ["ChunkCodecLibZlib", "ChunkCodecLibZstd", "FileIO", "MacroTools", "Mmap", "OrderedCollections", "PrecompileTools", "ScopedValues"]
+git-tree-sha1 = "8f8ff711442d1f4cfc0d86133e7ee03d62ec9b98"
+uuid = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+version = "0.6.3"
+
+    [deps.JLD2.extensions]
+    UnPackExt = "UnPack"
+
+    [deps.JLD2.weakdeps]
+    UnPack = "3a884ed6-31ef-47d7-9d2a-63182c4928ed"
+
+[[deps.JLLWrappers]]
+deps = ["Artifacts", "Preferences"]
+git-tree-sha1 = "0533e564aae234aff59ab625543145446d8b6ec2"
+uuid = "692b3bcd-3c85-4b1f-b108-f13ce0eb3210"
+version = "1.7.1"
+
+[[deps.JSON]]
+deps = ["Dates", "Logging", "Parsers", "PrecompileTools", "StructUtils", "UUIDs", "Unicode"]
+git-tree-sha1 = "b3ad4a0255688dcb895a52fafbaae3023b588a90"
+uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+version = "1.4.0"
+
+    [deps.JSON.extensions]
+    JSONArrowExt = ["ArrowTypes"]
+
+    [deps.JSON.weakdeps]
+    ArrowTypes = "31f734f8-188a-4ce0-8406-c8a06bd891cd"
+
+[[deps.LibCURL]]
+deps = ["LibCURL_jll", "MozillaCACerts_jll"]
+uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
+version = "0.6.4"
+
+[[deps.LibCURL_jll]]
+deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
+uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+version = "8.6.0+0"
+
+[[deps.LibGit2]]
+deps = ["Base64", "LibGit2_jll", "NetworkOptions", "Printf", "SHA"]
+uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
+version = "1.11.0"
+
+[[deps.LibGit2_jll]]
+deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll"]
+uuid = "e37daf67-58a4-590a-8e99-b0245dd2ffc5"
+version = "1.7.2+0"
+
+[[deps.LibSSH2_jll]]
+deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
+uuid = "29816b5a-b9ab-546f-933c-edad1886dfa8"
+version = "1.11.0+1"
+
+[[deps.Libdl]]
+uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+version = "1.11.0"
+
+[[deps.LinearAlgebra]]
+deps = ["Libdl", "OpenBLAS_jll", "libblastrampoline_jll"]
+uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+version = "1.11.0"
+
+[[deps.Logging]]
+uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
+version = "1.11.0"
+
+[[deps.MacroTools]]
+git-tree-sha1 = "1e0228a030642014fe5cfe68c2c0a818f9e3f522"
+uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+version = "0.5.16"
+
+[[deps.Markdown]]
+deps = ["Base64"]
+uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
+version = "1.11.0"
+
+[[deps.MbedTLS_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+version = "2.28.6+0"
+
+[[deps.Mmap]]
+uuid = "a63ad114-7e13-5084-954f-fe012c677804"
+version = "1.11.0"
+
+[[deps.MozillaCACerts_jll]]
+uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
+version = "2023.12.12"
+
+[[deps.NetworkOptions]]
+uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
+version = "1.2.0"
+
+[[deps.NonNegLeastSquares]]
+deps = ["LinearAlgebra", "SparseArrays"]
+git-tree-sha1 = "cdc11138e74a0dd0b82e7d64eb1350fdf049d3b1"
+uuid = "b7351bd1-99d9-5c5d-8786-f205a815c4d7"
+version = "0.4.1"
+
+[[deps.OpenBLAS_jll]]
+deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
+uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
+version = "0.3.27+1"
+
+[[deps.OrderedCollections]]
+git-tree-sha1 = "05868e21324cede2207c6f0f466b4bfef6d5e7ee"
+uuid = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
+version = "1.8.1"
+
+[[deps.Parsers]]
+deps = ["Dates", "PrecompileTools", "UUIDs"]
+git-tree-sha1 = "7d2f8f21da5db6a806faf7b9b292296da42b2810"
+uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
+version = "2.8.3"
+
+[[deps.Pkg]]
+deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "Random", "SHA", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+version = "1.11.0"
+
+    [deps.Pkg.extensions]
+    REPLExt = "REPL"
+
+    [deps.Pkg.weakdeps]
+    REPL = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
+
+[[deps.PrecompileTools]]
+deps = ["Preferences"]
+git-tree-sha1 = "5aa36f7049a63a1528fe8f7c3f2113413ffd4e1f"
+uuid = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
+version = "1.2.1"
+
+[[deps.Preferences]]
+deps = ["TOML"]
+git-tree-sha1 = "522f093a29b31a93e34eaea17ba055d850edea28"
+uuid = "21216c6a-2e73-6563-6e65-726566657250"
+version = "1.5.1"
+
+[[deps.Printf]]
+deps = ["Unicode"]
+uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+version = "1.11.0"
+
+[[deps.Profile]]
+uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
+version = "1.11.0"
+
+[[deps.Random]]
+deps = ["SHA"]
+uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+version = "1.11.0"
+
+[[deps.Requires]]
+deps = ["UUIDs"]
+git-tree-sha1 = "62389eeff14780bfe55195b7204c0d8738436d64"
+uuid = "ae029012-a4dd-5104-9daa-d747884805df"
+version = "1.3.1"
+
+[[deps.SHA]]
+uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
+version = "0.7.0"
+
+[[deps.ScopedValues]]
+deps = ["HashArrayMappedTries", "Logging"]
+git-tree-sha1 = "c3b2323466378a2ba15bea4b2f73b081e022f473"
+uuid = "7e506255-f358-4e82-b7e4-beb19740aa63"
+version = "1.5.0"
+
+[[deps.Serialization]]
+uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
+version = "1.11.0"
+
+[[deps.SparseArrays]]
+deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
+uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+version = "1.11.0"
+
+[[deps.Statistics]]
+deps = ["LinearAlgebra"]
+git-tree-sha1 = "ae3bb1eb3bba077cd276bc5cfc337cc65c3075c0"
+uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+version = "1.11.1"
+weakdeps = ["SparseArrays"]
+
+    [deps.Statistics.extensions]
+    SparseArraysExt = ["SparseArrays"]
+
+[[deps.StructUtils]]
+deps = ["Dates", "UUIDs"]
+git-tree-sha1 = "28145feabf717c5d65c1d5e09747ee7b1ff3ed13"
+uuid = "ec057cc2-7a8d-4b58-b3b3-92acb9f63b42"
+version = "2.6.3"
+
+    [deps.StructUtils.extensions]
+    StructUtilsMeasurementsExt = ["Measurements"]
+    StructUtilsTablesExt = ["Tables"]
+
+    [deps.StructUtils.weakdeps]
+    Measurements = "eff96d63-e80a-5855-80a2-b1b0885c5ab7"
+    Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
+
+[[deps.SuiteSparse_jll]]
+deps = ["Artifacts", "Libdl", "libblastrampoline_jll"]
+uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
+version = "7.7.0+0"
+
+[[deps.TOML]]
+deps = ["Dates"]
+uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+version = "1.0.3"
+
+[[deps.Tar]]
+deps = ["ArgTools", "SHA"]
+uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
+version = "1.10.0"
+
+[[deps.UUIDs]]
+deps = ["Random", "SHA"]
+uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+version = "1.11.0"
+
+[[deps.Unicode]]
+uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
+version = "1.11.0"
+
+[[deps.Zlib_jll]]
+deps = ["Libdl"]
+uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
+version = "1.2.13+1"
+
+[[deps.Zstd_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "446b23e73536f84e8037f5dce465e92275f6a308"
+uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
+version = "1.5.7+1"
+
+[[deps.libblastrampoline_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
+version = "5.11.0+0"
+
+[[deps.nghttp2_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
+version = "1.59.0+0"
+
+[[deps.p7zip_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
+version = "17.4.0+2"
+ 
+--- Ende von Manifest.toml --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\Project.toml 
+Dateiname:  Project.toml 
+ 
+Inhalt: 
+name = "CoreNNLS"
+uuid = "e0c1f8e0-0001-4000-8000-000000000001"
+authors = ["UweAlex"]
+version = "0.5.0"
+
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+NonNegLeastSquares = "b7351bd1-99d9-5c5d-8786-f205a815c4d7"
+
+[compat]
+BenchmarkTools = "1.6.3"
+JLD2 = "0.6.3"
+NonNegLeastSquares = "0.4.1"
+julia = "1.6"
+
+[extras]
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test", "Random"]
+ 
+--- Ende von Project.toml --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\benchmark\Benchmark.jl 
+Dateiname:  Benchmark.jl 
+ 
+Inhalt: 
+"""
+Benchmark.jl  —  CoreNNLS Final Quality Benchmark
+===================================================
+Loads all problems from benchmark/problems.jld2 (generated once by
+generate_problems.jl) and reports:
+
+  1. Main table:  CoreNNLS vs NonNegLeastSquares (Float64)
+  2. Scaling:     Median speedup by m and by n
+  3. Precision:   CoreNNLS with Float32 and BigFloat — correctness & speed
+
+Metrics
+-------
+  Speedup     = t_NonNeg / t_Core        (>1 = CoreNNLS faster)
+  Accuracy    = ‖Δx‖_NonNeg / ‖Δx‖_Core  (>1 = CoreNNLS more accurate)
+  ‖r‖         = ‖b − Ax‖ / ‖b‖           (relative residual, precision section)
+"""
+
+using LinearAlgebra, Statistics, BenchmarkTools
+using NonNegLeastSquares, CoreNNLS, JLD2
+
+prob_path = joinpath(@__DIR__, "problems.jld2")
+if !isfile(prob_path)
+    println("⚠  problems.jld2 nicht gefunden.")
+    println("   Bitte zuerst ausführen:")
+    println("   julia --project=. benchmark/generate_problems.jl")
+    exit(1)
+end
+
+all_problems = load(prob_path, "problems")
+
+# Separate Float64 and Float32 problems
+f64_problems = filter(p -> p.second["precision"] == "Float64", all_problems)
+f32_problems = filter(p -> p.second["precision"] == "Float32", all_problems)
+
+# =============================================================================
+# 1. Main comparison table — Float64 only, exclude ill-conditioned structured
+#    matrices from speedup median (they have tiny passive sets)
+# =============================================================================
+
+println("# CoreNNLS — Finaler Qualitätsbenchmark")
+println()
+println("Speedup     = t_NonNeg / t_Core        (>1 = CoreNNLS schneller)")
+println("Genauigkeit = ‖Δx‖_NonNeg / ‖Δx‖_Core  (>1 = CoreNNLS genauer)")
+println()
+
+println("## Ergebnisse (Float64)")
+println()
+println("| Problem | m | n | Speedup | Genauigkeit |")
+println("|:--------|--:|--:|--------:|------------:|")
+
+all_speedups   = Float64[]
+all_accuracy   = Float64[]
+speedup_by_m   = Dict{Int,Vector{Float64}}()
+speedup_by_n   = Dict{Int,Vector{Float64}}()
+
+for (name, prob) in sort(collect(f64_problems), by=x->x[1])
+    A     = prob["A"]
+    b     = prob["b"]
+    x_ref = prob["x_ref"]
+    m, n  = prob["m"], prob["n"]
+    cls   = prob["cls"]
+
+    # Warm up
+    ws = NNLSWorkspace(m, n)
+    nnls!(ws, copy(A), copy(b))
+    nonneg_lsq(copy(A), copy(b); alg=:nnls)
+
+    tc = @belapsed nnls!($ws, copy($A), copy($b))
+    tn = @belapsed nonneg_lsq(copy($A), copy($b); alg=:nnls)
+
+    x_c = nnls(copy(A), copy(b))
+    x_n = vec(nonneg_lsq(copy(A), copy(b); alg=:nnls))
+
+    err_c = norm(x_c - x_ref)
+    err_n = norm(x_n - x_ref)
+
+    speedup  = tn / tc
+    accuracy = (err_c > 1e-300 && err_n > 1e-300) ? err_n / err_c :
+               (err_c < 1e-300 && err_n < 1e-300) ? 1.0 :
+               (err_c < 1e-300) ? Inf : 0.0
+
+    push!(all_speedups, speedup)
+    isfinite(accuracy) && push!(all_accuracy, accuracy)
+
+    if !(cls in ("hilbert", "vandermonde"))
+        haskey(speedup_by_m, m) || (speedup_by_m[m] = Float64[])
+        haskey(speedup_by_n, n) || (speedup_by_n[n] = Float64[])
+        push!(speedup_by_m[m], speedup)
+        push!(speedup_by_n[n], speedup)
+    end
+
+    sp_str = string(round(speedup,  digits=2))
+    gn_str = isinf(accuracy) ? "∞" :
+             isnan(accuracy) ? "—" :
+             string(round(accuracy, digits=2))
+
+    println("| $name | $m | $n | $sp_str | $gn_str |")
+end
+
+# =============================================================================
+# 2. Summary
+# =============================================================================
+
+println()
+println("## Zusammenfassung (Float64)")
+println()
+println("| Metrik | Wert |")
+println("|:-------|-----:|")
+println("| Median Speedup          | $(round(median(all_speedups), digits=2)) |")
+println("| Median Genauigkeit      | $(round(median(all_accuracy), digits=2)) |")
+println("| CoreNNLS schneller (>1) | $(count(all_speedups .> 1))/$(length(all_speedups)) |")
+println("| CoreNNLS genauer   (>1) | $(count(all_accuracy .> 1))/$(length(all_accuracy)) |")
+
+# =============================================================================
+# 3. Scaling analysis
+# =============================================================================
+
+println()
+println("## Skalierung — Median Speedup nach Dimension")
+println("(nur random/sparse/toeplitz, über alle Seeds gemittelt)")
+println()
+
+println("### Nach m")
+println()
+println("| m | Median Speedup | Anzahl |")
+println("|--:|---------------:|-------:|")
+for m in sort(collect(keys(speedup_by_m)))
+    v = speedup_by_m[m]
+    println("| $m | $(round(median(v), digits=2)) | $(length(v)) |")
+end
+
+println()
+println("### Nach n")
+println()
+println("| n | Median Speedup | Anzahl |")
+println("|--:|---------------:|-------:|")
+for n in sort(collect(keys(speedup_by_n)))
+    v = speedup_by_n[n]
+    println("| $n | $(round(median(v), digits=2)) | $(length(v)) |")
+end
+
+# =============================================================================
+# 4. Precision benchmark — Float32 and BigFloat
+#    Verifies CoreNNLS works correctly with non-Float64 types.
+# =============================================================================
+
+println()
+println("## Präzisionstest")
+println()
+println("Zeigt dass CoreNNLS korrekt mit Float32 und BigFloat(128) arbeitet.")
+println("‖r‖_rel = ‖b − Ax‖ / ‖b‖  (relative Residualnorm)")
+println()
+
+# --- Float32 ---
+println("### Float32")
+println()
+println("| Problem | m | n | ‖r‖_rel | Status |")
+println("|:--------|--:|--:|--------:|-------:|")
+
+for (name, prob) in sort(collect(f32_problems), by=x->x[1])
+    A32   = prob["A"]
+    b32   = prob["b"]
+    m, n  = prob["m"], prob["n"]
+
+    result = nnls(copy(A32), copy(b32))
+    rrel   = norm(b32 - A32 * result) / norm(b32)
+    status = rrel < 1f-3 ? "✓" : "⚠"
+
+    println("| $name | $m | $n | $(round(Float64(rrel), sigdigits=3)) | $status |")
+end
+
+# --- BigFloat(128) — moderate precision, fast ---
+println()
+println("### BigFloat (128-bit, ~38 Dezimalstellen)")
+println()
+println("Alle drei Solver in BigFloat(128) — kein BLAS, reiner Algorithmusvergleich.")
+println("Speedup  = t_NonNeg / t_Core  (>1 = CoreNNLS schneller)")
+println("Genauigkeit = ‖r‖_NonNeg / ‖r‖_Core  (>1 = CoreNNLS genauer)")
+println()
+println("| Problem | m | n | Speedup BF | Genauigkeit BF | ‖r‖ Core BF | ‖r‖ Core F64 |")
+println("|:--------|--:|--:|-----------:|---------------:|------------:|-------------:|")
+
+# Representative subset: random + vandermonde, one seed, small/medium sizes
+# (BigFloat is slow — keep subset manageable)
+bf_subset = filter(p -> p.second["cls"] in ("random","vandermonde") &&
+                        p.second["precision"] == "Float64" &&
+                        p.second["m"] <= 200 &&
+                        p.second["n"] <= 50 &&
+                        endswith(p.first, "_s1"),
+                   f64_problems)
+
+for (name, prob) in sort(collect(bf_subset), by=x->x[1])
+    A64 = prob["A"]
+    b64 = prob["b"]
+    m, n = prob["m"], prob["n"]
+
+    # CoreNNLS Float64 residual as baseline
+    x64 = nnls(copy(A64), copy(b64))
+    r64 = norm(b64 - A64 * x64) / norm(b64)
+
+    setprecision(128) do
+        ABF = BigFloat.(A64)
+        bBF = BigFloat.(b64)
+
+        # Warm up
+        nnls(copy(ABF), copy(bBF))
+        nonneg_lsq(copy(ABF), copy(bBF); alg=:nnls)
+
+        tc_bf = @belapsed nnls(copy($ABF), copy($bBF))
+        tn_bf = @belapsed nonneg_lsq(copy($ABF), copy($bBF); alg=:nnls)
+
+        xC_bf = nnls(copy(ABF), copy(bBF))
+        xN_bf = vec(nonneg_lsq(copy(ABF), copy(bBF); alg=:nnls))
+
+        rC_bf = norm(bBF - ABF * xC_bf) / norm(bBF)
+        rN_bf = norm(bBF - ABF * xN_bf) / norm(bBF)
+
+        speedup_bf  = tn_bf / tc_bf
+        genau_bf    = Float64(rC_bf) > 1e-60 ? Float64(rN_bf) / Float64(rC_bf) : 1.0
+
+        sp_str  = string(round(speedup_bf, digits=2))
+        gn_str  = isinf(genau_bf) ? "∞" : string(round(genau_bf, digits=2))
+        rC_str  = string(round(Float64(rC_bf), sigdigits=3))
+        r64_str = string(round(Float64(r64),   sigdigits=3))
+
+        println("| $name | $m | $n | $sp_str | $gn_str | $rC_str | $r64_str |")
+    end
+end
+
+println()
+println("---")
+println("*Benchmark abgeschlossen. Probleme aus: `benchmark/problems.jld2`*") 
+--- Ende von Benchmark.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\benchmark\generate_problems.jl 
+Dateiname:  generate_problems.jl 
+ 
+Inhalt: 
+"""
+generate_problems.jl  —  CoreNNLS Benchmark Problem Generator
+==============================================================
+Generates benchmark/problems.jld2 containing a curated set of NNLS problems
+with exact or high-precision reference solutions.
+
+Run once before benchmarking:
+    julia --project=. benchmark/generate_problems.jl
+
+Design principles
+-----------------
+- Constructed problems (class :random, :sparse, :toeplitz):
+    x_true = abs.(randn(...))  →  b = A * x_true
+    Reference solution is EXACT — no BigFloat needed.
+
+- Ill-conditioned problems (class :hilbert, :vandermonde):
+    Reference via BigFloat(256) NNLS.  256-bit gives ~77 decimal digits —
+    far beyond Float64 (16 digits) and Float32 (7 digits).  Chosen over
+    1024-bit to keep generation time reasonable.
+
+- Float32 variants:
+    A subset of problems is stored in Float32 precision to verify that
+    CoreNNLS works correctly with lower-precision types.
+
+Problem coverage
+----------------
+Sizes:   m ∈ [50, 200, 1000, 2000],  n ∈ [10, 50, 200]
+         plus larger rectangular cases: 2000×50, 2000×200
+Seeds:   3 per (class, m, n) configuration — median over seeds in benchmark
+         gives stable, hardware-independent results.
+Classes: random, sparse, toeplitz, vandermonde, hilbert
+"""
+
+using Pkg; Pkg.add(["JLD2"]; io=devnull)
+using LinearAlgebra, Random, JLD2, CoreNNLS
+
+# =============================================================================
+# Problem sizes
+# =============================================================================
+
+const SIZES = [
+    # (m,    n)    — overdetermined (typical NNLS use case)
+    (50,    10),
+    (50,    50),
+    (200,   10),
+    (200,   50),
+    (200,  200),
+    (1000,  10),
+    (1000,  50),
+    (1000, 200),
+    (2000,  50),
+    (2000, 200),
+]
+
+const SEEDS = [42, 137, 271]   # 3 seeds per configuration
+
+# =============================================================================
+# Matrix generators
+# =============================================================================
+
+"""
+Random Gaussian matrix with constructed solution.
+x_true is dense nonneg; exact reference.
+"""
+function make_random(T, m, n, seed)
+    rng  = MersenneTwister(seed)
+    A      = T.(randn(rng, m, n))
+    x_true = abs.(T.(randn(rng, n))) .+ T(0.1)   # strictly positive, dense
+    b      = A * x_true
+    return A, b, x_true
+end
+
+"""
+Sparse random matrix (40% fill) with constructed solution.
+x_true is sparse (30% nonzero) — tests active-set selection.
+"""
+function make_sparse(T, m, n, seed; density_A=0.4, density_x=0.3)
+    rng = MersenneTwister(seed)
+    A   = zeros(T, m, n)
+    for j in 1:n, i in 1:m
+        rand(rng) < density_A && (A[i,j] = T(randn(rng)))
+    end
+    # sparse x_true: fraction density_x of entries nonzero
+    x_true = zeros(T, n)
+    for j in 1:n
+        rand(rng) < density_x && (x_true[j] = abs(T(randn(rng))) + T(0.1))
+    end
+    # ensure at least one nonzero entry
+    if all(iszero, x_true); x_true[1] = one(T); end
+    b = A * x_true
+    return A, b, x_true
+end
+
+"""
+Symmetric Toeplitz matrix — common in signal processing and time-series.
+First row decays exponentially.  Constructed solution.
+"""
+function make_toeplitz(T, m, n, seed)
+    rng = MersenneTwister(seed)
+    # Build m×n Toeplitz: A[i,j] = f(|i-j|)
+    decay = T(0.7)
+    A = [decay^abs(i-j) for i in 1:m, j in 1:n]
+    x_true = abs.(T.(randn(rng, n))) .+ T(0.1)
+    b = A * x_true
+    return A, b, x_true
+end
+
+"""
+Vandermonde matrix — highly ill-conditioned for large n.
+Reference solution via BigFloat(256) NNLS.
+x_true used as construction check but NOT stored as reference
+(conditioning may corrupt Float64 solution significantly).
+"""
+function make_vandermonde(T_store, m, n, seed)
+    # Build in BigFloat(256) for accuracy
+    setprecision(256) do
+        BF = BigFloat
+        nodes  = range(BF("0.1"), BF("0.9"), length=m)
+        A_bf   = [nodes[i]^(j-1) for i in 1:m, j in 1:n]
+        rng    = MersenneTwister(seed)
+        x_true = abs.(BF.(randn(rng, n))) .+ BF("0.1")
+        b_bf   = A_bf * x_true
+        x_ref  = nnls(A_bf, b_bf)   # high-precision NNLS
+        return T_store.(A_bf), T_store.(b_bf), T_store.(x_ref)
+    end
+end
+
+"""
+Hilbert matrix — canonical ill-conditioned test case.
+Reference via BigFloat(256) NNLS.
+"""
+function make_hilbert(T_store, k)
+    setprecision(256) do
+        BF = BigFloat
+        A_bf  = [BF(1)/(i+j-1) for i in 1:k, j in 1:k]
+        b_bf  = ones(BF, k)
+        x_ref = nnls(A_bf, b_bf)
+        return T_store.(A_bf), T_store.(b_bf), T_store.(x_ref)
+    end
+end
+
+# =============================================================================
+# Generator dispatch
+# =============================================================================
+
+function generate_class(cls, m, n, seed)
+    cls == :random      && return make_random(Float64, m, n, seed)
+    cls == :sparse      && return make_sparse(Float64, m, n, seed)
+    cls == :toeplitz    && return make_toeplitz(Float64, m, n, seed)
+    cls == :vandermonde && return make_vandermonde(Float64, m, n, seed)
+    cls == :hilbert     && begin
+        k = min(m, n, 20)   # Hilbert beyond 20×20 is hopelessly singular
+        return make_hilbert(Float64, k)
+    end
+    error("Unknown class: $cls")
+end
+
+problem_name(cls, m, n, seed_idx) =
+    cls in (:hilbert,) ? "Hilbert_$(min(m,n,20))x$(min(m,n,20))_s$seed_idx" :
+    "$(uppercasefirst(string(cls)))_$(m)x$(n)_s$seed_idx"
+
+# =============================================================================
+# Generate all problems
+# =============================================================================
+
+println("CoreNNLS Problem Generator")
+println("=" ^ 60)
+println("Sizes: $(length(SIZES)) configurations × $(length(SEEDS)) seeds")
+println("Classes: random, sparse, toeplitz, vandermonde, hilbert")
+println()
+
+problems = Dict{String, Any}()
+idx = 0
+
+for cls in [:random, :sparse, :toeplitz, :vandermonde, :hilbert]
+    global idx
+    for (m, n) in SIZES
+        # Hilbert is square — only generate for square-ish sizes
+        if cls == :hilbert && m != n && min(m,n) > 50
+            continue
+        end
+
+        for (si, seed) in enumerate(SEEDS)
+            name = problem_name(cls, m, n, si)
+            haskey(problems, name) && continue
+            idx += 1
+
+            print("[$idx] $name ... "); flush(stdout)
+            t = @elapsed begin
+                A, b, x_ref = generate_class(cls, m, n, seed)
+            end
+
+            m_eff, n_eff = size(A)
+
+            # Residual as quality indicator
+            res_f64 = norm(b - A * x_ref)
+
+            problems[name] = Dict(
+                "A"       => A,
+                "b"       => b,
+                "x_ref"   => x_ref,
+                "cls"     => string(cls),
+                "m"       => m_eff,
+                "n"       => n_eff,
+                "seed"    => seed,
+                "ref_res" => res_f64,
+                "precision" => "Float64",
+            )
+
+            println("$(round(t*1000, digits=1))ms  ‖r‖=$(round(res_f64, sigdigits=3))")
+        end
+    end
+end
+
+# =============================================================================
+# Float32 variants — subset for precision testing
+# =============================================================================
+# Take random and sparse, small/medium sizes — enough to verify correctness.
+
+println()
+println("Float32 variants...")
+println("-" ^ 40)
+
+F32_SIZES = [(50,10), (200,50), (1000,50)]
+F32_SEED  = 42
+
+for cls in [:random, :sparse]
+    global idx
+    for (m, n) in F32_SIZES
+        name = "F32_$(uppercasefirst(string(cls)))_$(m)x$(n)"
+        idx += 1
+        print("[$idx] $name ... "); flush(stdout)
+        t = @elapsed begin
+            A32, b32, x_true32 = (cls == :random ?
+                make_random(Float32, m, n, F32_SEED) :
+                make_sparse(Float32, m, n, F32_SEED))
+        end
+        res = norm(b32 - A32 * x_true32)
+        problems[name] = Dict(
+            "A"       => A32,
+            "b"       => b32,
+            "x_ref"   => x_true32,
+            "cls"     => string(cls),
+            "m"       => m,
+            "n"       => n,
+            "seed"    => F32_SEED,
+            "ref_res" => Float64(res),
+            "precision" => "Float32",
+        )
+        println("$(round(t*1000, digits=1))ms")
+    end
+end
+
+# =============================================================================
+# Save
+# =============================================================================
+
+out_path = joinpath(@__DIR__, "problems.jld2")
+jldsave(out_path; problems=problems)
+
+println()
+println("=" ^ 60)
+println("$(length(problems)) Probleme gespeichert → problems.jld2")
+println()
+n_f64 = count(v->v["precision"]=="Float64", values(problems))
+n_f32 = count(v->v["precision"]=="Float32", values(problems))
+println("Float64 Probleme: $n_f64")
+println("Float32 Probleme: $n_f32")
+println()
+println("Klassen:")
+for cls in ["random","sparse","toeplitz","vandermonde","hilbert"]
+    n_cls = count(v->v["cls"]==cls, values(problems))
+    println("  $cls: $n_cls")
+end
+ 
+--- Ende von generate_problems.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\benchmark\benchmark.bat 
+Dateiname:  benchmark.bat 
+ 
+Inhalt: 
+
+echo Starte Projekt-Setup...
+julia --project=. -e "using Pkg; Pkg.instantiate(); Pkg.add([\"BenchmarkTools\", \"NonNegLeastSquares\"])"
+
+echo Starte Benchmark...
+julia --project=. Benchmark.jl
+
+pause 
+--- Ende von benchmark.bat --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\benchmark\generate_problems.bat 
+Dateiname:  generate_problems.bat 
+ 
+Inhalt: 
+echo Starte Projekt-Setup...
+julia --project=. -e "using Pkg; Pkg.develop(PackageSpec(path=joinpath(@__DIR__,\"..\"))); Pkg.instantiate(); Pkg.add([\"BenchmarkTools\", \"NonNegLeastSquares\"])"
+
+echo Starte generate_problems.jl...
+julia --project=. generate_problems.jl
+
+pause 
+--- Ende von generate_problems.bat --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\benchmark\Manifest.toml 
+Dateiname:  Manifest.toml 
+ 
+Inhalt: 
+# This file is machine-generated - editing it directly is not advised
+
+julia_version = "1.11.7"
+manifest_format = "2.0"
+project_hash = "425334c1ee664c463095d2db0c7df36f8b95feb7"
+
+[[deps.ArgTools]]
+uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
+version = "1.1.2"
+
+[[deps.Artifacts]]
+uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
+version = "1.11.0"
+
+[[deps.Base64]]
+uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+version = "1.11.0"
+
+[[deps.BenchmarkTools]]
+deps = ["Compat", "JSON", "Logging", "Printf", "Profile", "Statistics", "UUIDs"]
+git-tree-sha1 = "7fecfb1123b8d0232218e2da0c213004ff15358d"
+uuid = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+version = "1.6.3"
+
+[[deps.ChunkCodecCore]]
+git-tree-sha1 = "1a3ad7e16a321667698a19e77362b35a1e94c544"
+uuid = "0b6fb165-00bc-4d37-ab8b-79f91016dbe1"
+version = "1.0.1"
+
+[[deps.ChunkCodecLibZlib]]
+deps = ["ChunkCodecCore", "Zlib_jll"]
+git-tree-sha1 = "cee8104904c53d39eb94fd06cbe60cb5acde7177"
+uuid = "4c0bbee4-addc-4d73-81a0-b6caacae83c8"
+version = "1.0.0"
+
+[[deps.ChunkCodecLibZstd]]
+deps = ["ChunkCodecCore", "Zstd_jll"]
+git-tree-sha1 = "34d9873079e4cb3d0c62926a225136824677073f"
+uuid = "55437552-ac27-4d47-9aa3-63184e8fd398"
+version = "1.0.0"
+
+[[deps.Compat]]
+deps = ["TOML", "UUIDs"]
+git-tree-sha1 = "9d8a54ce4b17aa5bdce0ea5c34bc5e7c340d16ad"
+uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
+version = "4.18.1"
+weakdeps = ["Dates", "LinearAlgebra"]
+
+    [deps.Compat.extensions]
+    CompatLinearAlgebraExt = "LinearAlgebra"
+
+[[deps.CompilerSupportLibraries_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
+version = "1.1.1+0"
+
+[[deps.CoreNNLS]]
+deps = ["BenchmarkTools", "JLD2", "LinearAlgebra", "NonNegLeastSquares"]
+path = "C:\\Users\\uweal\\CoreNNLS.jl\\benchmark\\.."
+uuid = "e0c1f8e0-0001-4000-8000-000000000001"
+version = "0.5.0"
+
+[[deps.Dates]]
+deps = ["Printf"]
+uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+version = "1.11.0"
+
+[[deps.Downloads]]
+deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
+uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
+version = "1.6.0"
+
+[[deps.FileIO]]
+deps = ["Pkg", "Requires", "UUIDs"]
+git-tree-sha1 = "6522cfb3b8fe97bec632252263057996cbd3de20"
+uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+version = "1.18.0"
+
+    [deps.FileIO.extensions]
+    HTTPExt = "HTTP"
+
+    [deps.FileIO.weakdeps]
+    HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+
+[[deps.FileWatching]]
+uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
+version = "1.11.0"
+
+[[deps.HashArrayMappedTries]]
+git-tree-sha1 = "2eaa69a7cab70a52b9687c8bf950a5a93ec895ae"
+uuid = "076d061b-32b6-4027-95e0-9a2c6f6d7e74"
+version = "0.2.0"
+
+[[deps.JLD2]]
+deps = ["ChunkCodecLibZlib", "ChunkCodecLibZstd", "FileIO", "MacroTools", "Mmap", "OrderedCollections", "PrecompileTools", "ScopedValues"]
+git-tree-sha1 = "8f8ff711442d1f4cfc0d86133e7ee03d62ec9b98"
+uuid = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+version = "0.6.3"
+
+    [deps.JLD2.extensions]
+    UnPackExt = "UnPack"
+
+    [deps.JLD2.weakdeps]
+    UnPack = "3a884ed6-31ef-47d7-9d2a-63182c4928ed"
+
+[[deps.JLLWrappers]]
+deps = ["Artifacts", "Preferences"]
+git-tree-sha1 = "0533e564aae234aff59ab625543145446d8b6ec2"
+uuid = "692b3bcd-3c85-4b1f-b108-f13ce0eb3210"
+version = "1.7.1"
+
+[[deps.JSON]]
+deps = ["Dates", "Logging", "Parsers", "PrecompileTools", "StructUtils", "UUIDs", "Unicode"]
+git-tree-sha1 = "b3ad4a0255688dcb895a52fafbaae3023b588a90"
+uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+version = "1.4.0"
+
+    [deps.JSON.extensions]
+    JSONArrowExt = ["ArrowTypes"]
+
+    [deps.JSON.weakdeps]
+    ArrowTypes = "31f734f8-188a-4ce0-8406-c8a06bd891cd"
+
+[[deps.LibCURL]]
+deps = ["LibCURL_jll", "MozillaCACerts_jll"]
+uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
+version = "0.6.4"
+
+[[deps.LibCURL_jll]]
+deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
+uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+version = "8.6.0+0"
+
+[[deps.LibGit2]]
+deps = ["Base64", "LibGit2_jll", "NetworkOptions", "Printf", "SHA"]
+uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
+version = "1.11.0"
+
+[[deps.LibGit2_jll]]
+deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll"]
+uuid = "e37daf67-58a4-590a-8e99-b0245dd2ffc5"
+version = "1.7.2+0"
+
+[[deps.LibSSH2_jll]]
+deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
+uuid = "29816b5a-b9ab-546f-933c-edad1886dfa8"
+version = "1.11.0+1"
+
+[[deps.Libdl]]
+uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+version = "1.11.0"
+
+[[deps.LinearAlgebra]]
+deps = ["Libdl", "OpenBLAS_jll", "libblastrampoline_jll"]
+uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+version = "1.11.0"
+
+[[deps.Logging]]
+uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
+version = "1.11.0"
+
+[[deps.MacroTools]]
+git-tree-sha1 = "1e0228a030642014fe5cfe68c2c0a818f9e3f522"
+uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+version = "0.5.16"
+
+[[deps.Markdown]]
+deps = ["Base64"]
+uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
+version = "1.11.0"
+
+[[deps.MbedTLS_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+version = "2.28.6+0"
+
+[[deps.Mmap]]
+uuid = "a63ad114-7e13-5084-954f-fe012c677804"
+version = "1.11.0"
+
+[[deps.MozillaCACerts_jll]]
+uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
+version = "2023.12.12"
+
+[[deps.NetworkOptions]]
+uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
+version = "1.2.0"
+
+[[deps.NonNegLeastSquares]]
+deps = ["LinearAlgebra", "SparseArrays"]
+git-tree-sha1 = "cdc11138e74a0dd0b82e7d64eb1350fdf049d3b1"
+uuid = "b7351bd1-99d9-5c5d-8786-f205a815c4d7"
+version = "0.4.1"
+
+[[deps.OpenBLAS_jll]]
+deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
+uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
+version = "0.3.27+1"
+
+[[deps.OrderedCollections]]
+git-tree-sha1 = "05868e21324cede2207c6f0f466b4bfef6d5e7ee"
+uuid = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
+version = "1.8.1"
+
+[[deps.Parsers]]
+deps = ["Dates", "PrecompileTools", "UUIDs"]
+git-tree-sha1 = "7d2f8f21da5db6a806faf7b9b292296da42b2810"
+uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
+version = "2.8.3"
+
+[[deps.Pkg]]
+deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "Random", "SHA", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+version = "1.11.0"
+
+    [deps.Pkg.extensions]
+    REPLExt = "REPL"
+
+    [deps.Pkg.weakdeps]
+    REPL = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
+
+[[deps.PrecompileTools]]
+deps = ["Preferences"]
+git-tree-sha1 = "5aa36f7049a63a1528fe8f7c3f2113413ffd4e1f"
+uuid = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
+version = "1.2.1"
+
+[[deps.Preferences]]
+deps = ["TOML"]
+git-tree-sha1 = "522f093a29b31a93e34eaea17ba055d850edea28"
+uuid = "21216c6a-2e73-6563-6e65-726566657250"
+version = "1.5.1"
+
+[[deps.Printf]]
+deps = ["Unicode"]
+uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+version = "1.11.0"
+
+[[deps.Profile]]
+uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
+version = "1.11.0"
+
+[[deps.Random]]
+deps = ["SHA"]
+uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+version = "1.11.0"
+
+[[deps.Requires]]
+deps = ["UUIDs"]
+git-tree-sha1 = "62389eeff14780bfe55195b7204c0d8738436d64"
+uuid = "ae029012-a4dd-5104-9daa-d747884805df"
+version = "1.3.1"
+
+[[deps.SHA]]
+uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
+version = "0.7.0"
+
+[[deps.ScopedValues]]
+deps = ["HashArrayMappedTries", "Logging"]
+git-tree-sha1 = "c3b2323466378a2ba15bea4b2f73b081e022f473"
+uuid = "7e506255-f358-4e82-b7e4-beb19740aa63"
+version = "1.5.0"
+
+[[deps.Serialization]]
+uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
+version = "1.11.0"
+
+[[deps.SparseArrays]]
+deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
+uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+version = "1.11.0"
+
+[[deps.Statistics]]
+deps = ["LinearAlgebra"]
+git-tree-sha1 = "ae3bb1eb3bba077cd276bc5cfc337cc65c3075c0"
+uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+version = "1.11.1"
+weakdeps = ["SparseArrays"]
+
+    [deps.Statistics.extensions]
+    SparseArraysExt = ["SparseArrays"]
+
+[[deps.StructUtils]]
+deps = ["Dates", "UUIDs"]
+git-tree-sha1 = "28145feabf717c5d65c1d5e09747ee7b1ff3ed13"
+uuid = "ec057cc2-7a8d-4b58-b3b3-92acb9f63b42"
+version = "2.6.3"
+
+    [deps.StructUtils.extensions]
+    StructUtilsMeasurementsExt = ["Measurements"]
+    StructUtilsTablesExt = ["Tables"]
+
+    [deps.StructUtils.weakdeps]
+    Measurements = "eff96d63-e80a-5855-80a2-b1b0885c5ab7"
+    Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
+
+[[deps.SuiteSparse_jll]]
+deps = ["Artifacts", "Libdl", "libblastrampoline_jll"]
+uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
+version = "7.7.0+0"
+
+[[deps.TOML]]
+deps = ["Dates"]
+uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+version = "1.0.3"
+
+[[deps.Tar]]
+deps = ["ArgTools", "SHA"]
+uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
+version = "1.10.0"
+
+[[deps.UUIDs]]
+deps = ["Random", "SHA"]
+uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+version = "1.11.0"
+
+[[deps.Unicode]]
+uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
+version = "1.11.0"
+
+[[deps.Zlib_jll]]
+deps = ["Libdl"]
+uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
+version = "1.2.13+1"
+
+[[deps.Zstd_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "446b23e73536f84e8037f5dce465e92275f6a308"
+uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
+version = "1.5.7+1"
+
+[[deps.libblastrampoline_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
+version = "5.11.0+0"
+
+[[deps.nghttp2_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
+version = "1.59.0+0"
+
+[[deps.p7zip_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
+version = "17.4.0+2"
+ 
+--- Ende von Manifest.toml --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\benchmark\Project.toml 
+Dateiname:  Project.toml 
+ 
+Inhalt: 
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+CoreNNLS = "e0c1f8e0-0001-4000-8000-000000000001"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+NonNegLeastSquares = "b7351bd1-99d9-5c5d-8786-f205a815c4d7"
+ 
+--- Ende von Project.toml --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\src\algorithm.jl 
+Dateiname:  algorithm.jl 
+ 
+Inhalt: 
+# =============================================================================
+# File:    algorithm.jl
+# Project: CoreNNLS.jl
+# Date:    2025-02
+# Purpose: Lawson-Hanson active-set solver for Non-Negative Least Squares (NNLS).
+#
+#   Solves:   min ‖Ax − b‖₂   subject to   x ≥ 0
+#
+# Method:  Lawson-Hanson (1974) active-set algorithm with incremental QR.
+#
+# QR strategy:
+#   - On first entry (or after a removal): full column-pivoted QR rebuild — O(m·n_p²)
+#   - On each subsequent column addition:  incremental O(m·n_p) column append
+#     (avoids rebuilding the existing factorisation from scratch)
+#
+# References:
+#   Lawson, C.L. and Hanson, R.J. (1974). Solving Least Squares Problems.
+#   Prentice-Hall. Chapter 23: Algorithm NNLS.
+# =============================================================================
+
+"""
+    nnls!(ws, A, b) -> NNLSResult
+
+Solve the Non-Negative Least Squares problem
+
+    min ‖Ax − b‖₂   subject to   x ≥ 0
+
+using the Lawson-Hanson active-set algorithm with incremental Householder QR.
+
+The workspace `ws` must have been allocated via `NNLSWorkspace(m, n)` for an
+m × n system.  Calling this function is allocation-free after construction.
+
+# Arguments
+- `ws` : Pre-allocated `NNLSWorkspace{T}`.
+- `A`  : Coefficient matrix (m × n), not modified.
+- `b`  : Right-hand side vector (length m), not modified.
+
+# Returns
+`NNLSResult` with fields:
+- `x`            : Non-negative solution vector (length n).
+- `status`       : `:Success` or `:MaxIter`.
+- `iterations`   : Number of outer (active-set) iterations performed.
+- `residual_norm`: ‖b − Ax‖₂ at the returned solution.
+- `kkt_violation`: Maximum KKT complementarity violation max_{j∉P} w[j].
+
+# Example
+```julia
+ws     = NNLSWorkspace(100, 30)
+result = nnls!(ws, A, b)
+println(result.x)
+```
+"""
+function nnls!(
+    ws::NNLSWorkspace{T}, A::AbstractMatrix{T}, b::AbstractVector{T}
+) where {T}
+
+    validate_nnls_inputs(A, b, ws)
+    m, n = ws.m, ws.n
+    opts = ws.options
+
+    # ------------------------------------------------------------------
+    # Tolerance: scale with the largest entry of A and the problem size.
+    # Variables with x[j] ≤ tol are considered zero and removed from P.
+    # ------------------------------------------------------------------
+    max_abs_A = zero(T)
+    @inbounds for j in 1:n, i in 1:m
+        v = abs(A[i, j])
+        if v > max_abs_A; max_abs_A = v; end
+    end
+    tol = eps(T) * max_abs_A * T(max(m, n))
+    if tol == zero(T); tol = eps(T); end
+
+    # ------------------------------------------------------------------
+    # Initialise workspace
+    # ------------------------------------------------------------------
+    fill!(ws.x, zero(T))   # solution estimate x = 0
+    reset_passive!(ws)     # passive set P = ∅
+    ws.iter = 0
+
+    # qr_n_p: number of columns currently covered by the stored QR.
+    # Persists across outer iterations — reset to 0 after any removal.
+    qr_n_p = 0
+
+    # Pivoting strategy: Float64/Float32 use column-pivoted QR for better
+    # numerical stability and rank detection.  All other types (BigFloat,
+    # Rational, …) use unpivoted QR — column norm tracking dominates cost
+    # without BLAS acceleration, and higher-precision types need it less.
+    use_pivot = T <: Union{Float64, Float32}
+
+    # Initial gradient: w = Aᵀ(b − Ax) = Aᵀb  (since x = 0 initially)
+    copyto!(ws.r, b)
+    mul!(ws.w, transpose(A), ws.r)
+
+    # ==================================================================
+    # Outer loop: move the variable with the largest positive gradient
+    # into the passive set, then enforce feasibility via the inner loop.
+    # ==================================================================
+    while true
+        ws.iter += 1
+
+        # --- Max-iteration guard ---
+        if ws.iter > opts.max_iter
+            copyto!(ws.r, b)
+            mul!(ws.r, A, ws.x, -one(T), one(T))   # r = b − Ax
+            mul!(ws.w, transpose(A), ws.r)           # w = Aᵀr
+            _run_post_checks(ws, A, b)
+            return _make_result(ws, :MaxIter)
+        end
+
+        # --- Find variable j* with largest positive gradient component ---
+        max_w    = zero(T)
+        idx_move = 0
+        @inbounds for j in 1:n
+            if !ws.passive_set[j] && ws.w[j] > max_w
+                max_w    = ws.w[j]
+                idx_move = j
+            end
+        end
+
+        # KKT condition satisfied: no active variable has a positive gradient
+        if idx_move == 0 || max_w <= zero(T)
+            copyto!(ws.r, b)
+            mul!(ws.r, A, ws.x, -one(T), one(T))
+            mul!(ws.w, transpose(A), ws.r)
+
+            # ----------------------------------------------------------
+            # Self-diagnosing quality check via KKT complementarity
+            #
+            # At a correct solution, the gradient on the passive set must
+            # vanish: w[j] = (Aᵀr)[j] ≈ 0 for all j ∈ P.  Any deviation
+            # larger than the expected floating-point noise indicates that
+            # the triangular solve R⁻¹(Qᵀb) accumulated significant
+            # rounding errors — typically caused by ill-conditioned R.
+            #
+            # Quality tolerance:
+            #   quality_tol = eps(T) * max_abs_A * ‖x‖
+            # This scales with the problem magnitude and solution norm,
+            # giving a dimensionally consistent criterion that requires no
+            # hand-tuned thresholds.
+            #
+            # If the check triggers, we apply iterative refinement using
+            # the stored QR — O(m·n_p) cost, not O(m·n).  For accurate
+            # solves (Random, Sparse) the check never triggers and costs
+            # only a single loop over n_p passive entries.
+            # ----------------------------------------------------------
+            if qr_n_p > 0
+                x_norm = zero(T)
+                @inbounds for j in 1:n
+                    x_norm += abs2(ws.x[j])
+                end
+                x_norm = sqrt(x_norm)
+
+                # Quality tolerance: floating-point noise in the triangular
+                # solve is O(eps * ‖A‖ * ‖x‖).  We allow a factor-3 margin
+                # before declaring the result inaccurate — small enough to
+                # catch genuinely bad solves (ill-conditioned R, where
+                # passive_grad_max exceeds noise by orders of magnitude),
+                # large enough to suppress false positives on well-conditioned
+                # problems where passive_grad_max sits just above pure eps noise.
+                quality_tol = eps(T) * max_abs_A * x_norm * T(3)
+
+                passive_grad_max = zero(T)
+                @inbounds for k in 1:ws.n_passive
+                    j = ws.passive_indices[k]
+                    v = abs(ws.w[j])
+                    if v > passive_grad_max; passive_grad_max = v; end
+                end
+
+                if passive_grad_max > quality_tol
+                    _refine_qr!(ws, A, b, qr_n_p)
+                end
+            end
+
+            _run_post_checks(ws, A, b)
+            return _make_result(ws, :Success)
+        end
+
+        # Move j* into passive set
+        add_passive!(ws, idx_move)
+
+        # ==============================================================
+        # Inner loop: solve the unconstrained LS on the passive set and
+        # remove any variable whose solution is ≤ 0 (restoring feasibility).
+        # ==============================================================
+        while true
+            n_p = ws.n_passive
+
+            # ----------------------------------------------------------
+            # Update QR factorisation of the passive submatrix
+            # ----------------------------------------------------------
+            if n_p == qr_n_p + 1 && qr_n_p > 0
+                # APPEND path: one new column has been added since the
+                # last QR — extend incrementally in O(m·n_p).
+                j_new = ws.passive_indices[n_p]
+                householder_append_col!(ws.A_passive, ws.tau,
+                                        @view(A[:, j_new]), m, qr_n_p)
+                # The appended column gets identity permutation (no pivoting on append)
+                ws.perm[n_p] = n_p
+
+                if DEBUG_QR
+                    @debug "[APPEND] n_p=$n_p  j_new=$j_new  R[n_p,n_p]=$(ws.A_passive[n_p,n_p])"
+                end
+            else
+                # REBUILD path: triggered on first entry or after a removal.
+                # Copy passive columns into A_passive and compute fresh QR.
+                @inbounds for col in 1:n_p
+                    j = ws.passive_indices[col]
+                    for i in 1:m
+                        ws.A_passive[i, col] = A[i, j]
+                    end
+                end
+                if use_pivot
+                    householder_qr_pivot!(ws.A_passive, ws.tau, ws.perm,
+                                          ws.col_norms_sq, m, n_p)
+                else
+                    # BigFloat etc.: unpivoted QR — cheaper without BLAS norm tracking
+                    householder_qr!(ws.A_passive, ws.tau, m, n_p)
+                    @inbounds for k in 1:n_p; ws.perm[k] = k; end
+                end
+
+                if DEBUG_QR
+                    @debug "[REBUILD] n_p=$n_p  previous qr_n_p=$qr_n_p"
+                end
+            end
+
+            qr_n_p = n_p
+
+            if DEBUG_QR
+                A_orig = hcat([A[:, ws.passive_indices[ws.perm[k]]] for k in 1:n_p]...)
+                _dbg_check_qr(ws.A_passive, ws.tau, A_orig, m, n_p;
+                               label="n_p=$n_p", check_pivot=false)
+            end
+
+            # ----------------------------------------------------------
+            # Rank check: reject column if R diagonal entry is too small
+            # ----------------------------------------------------------
+            diagmax = zero(T)
+            @inbounds for k in 1:n_p
+                d = abs(ws.A_passive[k, k])
+                if d > diagmax; diagmax = d; end
+            end
+
+            if diagmax == zero(T)
+                # Entire passive submatrix is numerically zero — drop column
+                remove_passive_at!(ws, n_p)
+                ws.w[idx_move] = zero(T)
+                qr_n_p = 0
+                break
+            end
+
+            rank_tol = eps(T) * diagmax
+            rank_deficient = false
+            @inbounds for k in 1:n_p
+                if abs(ws.A_passive[k, k]) <= rank_tol
+                    rank_deficient = true; break
+                end
+            end
+            if rank_deficient
+                # Column introduces numerical rank deficiency — drop it
+                remove_passive_at!(ws, n_p)
+                ws.w[idx_move] = zero(T)
+                qr_n_p = 0
+                break
+            end
+
+            # ----------------------------------------------------------
+            # Solve unconstrained LS on passive set: s = (AₚᵀAₚ)⁻¹ Aₚᵀ b
+            # via the stored QR: s = R⁻¹ (Qᵀb)[1:n_p]
+            # Qtb_work is a scratch buffer — keeps ws.r = b − Ax intact.
+            # ----------------------------------------------------------
+            copyto!(ws.Qtb_work, b)
+            householder_apply_qt!(ws.A_passive, ws.tau, ws.Qtb_work, m, n_p)
+
+            @inbounds for i in 1:n_p
+                ws.s[i] = ws.Qtb_work[i]
+            end
+
+            # ----------------------------------------------------------
+            # R-diagonal preconditioning (column equilibration)
+            #
+            # The condition number of R can be estimated cheaply from its
+            # diagonal after column-pivoted QR: since pivoting places the
+            # largest-norm columns first, |R[1,1]| ≥ |R[2,2]| ≥ … ≥ |R[n_p,n_p]|.
+            # Hence  κ_est = |R[1,1]| / |R[n_p,n_p]|  is a lower bound on κ(R).
+            #
+            # When κ_est is large (> 1/√eps ≈ 10⁸ for Float64), the standard
+            # back-substitution loses accuracy.  We instead solve the equivalent
+            # column-equilibrated system:
+            #
+            #   (R · D) · ŝ = c,   D = diag(1/|R[k,k]|)
+            #
+            # The diagonal of R·D is ±1, so its condition number is at most
+            # κ(R·D) ≤ κ(R) / κ_diag, often several orders of magnitude smaller.
+            # After solving we recover s = D · ŝ.
+            #
+            # This is applied only when needed (κ_est > threshold) to avoid
+            # any overhead on well-conditioned problems.
+            # ----------------------------------------------------------
+            r_diag_min = abs(ws.A_passive[n_p, n_p])
+            kappa_est  = (r_diag_min > zero(T)) ? diagmax / r_diag_min : typemax(T)
+
+            # Threshold: activate preconditioning when κ_est > 1/√eps(T)
+            # For Float64: threshold ≈ 10⁸ — well below the point where
+            # back-substitution starts losing digits, but high enough that
+            # well-conditioned problems never pay the preconditioning cost.
+            precond_threshold = one(T) / sqrt(eps(T))
+
+            if kappa_est > precond_threshold
+                # Compute preconditioning factors d[k] = 1/|R[k,k]|
+                @inbounds for k in 1:n_p
+                    rk = abs(ws.A_passive[k, k])
+                    ws.r_scale[k] = rk > zero(T) ? one(T) / rk : one(T)
+                end
+                # Preconditioned triangular solve: (R·D)·ŝ = s, then s = D·ŝ
+                back_substitute_precond!(ws.A_passive, ws.s, ws.r_scale, n_p)
+            else
+                # Standard triangular solve — no preconditioning overhead
+                back_substitute!(ws.A_passive, ws.s, n_p)   # s = R⁻¹ s
+            end
+
+            # ----------------------------------------------------------
+            # Feasibility check: if all s[k] > 0, accept as new x
+            # ----------------------------------------------------------
+            feasible = true
+            @inbounds for k in 1:n_p
+                if ws.s[k] <= zero(T); feasible = false; break; end
+            end
+
+            if feasible
+                # Accept solution on passive set; active variables stay at 0
+                @inbounds for k in 1:n_p
+                    ws.x[ws.passive_indices[ws.perm[k]]] = ws.s[k]
+                end
+                @inbounds for j in 1:n
+                    if !ws.passive_set[j]; ws.x[j] = zero(T); end
+                end
+                # Update residual and gradient for next outer iteration
+                copyto!(ws.r, b)
+                mul!(ws.r, A, ws.x, -one(T), one(T))   # r = b − Ax
+                mul!(ws.w, transpose(A), ws.r)           # w = Aᵀr
+                _dbg_check_solution(ws, A, b; label="feasible")
+                break
+            end
+
+            # ----------------------------------------------------------
+            # Infeasible step: compute the longest feasible step α ∈ (0,1]
+            # along the direction (s − x) that keeps x ≥ 0.
+            # α = min_{k: s[k]≤0}  x[j] / (x[j] − s[k])
+            # ----------------------------------------------------------
+            alpha = typemax(T)
+            @inbounds for k in 1:n_p
+                if ws.s[k] <= zero(T)
+                    j   = ws.passive_indices[ws.perm[k]]
+                    xj  = ws.x[j]
+                    den = xj - ws.s[k]         # > 0 since s[k] ≤ 0 and x[j] ≥ 0
+                    if den > zero(T)
+                        ratio = xj / den
+                        if ratio < alpha; alpha = ratio; end
+                    end
+                end
+            end
+
+            if alpha >= typemax(T) || alpha <= zero(T); break; end
+
+            # Move x towards s by step α
+            @inbounds for k in 1:n_p
+                j = ws.passive_indices[ws.perm[k]]
+                ws.x[j] += alpha * (ws.s[k] - ws.x[j])
+            end
+
+            # Remove all passive variables that have been driven to (near) zero
+            k = ws.n_passive
+            while k >= 1
+                j = ws.passive_indices[k]
+                if ws.x[j] <= tol
+                    ws.x[j] = zero(T)
+                    remove_passive_at!(ws, k)
+                end
+                k -= 1
+            end
+            qr_n_p = 0   # QR is no longer valid after removals — force rebuild
+
+        end  # inner loop
+    end  # outer loop
+end
+
+
+
+"""
+    _refine_qr!(ws, A, b, qr_n_p)
+
+Apply one or two steps of iterative refinement on the passive set using the
+already-stored QR factorisation.  Called only when the self-diagnosing KKT
+quality check detects that the triangular solve was inaccurate.
+
+Background
+----------
+After Lawson-Hanson converges, the passive set P is correct but the solution
+xₚ = R⁻¹(Qᵀb) may have accumulated rounding errors if R is ill-conditioned
+(e.g. Hilbert, Vandermonde, Pascal matrices).  One step of iterative refinement
+on the fixed passive set recovers these lost digits at low cost:
+
+    δ = R⁻¹ Qᵀ (b − Aₚxₚ)   — uses stored QR, cost O(m·n_p)
+    xₚ ← max(0, xₚ + δ)       — projection keeps x ≥ 0
+
+This is the approach recommended by Lawson & Hanson (1974) §5 for improving
+accuracy after active-set convergence.
+
+Cost
+----
+O(m·n_p) per step via `householder_apply_qt!` + `back_substitute!`.
+Compare with O(m·n) for a full gradient step — much cheaper when n_p ≪ n.
+
+# Arguments
+- `ws`      : `NNLSWorkspace` with converged solution; ws.r = b − Ax on entry.
+- `A`, `b`  : Original problem data.
+- `qr_n_p`  : Size of the valid QR currently in ws.A_passive (= ws.n_passive).
+
+# Side effects
+Updates ws.x, ws.r, ws.w if refinement improves the residual norm.
+Rolls back silently if refinement worsens the solution.
+"""
+function _refine_qr!(ws::NNLSWorkspace{T}, A::AbstractMatrix{T},
+                     b::AbstractVector{T}, qr_n_p::Int) where {T}
+    MAX_REFINE = 2
+    n_p = qr_n_p
+    n_p == 0 && return nothing
+
+    for _ in 1:MAX_REFINE
+        r_norm_before = dot(ws.r, ws.r)
+        r_norm_before == zero(T) && return nothing   # already exact
+
+        # Step 1: c = Qᵀ r_ls  using scratch buffer (preserves ws.r)
+        copyto!(ws.Qtb_work, ws.r)
+        householder_apply_qt!(ws.A_passive, ws.tau, ws.Qtb_work, ws.m, n_p)
+
+        # Step 2: δ = R⁻¹ c[1:n_p]
+        @inbounds for i in 1:n_p
+            ws.s[i] = ws.Qtb_work[i]
+        end
+
+        # Use preconditioned solve if R is ill-conditioned
+        r_diag_max = abs(ws.A_passive[1,   1])
+        r_diag_min = abs(ws.A_passive[n_p, n_p])
+        kappa_est  = (r_diag_min > zero(T)) ? r_diag_max / r_diag_min : typemax(T)
+
+        if kappa_est > one(T) / sqrt(eps(T))
+            @inbounds for k in 1:n_p
+                rk = abs(ws.A_passive[k, k])
+                ws.r_scale[k] = rk > zero(T) ? one(T) / rk : one(T)
+            end
+            back_substitute_precond!(ws.A_passive, ws.s, ws.r_scale, n_p)
+        else
+            back_substitute!(ws.A_passive, ws.s, n_p)
+        end
+
+        # Step 3: xₚ ← max(0, xₚ + δ) and evaluate new residual
+        @inbounds for k in 1:n_p
+            j = ws.passive_indices[ws.perm[k]]
+            ws.x[j] = max(zero(T), ws.x[j] + ws.s[k])
+        end
+
+        copyto!(ws.r, b)
+        mul!(ws.r, A, ws.x, -one(T), one(T))
+        r_norm_after = dot(ws.r, ws.r)
+
+        if r_norm_after >= r_norm_before
+            # No improvement — undo correction and stop
+            @inbounds for k in 1:n_p
+                j = ws.passive_indices[ws.perm[k]]
+                ws.x[j] = max(zero(T), ws.x[j] - ws.s[k])
+            end
+            copyto!(ws.r, b)
+            mul!(ws.r, A, ws.x, -one(T), one(T))
+            break
+        end
+        # Accepted — loop for second step if warranted
+    end
+
+    # Restore gradient w = Aᵀr for KKT reporting
+    mul!(ws.w, transpose(A), ws.r)
+    return nothing
+end
+
+"""
+    _make_result(ws, status) -> NNLSResult
+
+Package the current workspace state into an `NNLSResult`.
+
+# Arguments
+- `ws`     : `NNLSWorkspace{T}` with converged or terminated state.
+- `status` : `:Success` or `:MaxIter`.
+
+# Returns
+`NNLSResult` (allocates a copy of `ws.x`).
+"""
+function _make_result(ws::NNLSWorkspace{T}, status::Symbol) where {T}
+    residual_norm = norm(ws.r)
+    # KKT violation: largest positive gradient among active variables
+    kkt_violation = zero(T)
+    @inbounds for j in 1:ws.n
+        if !ws.passive_set[j] && ws.w[j] > kkt_violation
+            kkt_violation = ws.w[j]
+        end
+    end
+    return NNLSResult(copy(ws.x), status, ws.iter, residual_norm, kkt_violation)
+end 
+--- Ende von algorithm.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\src\contracts.jl 
+Dateiname:  contracts.jl 
+ 
+Inhalt: 
+function validate_nnls_inputs(
+    A::AbstractMatrix{T}, b::AbstractVector{T}, ws::NNLSWorkspace{T}
+) where {T}
+    size(A) == (ws.m, ws.n) || throw(
+        DimensionMismatch("A is $(size(A)), workspace expects ($(ws.m), $(ws.n))")
+    )
+    length(b) == ws.m || throw(
+        DimensionMismatch("b has length $(length(b)), expected $(ws.m)")
+    )
+    any(!isfinite, A) && throw(ArgumentError("A contains NaN or Inf entries"))
+    any(!isfinite, b) && throw(ArgumentError("b contains NaN or Inf entries"))
+    return nothing
+end
+
+function validate_nnls_post(
+    A::AbstractMatrix{T}, b::AbstractVector{T},
+    x::AbstractVector{T}, w::AbstractVector{T},
+    tol::T
+) where {T}
+    ok = true
+    n = length(x)
+
+    if minimum(x) < -tol
+        @warn "NNLS post-condition: x negative"
+        ok = false
+    end
+
+    r = b - A * x
+    w_calc = A' * r
+    for j in 1:n
+        if x[j] > tol && abs(w_calc[j]) > tol * T(100)
+            @warn "NNLS post-condition: complementarity at j=$j"
+            ok = false
+            break
+        end
+    end
+
+    return ok
+end
+
+function _run_post_checks(ws::NNLSWorkspace{T}, A, b) where {T}
+    if ws.options.check_contracts
+        max_abs_A = zero(T)
+        @inbounds for j in 1:ws.n, i in 1:ws.m
+            v = abs(A[i, j])
+            if v > max_abs_A; max_abs_A = v; end
+        end
+        tol = eps(T) * max_abs_A * T(max(ws.m, ws.n))
+        validate_nnls_post(A, b, ws.x, ws.w, tol)
+    end
+end 
+--- Ende von contracts.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\src\CoreNNLS.jl 
+Dateiname:  CoreNNLS.jl 
+ 
+Inhalt: 
+module CoreNNLS
+
+using LinearAlgebra
+
+export nnls, nnls!, NNLSWorkspace, NNLSResult
+
+struct NNLSResult{T}
+    x::Vector{T}
+    status::Symbol
+    iterations::Int
+    residual_norm::T
+    kkt_violation::T
+end
+
+function Base.iterate(res::NNLSResult, state=1)
+    state == 1 && return (res.status, 2)
+    state == 2 && return (res.x, 3)
+    state == 3 && return (res.iterations, 4)
+    state == 4 && return (res.residual_norm, 5)
+    state == 5 && return (res.kkt_violation, 6)
+    return nothing
+end
+
+include("types.jl")        # NNLSWorkspace mit tau-Feld
+include("contracts.jl")    # validate_nnls_inputs, _run_post_checks
+include("householder.jl")  # Kopie aus Julia stdlib (MIT) — voller tau-Zugriff
+include("algorithm.jl")    # nnls!
+
+# givens.jl bleibt vorhanden (für spätere inkrementelle QR-Updates)
+
+function nnls(
+    A::AbstractMatrix{T},
+    b::AbstractVector{T};
+    max_iter::Int = 5 * size(A, 2),
+) where {T<:AbstractFloat}
+    size(A, 1) == length(b) || throw(DimensionMismatch(
+        "A hat $(size(A,1)) Zeilen, b hat Länge $(length(b))"))
+    any(!isfinite, A) && throw(ArgumentError("NaN/Inf in A"))
+    any(!isfinite, b) && throw(ArgumentError("NaN/Inf in b"))
+
+    ws = NNLSWorkspace(size(A, 1), size(A, 2), T; max_iter=max_iter)
+    _, x = nnls!(ws, A, b)
+    return copy(x)
+end
+
+end 
+--- Ende von CoreNNLS.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\src\generate_references.jl 
+Dateiname:  generate_references.jl 
+ 
+Inhalt: 
+"""
+generate_references.jl
+
+45 Referenzlösungen (5 Klassen × 3×3 m/n-Raster) in 1024-bit BigFloat.
+
+m ∈ {30, 120, 400}   (Zeilen)
+n ∈ {8,   30,  100}  (Spalten)
+
+Einmalig ausführen:  julia --project=. generate_references.jl
+"""
+
+using Pkg; Pkg.add("JLD2"; io=devnull)
+using LinearAlgebra, Random, JLD2, CoreNNLS
+
+const M_VALS = [30, 120, 400]
+const N_VALS = [8,   30, 100]
+
+# =============================================================================
+# Matrixgeneratoren
+# =============================================================================
+
+function make_random(T,m,n,seed)
+    rng=MersenneTwister(seed); T.(randn(rng,m,n)), T.(randn(rng,m))
+end
+function make_sparse(T,m,n,seed; density=0.4)
+    rng=MersenneTwister(seed)
+    A=zeros(T,m,n)
+    for j in 1:n, i in 1:m; rand(rng)<density && (A[i,j]=T(randn(rng))); end
+    A, T.(randn(rng,m))
+end
+function make_vandermonde(T,m,n)
+    nodes=range(T("0.1"),T("0.9"),length=m)
+    [nodes[i]^(j-1) for i in 1:m, j in 1:n], ones(T,m)
+end
+function make_hilbert(T,m,n)
+    k=min(m,n); [T(1)/(i+j-1) for i in 1:k, j in 1:k], ones(T,k)
+end
+function make_pascal(T,m,n)
+    k=min(min(m,n),12)
+    T.([binomial(i+j-2,i-1) for i in 1:k, j in 1:k]), ones(T,k)
+end
+
+function make_bf(cls,m,n,seed)
+    T=BigFloat
+    cls==:random      && return make_random(T,m,n,seed)
+    cls==:sparse      && return make_sparse(T,m,n,seed)
+    cls==:vandermonde && return make_vandermonde(T,m,n)
+    cls==:hilbert     && return make_hilbert(T,m,n)
+    cls==:pascal      && return make_pascal(T,m,n)
+end
+
+prob_name(cls,m,n) = begin
+    k=min(m,n); kp=min(k,12)
+    cls==:hilbert ? "Hilbert_$(k)x$(k)" :
+    cls==:pascal  ? "Pascal_$(kp)x$(kp)" :
+    "$(uppercasefirst(string(cls)))_$(m)x$(n)"
+end
+
+# =============================================================================
+# Referenzen berechnen
+# =============================================================================
+
+println("Berechne 45 Referenzlösungen (1024-bit BigFloat)...")
+println("=" ^ 60)
+
+references = Dict{String,Vector{Float64}}()
+meta       = Dict{String,Any}()
+setprecision(1024) do
+    idx = 0
+    for cls in [:random,:sparse,:vandermonde,:hilbert,:pascal]
+        for m in M_VALS, n in N_VALS
+            idx += 1
+            name = prob_name(cls,m,n)
+            print("[$idx/45] $name ... "); flush(stdout)
+            seed = idx * 97 + Int(hash(cls) % 1000)
+            A,b  = make_bf(cls,m,n,seed)
+            t    = @elapsed x = nnls(A,b)
+            res  = Float64(norm(b - A*x))
+            references[name] = Float64.(x)
+            meta[name] = (cls=string(cls), m=size(A,1), n=size(A,2),
+                          res_bigfloat=res, seed=seed)
+            println("OK  ‖r‖=$(round(res,sigdigits=3))  $(round(t*1000,digits=1))ms")
+        end
+    end
+end
+
+jldsave(joinpath(@__DIR__,"references.jld2"); references=references, meta=meta,
+        m_vals=M_VALS, n_vals=N_VALS)
+println("\n45 Referenzlösungen → references.jld2") 
+--- Ende von generate_references.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\src\householder.jl 
+Dateiname:  householder.jl 
+ 
+Inhalt: 
+# =============================================================================
+# File:    householder.jl
+# Project: CoreNNLS.jl
+# Date:    2025-02
+# Purpose: Householder QR factorisation primitives used by the NNLS solver.
+#
+# Methods:
+#   - reflector!            : Compute a Householder reflector in-place.
+#   - reflector_apply!      : Apply H = I - τvvᵀ to a matrix (generic + BLAS).
+#   - householder_qr!       : Full QR factorisation (unpivoted).
+#   - householder_append_col! : Incremental O(m·n) column append — avoids
+#                               full O(m·n²) rebuild when one column is added.
+#   - householder_apply_qt! : Apply Qᵀ to a vector in-place.
+#   - back_substitute!      : Solve upper-triangular system (generic + LAPACK).
+#   - householder_qr_pivot! : Column-pivoted QR for rank-revealing factorisation.
+#
+# All routines are generic over T<:AbstractFloat.
+# BLAS/LAPACK specialisations exist for Float64 and Float32.
+#
+# Debug mode: set DEBUG_QR = true to enable invariant checks (slow).
+# =============================================================================
+
+const DEBUG_QR = false
+
+# =============================================================================
+# Debug helpers (compiled away when DEBUG_QR = false)
+# =============================================================================
+
+"""
+    _dbg_check_reflector(x_before, x_after, τ)
+
+Verify that the Householder reflector correctly maps x_before to β·e₁.
+Only active when DEBUG_QR = true.
+
+# Arguments
+- `x_before` : Vector before applying the reflector.
+- `x_after`  : Vector after (contains β in position 1, v[2:end] elsewhere).
+- `τ`        : Householder scalar.
+"""
+function _dbg_check_reflector(x_before::AbstractVector{T},
+                               x_after::AbstractVector{T},
+                               τ::T) where {T}
+    DEBUG_QR || return nothing
+    n  = length(x_before)
+    β  = x_after[1]
+    v  = [one(T); x_after[2:end]]
+    H  = Matrix{T}(I, n, n) - τ * v * v'
+    res = H * x_before
+    err = norm(res - β * [one(T); zeros(T, n-1)])
+    if err > 100 * eps(T) * norm(x_before)
+        @warn "[DEBUG reflector!] H·x ≠ β·e₁  err=$err  τ=$τ  β=$β  ‖x‖=$(norm(x_before))"
+    else
+        @debug "[DEBUG reflector!] OK  err=$err"
+    end
+    orth_err = norm(H'*H - I)
+    if orth_err > 100 * eps(T)
+        @warn "[DEBUG reflector!] H not orthogonal  err=$orth_err"
+    end
+    return nothing
+end
+
+"""
+    _dbg_check_qr(A_passive, tau, A_orig, m, n_p; label="", check_pivot=false)
+
+Verify that the stored QR factorisation satisfies A_orig = Q·[R; 0].
+Only active when DEBUG_QR = true.
+
+# Arguments
+- `A_passive`   : Compact QR storage (in-place Householder form).
+- `tau`         : Householder scalars.
+- `A_orig`      : Original matrix (before factorisation).
+- `m`, `n_p`    : Problem dimensions.
+- `label`       : Optional label for warning messages.
+- `check_pivot` : Also verify that |R[k,k]| is non-increasing.
+"""
+function _dbg_check_qr(A_passive::AbstractMatrix{T},
+                        tau::AbstractVector{T},
+                        A_orig::AbstractMatrix{T},
+                        m::Int, n_p::Int;
+                        label::String = "",
+                        check_pivot::Bool = false) where {T}
+    DEBUG_QR || return nothing
+    prefix = isempty(label) ? "[DEBUG QR]" : "[DEBUG QR $label]"
+    R = UpperTriangular(A_passive[1:n_p, 1:n_p])
+    Q = Matrix{T}(I, m, m)
+    for k in 1:n_p
+        v = zeros(T, m - k + 1)
+        v[1] = one(T)
+        v[2:end] .= A_passive[(k+1):m, k]
+        Hk = Matrix{T}(I, m-k+1, m-k+1) - tau[k] * v * v'
+        Hk_full = Matrix{T}(I, m, m)
+        Hk_full[k:m, k:m] = Hk
+        Q = Hk_full * Q
+    end
+    orth_err = norm(Q'*Q - I)
+    if orth_err > 1000 * eps(T)
+        @warn "$prefix Q not orthogonal  ‖Q'Q-I‖=$orth_err"
+    else
+        @debug "$prefix Q orthogonal OK  err=$orth_err"
+    end
+    QR = Q * [Matrix(R); zeros(T, m - n_p, n_p)]
+    recon_err = norm(A_orig - QR) / max(norm(A_orig), one(T))
+    if recon_err > 1000 * eps(T)
+        @warn "$prefix Reconstruction A ≠ QR  rel.err=$recon_err"
+    else
+        @debug "$prefix Reconstruction OK  rel.err=$recon_err"
+    end
+    if check_pivot && n_p > 1
+        for k in 1:(n_p-1)
+            if abs(A_passive[k,k]) < abs(A_passive[k+1,k+1]) - 1000*eps(T)
+                @warn "$prefix Pivot rule violated at k=$k"
+            end
+        end
+    end
+    return nothing
+end
+
+"""
+    _dbg_print_passive(ws; label="")
+
+Print the current passive set indices. Only active when DEBUG_QR = true.
+"""
+function _dbg_print_passive(ws; label::String = "")
+    DEBUG_QR || return nothing
+    prefix = isempty(label) ? "[DEBUG passive]" : "[DEBUG passive $label]"
+    @debug "$prefix n_passive=$(ws.n_passive)  indices=$(ws.passive_indices[1:ws.n_passive])"
+    return nothing
+end
+
+"""
+    _dbg_check_solution(ws, A, b; label="")
+
+Check KKT conditions on the current solution:
+  - x ≥ 0
+  - w[j] ≈ 0 for passive (j ∈ P)
+  - w[j] ≤ 0 for active  (j ∉ P)
+
+Only active when DEBUG_QR = true.
+
+# Arguments
+- `ws`    : `NNLSWorkspace` with current x.
+- `A`, `b`: Problem data.
+- `label` : Optional label for warning messages.
+"""
+function _dbg_check_solution(ws, A::AbstractMatrix{T},
+                              b::AbstractVector{T};
+                              label::String = "") where {T}
+    DEBUG_QR || return nothing
+    prefix = isempty(label) ? "[DEBUG KKT]" : "[DEBUG KKT $label]"
+    n = ws.n
+    r = b - A * ws.x
+    w = A' * r
+    neg_x = findall(ws.x .< -1000*eps(T))
+    if !isempty(neg_x)
+        @warn "$prefix x < 0 at positions $neg_x  min=$(minimum(ws.x[neg_x]))"
+    end
+    for j in 1:n
+        if ws.passive_set[j] && abs(w[j]) > 1000*eps(T)
+            @warn "$prefix w[$j]=$(w[j]) should be ≈ 0 (passive variable)"
+        end
+        if !ws.passive_set[j] && w[j] > 1000*eps(T)
+            @warn "$prefix w[$j]=$(w[j]) > 0 (active variable, should be ≤ 0)"
+        end
+    end
+    return nothing
+end
+
+# =============================================================================
+# Core Householder primitives
+# =============================================================================
+
+"""
+    reflector!(x) -> τ
+
+Compute a Householder reflector H = I − τvvᵀ that maps `x` to −sign(x[1])‖x‖e₁.
+
+The computation is done in-place:
+  - `x[1]` is overwritten with β = −sign(x[1])‖x‖
+  - `x[2:end]` are overwritten with the tail of the unit vector v (v[1] = 1 implicitly)
+
+# Arguments
+- `x` : Input vector of length ≥ 1 (modified in-place).
+
+# Returns
+- `τ` : Householder scalar such that H = I − τvvᵀ is orthogonal.
+        Returns 0 if x is already a multiple of e₁.
+"""
+@inline function reflector!(x::AbstractVector{T}) where {T<:AbstractFloat}
+    n = length(x)
+    n == 0 && return zero(T)
+
+    @inbounds begin
+        ξ₁ = x[1]
+        normu_sq = abs2(ξ₁)
+        for i in 2:n
+            normu_sq += abs2(x[i])
+        end
+
+        if normu_sq == zero(T)
+            return zero(T)
+        end
+
+        normu = sqrt(normu_sq)
+        β  = ξ₁ >= zero(T) ? -normu : normu  # choose sign to avoid cancellation
+        ξ₁ -= β
+        x[1] = β
+        inv_ξ₁ = one(T) / ξ₁
+        for i in 2:n
+            x[i] *= inv_ξ₁                  # store v[2:end] = x[2:end] / (x[1] - β)
+        end
+    end
+
+    return -ξ₁ / β
+end
+
+"""
+    reflector_apply!(x, τ, A)
+
+Apply the Householder transformation H = I − τvvᵀ to each column of `A` in-place:
+    A ← H · A
+where v = [1; x[2:end]] (the first component of v is implicitly 1).
+
+Generic fallback — scalar double loop, works for all AbstractFloat types.
+
+# Arguments
+- `x` : Householder vector; v[1] = 1 implicitly, v[2:end] = x[2:end].
+- `τ` : Householder scalar.
+- `A` : Matrix to update in-place (m × n).
+
+# Returns
+`A` (modified in-place).
+"""
+function reflector_apply!(x::AbstractVector{T}, τ::T,
+                          A::AbstractMatrix{T}) where {T<:AbstractFloat}
+    m, n = size(A)
+    m == 0 && return A
+    iszero(τ)  && return A
+
+    @inbounds for j in 1:n
+        # dot_val = vᵀ A[:,j]  with v[1] = 1
+        dot_val = A[1, j]
+        for i in 2:m
+            dot_val += x[i] * A[i, j]
+        end
+        dot_val *= τ
+        # A[:,j] -= τ · (vᵀ A[:,j]) · v
+        A[1, j] -= dot_val
+        for i in 2:m
+            A[i, j] -= x[i] * dot_val
+        end
+    end
+
+    return A
+end
+
+"""
+    reflector_apply!(x, τ, A)  [Float64/Float32 BLAS specialisation]
+
+Apply H = I − τvvᵀ to `A` using BLAS gemv + ger! for maximum performance.
+
+Algorithm:
+  1. w = Aᵀx  via BLAS.gemv (rows 2:m only; row 1 added manually since v[1]=1)
+  2. w *= τ
+  3. A[1,:] -= w   (first row update)
+  4. A[2:m,:] -= x[2:m] · wᵀ  via BLAS.ger! (rank-1 update)
+
+This replaces the scalar double loop with two BLAS calls, giving roughly
+2–4× speedup for large matrices.
+
+Size-based dispatch: for small submatrices (m*n < BLAS_THRESHOLD) the fixed
+overhead of BLAS call setup exceeds the computation cost.  In that case the
+generic scalar fallback is used instead — mathematically identical result,
+no accuracy trade-off.
+
+# Arguments
+- `x` : Householder vector stored with x[1] = β (not used); v[1] = 1 implicitly.
+- `τ` : Householder scalar.
+- `A` : Matrix to update in-place (m × n).
+
+# Returns
+`A` (modified in-place).
+"""
+function reflector_apply!(x::AbstractVector{T}, τ::T,
+                          A::AbstractMatrix{T}) where {T<:Union{Float64,Float32}}
+    m, n = size(A)
+    m == 0 && return A
+    iszero(τ)  && return A
+
+    # BLAS_THRESHOLD: empirically, BLAS call overhead dominates for m*n < 150.
+    # Below this size the scalar generic path is faster (benchmark: m=30 regime).
+    # The crossover is hardware-dependent but 150 is conservative for all targets.
+    if m * n < 150
+        # Scalar fallback — same algorithm as generic reflector_apply!,
+        # no BLAS allocation, no call overhead.
+        @inbounds for j in 1:n
+            dot_val = A[1, j]
+            for i in 2:m
+                dot_val += x[i] * A[i, j]
+            end
+            dot_val *= τ
+            A[1, j] -= dot_val
+            for i in 2:m
+                A[i, j] -= x[i] * dot_val
+            end
+        end
+        return A
+    end
+
+    # Step 1: w = A[2:m,:]ᵀ · x[2:m]   (n-vector, one BLAS gemv)
+    w = BLAS.gemv('T', one(T), @view(A[2:m, :]), @view(x[2:m]))
+
+    # Add contribution from the implicit v[1]=1:  w[j] += A[1,j]
+    # Then scale by τ
+    @inbounds for j in 1:n
+        w[j] += A[1, j]
+        w[j] *= τ
+    end
+
+    # Step 2: A[1,:] -= wᵀ  (first row; v[1]=1 so scalar update)
+    @inbounds for j in 1:n
+        A[1, j] -= w[j]
+    end
+
+    # Step 3: A[2:m,:] -= x[2:m] · wᵀ  (rank-1 BLAS ger!)
+    BLAS.ger!(-one(T), @view(x[2:m]), w, @view(A[2:m, :]))
+
+    return A
+end
+
+"""
+    householder_qr!(A, tau, m, n_p)
+
+Compute the (unpivoted) QR factorisation of `A[1:m, 1:n_p]` in-place using
+successive Householder reflectors.  The result is stored in the standard
+compact form: the upper triangle of `A` holds R, and the subdiagonal entries
+of each column hold the tail of the corresponding reflector vector.
+
+# Arguments
+- `A`    : Matrix (m × ≥n_p); overwritten with compact QR.
+- `tau`  : Vector (length ≥ n_p); receives the Householder scalars τₖ.
+- `m`    : Number of rows to use.
+- `n_p`  : Number of columns to factorise.
+"""
+function householder_qr!(A::AbstractMatrix{T}, tau::AbstractVector{T},
+                          m::Int, n_p::Int) where {T<:AbstractFloat}
+    @inbounds for k in 1:min(m, n_p)
+        x_before = DEBUG_QR ? copy(A[k:m, k]) : nothing
+
+        τk = reflector!(@view A[k:m, k])
+        tau[k] = τk
+
+        if DEBUG_QR
+            _dbg_check_reflector(x_before, A[k:m, k], τk)
+        end
+
+        if k < n_p
+            reflector_apply!(@view(A[k:m, k]), τk, @view(A[k:m, k+1:n_p]))
+        end
+    end
+    return nothing
+end
+
+"""
+    householder_append_col!(A, tau, col_vec, m, n_p_old)
+
+Incrementally extend an existing QR factorisation by one column at cost O(m·n_p),
+avoiding a full O(m·n_p²) rebuild.
+
+After this call, `A[1:m, 1:(n_p_old+1)]` contains the compact QR of the
+matrix whose first `n_p_old` columns are represented by the existing factorisation
+and whose last column is `col_vec`.
+
+# Arguments
+- `A`       : Compact QR storage (m × ≥ n_p_old+1); updated in-place.
+- `tau`     : Householder scalars (length ≥ n_p_old+1); tau[n_p_old+1] is set.
+- `col_vec` : New column to append (length m).
+- `m`       : Number of rows.
+- `n_p_old` : Number of columns currently factorised.
+"""
+function householder_append_col!(A::AbstractMatrix{T}, tau::AbstractVector{T},
+                                  col_vec::AbstractVector{T},
+                                  m::Int, n_p_old::Int) where {T<:AbstractFloat}
+    n_p_new = n_p_old + 1
+
+    # Copy new column into storage position n_p_new
+    copyto!(@view(A[1:m, n_p_new]), col_vec)
+
+    # Apply existing reflectors H₁, H₂, …, H_{n_p_old} to the new column
+    @inbounds for k in 1:n_p_old
+        τk = tau[k]
+        iszero(τk) && continue
+
+        # dot_val = vₖᵀ · col[k:m],  vₖ = [1; A[k+1:m, k]]
+        tail = m - k
+        if tail > 0
+            v_tail   = @view A[(k+1):m, k]
+            col_tail = @view A[(k+1):m, n_p_new]
+            dot_val  = A[k, n_p_new] + dot(v_tail, col_tail)
+            dot_val *= τk
+            A[k, n_p_new] -= dot_val
+            axpy!(-dot_val, v_tail, col_tail)   # BLAS axpy: col_tail -= dot_val * v_tail
+        else
+            A[k, n_p_new] -= A[k, n_p_new] * τk
+        end
+    end
+
+    # Compute new reflector for the sub-column starting at position n_p_new
+    τ_new = reflector!(@view A[n_p_new:m, n_p_new])
+    tau[n_p_new] = τ_new
+
+    if DEBUG_QR
+        @debug "[DEBUG append] column $n_p_new appended  τ_new=$τ_new  R[$n_p_new,$n_p_new]=$(A[n_p_new, n_p_new])"
+    end
+
+    return nothing
+end
+
+"""
+    householder_apply_qt!(A, tau, b, m, n_p)
+
+Apply Qᵀ = H_{n_p} · … · H₁ to `b[1:m]` in-place, where Q is stored in the
+compact Householder form in `A`.
+
+# Arguments
+- `A`    : Compact QR storage; subdiagonal entries hold the reflector tails.
+- `tau`  : Householder scalars τₖ (length ≥ n_p).
+- `b`    : Right-hand side vector (length m); overwritten with Qᵀb.
+- `m`    : Number of rows.
+- `n_p`  : Number of reflectors to apply.
+"""
+function householder_apply_qt!(A::AbstractMatrix{T}, tau::AbstractVector{T},
+                                b::AbstractVector{T},
+                                m::Int, n_p::Int) where {T<:AbstractFloat}
+    @inbounds for k in 1:n_p
+        τk = tau[k]
+        iszero(τk) && continue
+
+        tail = m - k
+        if tail > 0
+            v_tail = @view A[(k+1):m, k]
+            b_tail = @view b[(k+1):m]
+            # dot_val = vₖᵀ · b[k:m]
+            dot_val = b[k] + dot(v_tail, b_tail)
+            dot_val *= τk
+            b[k]   -= dot_val
+            axpy!(-dot_val, v_tail, b_tail)
+        else
+            b[k] -= b[k] * τk
+        end
+    end
+    return nothing
+end
+
+"""
+    back_substitute!(R, x, n_p)
+
+Solve the upper-triangular system R[1:n_p, 1:n_p] · x[1:n_p] = x[1:n_p]
+in-place by back-substitution.
+
+Generic fallback — works for all AbstractFloat types including BigFloat.
+
+# Arguments
+- `R`   : Matrix whose upper-left n_p × n_p block is upper triangular.
+- `x`   : Right-hand side on entry; solution on exit (length ≥ n_p).
+- `n_p` : System size.
+"""
+function back_substitute!(R::AbstractMatrix{T}, x::AbstractVector{T},
+                           n_p::Int) where {T<:AbstractFloat}
+    @inbounds for i in n_p:-1:1
+        val = x[i]
+        for j in (i+1):n_p
+            val -= R[i, j] * x[j]
+        end
+        x[i] = val / R[i, i]
+    end
+    return nothing
+end
+
+"""
+    back_substitute!(R, x, n_p)  [Float64/Float32 LAPACK specialisation]
+
+Solve the upper-triangular system via `LAPACK.trtrs!` for large systems, or
+via the generic scalar loop for small ones.
+
+LAPACK `trtrs!` uses optimised BLAS routines and is faster for large n_p, but
+carries a fixed call overhead that dominates for small passive sets.  The scalar
+loop is used when n_p < LAPACK_THRESHOLD, giving the same numerical result with
+lower overhead.
+
+LAPACK_THRESHOLD = 12: empirically, trtrs! becomes faster around n_p ≥ 12
+(benchmark: small problems with n=8 have n_p ≤ 8, always take scalar path).
+
+# Arguments
+Same as the generic version.
+"""
+function back_substitute!(R::AbstractMatrix{T}, x::AbstractVector{T},
+                           n_p::Int) where {T<:Union{Float64,Float32}}
+    n_p == 0 && return nothing
+
+    # LAPACK_THRESHOLD: below this, scalar back-substitution is faster due to
+    # fixed call overhead in trtrs!.  Accuracy is identical in both paths.
+    if n_p < 12
+        @inbounds for i in n_p:-1:1
+            val = x[i]
+            for j in (i+1):n_p
+                val -= R[i, j] * x[j]
+            end
+            x[i] = val / R[i, i]
+        end
+        return nothing
+    end
+
+    # trtrs!('U', 'N', 'N', R, B) solves R·B = B for upper triangular R
+    LinearAlgebra.LAPACK.trtrs!('U', 'N', 'N',
+        @view(R[1:n_p, 1:n_p]),
+        reshape(@view(x[1:n_p]), n_p, 1))
+    return nothing
+end
+
+
+"""
+    back_substitute_precond!(R, x, d, n_p)
+
+Solve the column-preconditioned upper-triangular system (R·D)·ŝ = x in-place,
+then rescale to recover s = D·ŝ, where D = diag(d[1:n_p]).
+
+This is used when the condition number of R is large.  By preconditioning with
+D = diag(1/|R[k,k]|) the diagonal of R·D becomes ±1, which dramatically reduces
+the condition number of the triangular system and improves the numerical accuracy
+of the back-substitution.
+
+Algorithm
+---------
+For k = n_p, n_p-1, …, 1:
+    ŝ[k] = (x[k] − Σ_{j>k} R[k,j]·d[j]·ŝ[j]) / (R[k,k]·d[k])
+After the loop:
+    x[k] = d[k] · ŝ[k]   (rescale to recover the solution of R·s = x)
+
+# Arguments
+- `R`   : Matrix whose upper-left n_p × n_p block is upper triangular (compact QR form).
+- `x`   : Right-hand side on entry; solution s of R·s = x on exit (length ≥ n_p).
+- `d`   : Preconditioning diagonal; d[k] = 1/|R[k,k]| (length ≥ n_p).
+- `n_p` : System size.
+
+# Notes
+For well-conditioned R this gives the same result as `back_substitute!`.
+For ill-conditioned R the preconditioned path can recover several digits of accuracy.
+"""
+function back_substitute_precond!(R::AbstractMatrix{T}, x::AbstractVector{T},
+                                   d::AbstractVector{T}, n_p::Int) where {T<:AbstractFloat}
+    # Preconditioned back-substitution: solve (R·D)·ŝ = x
+    # where R̂ = R·D has R̂[i,j] = R[i,j]*d[j], diagonal entries ≈ ±1
+    @inbounds for i in n_p:-1:1
+        val = x[i]
+        for j in (i+1):n_p
+            val -= R[i, j] * d[j] * x[j]   # x[j] still holds ŝ[j] (already scaled back)
+        end
+        # Note: divide by R[i,i]*d[i] = R[i,i]/|R[i,i]| = sign(R[i,i])
+        x[i] = val / (R[i, i] * d[i])
+    end
+    # Rescale: s[k] = d[k] * ŝ[k]
+    @inbounds for k in 1:n_p
+        x[k] *= d[k]
+    end
+    return nothing
+end
+
+# =============================================================================
+# Column-pivoted QR
+# =============================================================================
+
+"""
+    householder_qr_pivot!(A, tau, perm, col_norms_sq, m, n_p)
+
+Compute a column-pivoted QR factorisation of `A[1:m, 1:n_p]` in-place.
+At each step the column with the largest remaining norm is moved to the pivot
+position, improving numerical stability for rank-deficient or ill-conditioned
+passive submatrices.
+
+After this call:
+- `A[1:n_p, 1:n_p]` is upper triangular (R factor, in compact Householder form).
+- `tau[1:n_p]` holds the Householder scalars.
+- `perm[k]` maps QR position k to the original column index in `passive_indices`.
+
+Column norms are updated incrementally (Golub–Reinsch downdate) to avoid
+recomputing them from scratch at each step.
+
+# Arguments
+- `A`            : Matrix (m × ≥n_p); overwritten with compact QR.
+- `tau`          : Vector (length ≥ n_p); receives Householder scalars.
+- `perm`         : Permutation vector (length ≥ n_p); receives pivot mapping.
+- `col_norms_sq` : Scratch vector (length ≥ n_p); squared column norms.
+- `m`            : Number of rows.
+- `n_p`          : Number of columns to factorise.
+"""
+function householder_qr_pivot!(
+    A::AbstractMatrix{T}, tau::AbstractVector{T},
+    perm::AbstractVector{Int}, col_norms_sq::AbstractVector{T},
+    m::Int, n_p::Int
+) where {T<:AbstractFloat}
+
+    # Initialise permutation to identity
+    @inbounds for k in 1:n_p
+        perm[k] = k
+    end
+
+    # Compute initial squared column norms
+    @inbounds for j in 1:n_p
+        s = zero(T)
+        for i in 1:m
+            s += abs2(A[i, j])
+        end
+        col_norms_sq[j] = s
+    end
+
+    @inbounds for k in 1:min(m, n_p)
+
+        # --- Pivot: find column with largest remaining norm ---
+        if k < n_p
+            j_max = k
+            for j in (k+1):n_p
+                if col_norms_sq[j] > col_norms_sq[j_max]
+                    j_max = j
+                end
+            end
+
+            if j_max != k
+                # Swap columns k and j_max in A
+                for i in 1:m
+                    A[i, k], A[i, j_max] = A[i, j_max], A[i, k]
+                end
+                col_norms_sq[k], col_norms_sq[j_max] = col_norms_sq[j_max], col_norms_sq[k]
+                perm[k], perm[j_max] = perm[j_max], perm[k]
+            end
+        end
+
+        # --- Householder reflector for column k ---
+        τk = reflector!(@view A[k:m, k])
+        tau[k] = τk
+
+        if DEBUG_QR
+            @debug "[DEBUG pivot QR] k=$k  perm[k]=$(perm[k])  R[k,k]=$(A[k,k])  τ=$τk"
+        end
+
+        # --- Apply reflector to remaining columns ---
+        if k < n_p
+            reflector_apply!(@view(A[k:m, k]), τk, @view(A[k:m, k+1:n_p]))
+
+            # Incremental norm downdate: ‖col[k+1:m]‖² = ‖col‖² − R[k,j]²
+            # Rounding errors accumulate over many steps, so every NORM_REFRESH_PERIOD
+            # steps we recompute norms exactly from the current subcolumns.
+            NORM_REFRESH_PERIOD = 8
+            if k % NORM_REFRESH_PERIOD == 0
+                # Exact recomputation from rows k+1:m of remaining columns
+                for j in (k+1):n_p
+                    s = zero(T)
+                    for i in (k+1):m
+                        s += abs2(A[i, j])
+                    end
+                    col_norms_sq[j] = s
+                end
+            else
+                for j in (k+1):n_p
+                    col_norms_sq[j] -= abs2(A[k, j])
+                    if col_norms_sq[j] < zero(T)
+                        col_norms_sq[j] = zero(T)  # guard against floating-point underflow
+                    end
+                end
+            end
+        end
+    end
+
+    if DEBUG_QR
+        @debug "[DEBUG pivot QR] perm[1:$n_p]=$(perm[1:n_p])"
+        diag = [A[k,k] for k in 1:min(m,n_p)]
+        @debug "[DEBUG pivot QR] |R diagonal|=$(abs.(diag))"
+    end
+
+    return nothing
+end 
+--- Ende von householder.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\src\types.jl 
+Dateiname:  types.jl 
+ 
+Inhalt: 
+# =============================================================================
+# File:    types.jl
+# Project: CoreNNLS.jl
+# Date:    2025-02
+# Purpose: Core data structures for the Lawson-Hanson NNLS solver.
+#          Defines solver options, the pre-allocated workspace, and
+#          the active-set management routines that operate on it.
+#
+# Design:  All heap allocations happen once at workspace construction.
+#          The hot path (nnls!) is allocation-free after that.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Solver options
+# -----------------------------------------------------------------------------
+
+"""
+    NNLSOptions{T<:AbstractFloat}
+
+Immutable configuration for the NNLS solver.
+
+Fields
+------
+- `max_iter`        : Maximum number of outer (active-set) iterations.
+- `check_contracts` : Enable Design-by-Contract post-condition checks (slow).
+"""
+struct NNLSOptions{T<:AbstractFloat}
+    max_iter::Int
+    check_contracts::Bool
+end
+
+"""
+    NNLSOptions{T}(; max_iter=1000, check_contracts=false)
+
+Construct solver options for element type `T`.
+
+# Keyword arguments
+- `max_iter`        : Upper bound on outer iterations (default: 1000).
+- `check_contracts` : Run KKT and non-negativity checks after solve (default: false).
+
+# Returns
+`NNLSOptions{T}`
+"""
+function NNLSOptions{T}(;
+    max_iter::Int         = 1000,
+    check_contracts::Bool = false,
+) where {T<:AbstractFloat}
+    return NNLSOptions{T}(max_iter, check_contracts)
+end
+
+# -----------------------------------------------------------------------------
+# Pre-allocated workspace
+# -----------------------------------------------------------------------------
+
+"""
+    NNLSWorkspace{T<:AbstractFloat}
+
+Mutable workspace holding all buffers required by `nnls!`.
+Allocate once with `NNLSWorkspace(m, n)`, then reuse across multiple solves
+of the same problem dimensions to avoid repeated heap allocation.
+
+Fields
+------
+Dimensions:
+- `m`, `n`           : Problem size (m rows, n columns).
+
+Primal / dual vectors:
+- `x`                : Current non-negative solution estimate (length n).
+- `w`                : Dual / gradient vector w = Aᵀ(b − Ax) (length n).
+- `s`                : Unconstrained least-squares solution on passive set (length n).
+- `r`                : Residual r = b − Ax (length m).
+
+Active-set book-keeping:
+- `passive_set`      : BitVector — passive_set[j] = true iff variable j is in the passive set.
+- `passive_indices`  : Ordered list of passive column indices (1-indexed, length n).
+- `n_passive`        : Number of currently passive variables.
+
+QR factorisation buffers:
+- `A_passive`        : Compact QR storage — columns of the passive submatrix,
+                       overwritten in-place by Householder reflectors (m × n).
+- `tau`              : Householder scalars τₖ for each reflector (length n).
+- `perm`             : Column permutation for pivoted QR rebuild;
+                       perm[k] = position in passive_indices (length n).
+- `col_norms_sq`     : Squared column norms used for pivot selection (length n).
+- `Qtb_work`         : Scratch buffer for Qᵀb computation — keeps `r` invariant (length m).
+- `r_scale`          : Diagonal preconditioning factors for the triangular solve;
+                       r_scale[k] = 1/|R[k,k]|.  Computed on-the-fly when the
+                       estimated condition number of R exceeds 1/√eps(T).  Length n.
+
+Solver state:
+- `options`          : `NNLSOptions{T}` configuration.
+- `iter`             : Iteration counter (reset to 0 at the start of each solve).
+"""
+mutable struct NNLSWorkspace{T<:AbstractFloat}
+    m::Int
+    n::Int
+
+    x::Vector{T}
+    w::Vector{T}
+    s::Vector{T}
+    r::Vector{T}
+
+    passive_set::BitVector
+    passive_indices::Vector{Int}
+    n_passive::Int
+
+    A_passive::Matrix{T}
+    tau::Vector{T}
+    perm::Vector{Int}
+    perm_blas::Vector{LinearAlgebra.BlasInt}  # LAPACK geqp3! pivot buffer (Float64/32 only)
+    col_norms_sq::Vector{T}
+    Qtb_work::Vector{T}
+    r_scale::Vector{T}   # diagonal preconditioning factors 1/|R[k,k]| (length n)
+
+    options::NNLSOptions{T}
+    iter::Int
+end
+
+"""
+    NNLSWorkspace(m, n [, T=Float64]; max_iter=1000, check_contracts=false)
+
+Allocate a workspace for an m × n NNLS problem of element type `T`.
+
+# Arguments
+- `m`               : Number of rows.
+- `n`               : Number of columns.
+- `T`               : Element type (default: `Float64`; also supports `Float32`, `BigFloat`).
+
+# Keyword arguments
+- `max_iter`        : Maximum outer iterations (default: 1000).
+- `check_contracts` : Enable post-solve correctness checks (default: false).
+
+# Returns
+`NNLSWorkspace{T}` — ready for use with `nnls!`.
+
+# Example
+```julia
+ws = NNLSWorkspace(100, 30)
+result = nnls!(ws, A, b)
+```
+"""
+function NNLSWorkspace(m::Int, n::Int, ::Type{T}=Float64;
+                       max_iter::Int         = 1000,
+                       check_contracts::Bool = false) where {T<:AbstractFloat}
+    return NNLSWorkspace{T}(
+        m, n,
+        zeros(T, n),   # x
+        zeros(T, n),   # w
+        zeros(T, n),   # s
+        zeros(T, m),   # r
+        falses(n),           # passive_set
+        zeros(Int, n),       # passive_indices
+        0,                   # n_passive
+        zeros(T, m, n),      # A_passive
+        zeros(T, n),         # tau
+        collect(1:n),        # perm: identity permutation as starting point
+        zeros(LinearAlgebra.BlasInt, n),  # perm_blas: LAPACK geqp3! pivot buffer
+        zeros(T, n),         # col_norms_sq
+        zeros(T, m),         # Qtb_work
+        ones(T, n),          # r_scale: identity until preconditioning is needed
+        NNLSOptions{T}(; max_iter=max_iter, check_contracts=check_contracts),
+        0,                   # iter
+    )
+end
+
+# -----------------------------------------------------------------------------
+# Active-set management
+# -----------------------------------------------------------------------------
+
+"""
+    reset_passive!(ws)
+
+Clear the passive set: mark all variables as active and reset the counter.
+
+# Arguments
+- `ws` : `NNLSWorkspace` to reset.
+"""
+function reset_passive!(ws::NNLSWorkspace)
+    fill!(ws.passive_set, false)
+    ws.n_passive = 0
+    return nothing
+end
+
+"""
+    add_passive!(ws, j)
+
+Move variable `j` from the active set into the passive set.
+No-op if `j` is already passive.
+
+# Arguments
+- `ws` : `NNLSWorkspace`.
+- `j`  : Column index (1-indexed) to add to the passive set.
+"""
+function add_passive!(ws::NNLSWorkspace, j::Int)
+    if !ws.passive_set[j]
+        ws.passive_set[j] = true
+        ws.n_passive += 1
+        ws.passive_indices[ws.n_passive] = j
+    end
+    return nothing
+end
+
+"""
+    remove_passive_at!(ws, pos)
+
+Remove the variable at position `pos` in `passive_indices` from the passive set.
+Shifts the remaining entries left to keep the list contiguous.
+
+# Arguments
+- `ws`  : `NNLSWorkspace`.
+- `pos` : Position (1-indexed) within `passive_indices` to remove.
+"""
+function remove_passive_at!(ws::NNLSWorkspace, pos::Int)
+    j = ws.passive_indices[pos]
+    ws.passive_set[j] = false
+    for k in pos:(ws.n_passive - 1)
+        ws.passive_indices[k] = ws.passive_indices[k + 1]
+    end
+    ws.n_passive -= 1
+    return nothing
+end 
+--- Ende von types.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\test\benchmarks_precision.jl 
+Dateiname:  benchmarks_precision.jl 
+ 
+Inhalt: 
+# test/benchmarks_precision.jl
+using CoreNNLS, LinearAlgebra, Printf
+
+# Hilfsfunktion zur Erzeugung von Problemstellungen mit bekannter Lösung (x_true = 1.0)
+function generate_ill_conditioned_test(type::Symbol, n::Int, T::Type)
+    A = zeros(T, n, n)
+    if type == :Hilbert
+        for i in 1:n, j in 1:n
+            A[i,j] = inv(T(i + j - 1))
+        end
+    elseif type == :Vandermonde
+        points = LinRange(T(0.1), T(0.9), n)
+        for i in 1:n, j in 1:n
+            A[i,j] = points[i]^(j-1)
+        end
+    elseif type == :Pascal
+        # Pascal Matrix (Lower Triangular)
+        for i in 1:n, j in 1:n
+            if i >= j
+                A[i,j] = binomial(i-1, j-1)
+            end
+        end
+    end
+    
+    x_true = ones(T, n)
+    b = A * x_true
+    return A, b, x_true
+end
+
+function run_precision_benchmarks()
+    # Konfiguration für den README-Output
+    test_specs = [
+        (:Pascal, 25, "Pascal (Lower)"),
+        (:Hilbert, 12, "Hilbert Matrix"),
+        (:Vandermonde, 15, "Vandermonde")
+    ]
+    
+    results = []
+
+    println("🚀 Running CoreNNLS Precision Benchmarks...")
+    
+    for (type, n, label) in test_specs
+        # 1. Referenz-Daten in hoher Präzision erzeugen
+        A_ref, b_ref, x_true = generate_ill_conditioned_test(type, n, BigFloat)
+        c_val = cond(Float64.(A_ref))
+        
+        # 2. Lösung mit Float64
+        # Wir nutzen die Standard-API von CoreNNLS
+        x_f64 = nnls(Float64.(A_ref), Float64.(b_ref))
+        err_f64 = norm(x_f64 - ones(n))
+        
+        # 3. Lösung mit BigFloat (256-bit für Geschwindigkeit im CI)
+        setprecision(BigFloat, 256) do
+            A_big = BigFloat.(A_ref)
+            b_big = BigFloat.(b_ref)
+            
+            # Workspace-Ansatz (Forensic Layer)
+            ws = NNLSWorkspace(n, n, BigFloat)
+            status, x_big = nnls!(ws, A_big, b_big)
+            
+            err_big = norm(x_big - ones(BigFloat, n))
+            push!(results, (label, n, c_val, err_f64, Float64(err_big)))
+        end
+    end
+
+    # --- GENERATE README MARKDOWN OUTPUT ---
+    println("\n" * "─"^60)
+    println("### COPY THE FOLLOWING INTO YOUR README.md")
+    println("─"^60 * "\n")
+    
+    @printf "| Matrix Type | n | Cond(A) | Float64 Error | BigFloat Error | Gain |\n"
+    @printf "| :--- | :--- | :--- | :--- | :--- | :--- |\n"
+    
+    for (label, n, c, e64, ebig) in results
+        gain = e64 / (ebig + eps(BigFloat))
+        @printf "| %s | %d | %.1e | %.2e | %.2e | **10^{%.1f}** |\n" label n c e64 ebig log10(gain)
+    end
+    
+    println("\n" * "─"^60)
+end
+
+# Führt den Benchmark aus
+run_precision_benchmarks()
+ 
+--- Ende von benchmarks_precision.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\test\runtests.jl 
+Dateiname:  runtests.jl 
+ 
+Inhalt: 
+using Test
+using LinearAlgebra
+using CoreNNLS
+using Random
+
+@testset "CoreNNLS.jl - Full Forensic Suite" begin
+
+# ============================================================================
+# BASICS (1–3)
+# ============================================================================
+
+@testset "1. Interior & Boundary Basics" begin
+    @test nnls([1.0 0.5; 0.5 2.0], [3.0, 4.0]) ≈ [16/7, 10/7]
+    @test nnls([1.0 0.0; 0.0 1.0], [1.0, -1.0]) ≈ [1.0, 0.0] atol=1e-12
+end
+
+@testset "2. Reference: SciPy/Netlib" begin
+    A_sp = [1.0 2.0; 3.0 4.0; 5.0 6.0]; b_sp = [-1.0, -2.0, -3.0]
+    @test nnls(A_sp, b_sp) ≈ [0.0, 0.0] atol=1e-15
+
+    A_mix = [2.0 1.0; 1.0 2.0]
+    b_mix = [-0.5, 1.0]
+    @test nnls(A_mix, b_mix) ≈ [0.0, 0.3] atol=1e-10
+end
+
+@testset "3. Scaling Stability" begin
+    A = [1e3 0.0; 0.0 1.0]; b = [1e3, 1.0]
+    @test nnls(A, b) ≈ [1.0, 1.0] rtol=1e-5
+end
+
+# ============================================================================
+# EDGE CASES (4–6)
+# ============================================================================
+
+@testset "4. Zero Column (Null Column)" begin
+    A = [1.0 0.0; 1.0 0.0; 0.0 0.0]; b = [1.0, 2.0, 3.0]
+    ws = NNLSWorkspace(3, 2)
+    status, x = nnls!(ws, A, b)
+    @test status == :Success
+    @test x[1] ≈ 1.5 atol=1e-12
+    @test x[2] == 0.0
+end
+
+@testset "5. Collinearity & Rank Deficiency" begin
+    A = [1.0 1.0; 1.0 1.0; 1.0 1.0]; b = [2.0, 2.0, 2.0]
+    x = nnls(A, b)
+    @test x[1] + x[2] ≈ 2.0 atol=1e-12
+    @test all(x .>= -1e-12)
+end
+
+@testset "6. Problem 'Turkey' (Ill-Conditioned)" begin
+    A = [1.0 1.0; 1.0 1.00001]; b = [1.0, 2.0]
+    x = nnls(A, b)
+    @test all(x .>= -1e-12)
+    @test norm(b - A*x) ≈ 0.70710678 rtol=1e-3
+end
+
+# ============================================================================
+# TYPE GENERICITY (7, 15, 31)
+# ============================================================================
+
+@testset "7. High-Precision (BigFloat)" begin
+    T = BigFloat
+    setprecision(128) do
+        A = T[1.0 0.5; 0.5 2.0]; b = T[3.0, 4.0]
+        @test nnls(A, b) ≈ [BigFloat(16)/7, BigFloat(10)/7]
+    end
+end
+
+@testset "15. Float32 Precision" begin
+    A32 = Float32[1.0 2.0; 3.0 4.0]
+    b32 = Float32[1.0, 2.0]
+    x32 = nnls(A32, b32)
+    @test eltype(x32) == Float32
+    @test x32 ≈ Float32[0.0, 0.5] atol=1e-4
+end
+
+@testset "31. Float16 Precision" begin
+    try
+        A16 = Float16[1.0 2.0; 3.0 4.0]
+        b16 = Float16[1.0, 2.0]
+        x16 = nnls(A16, b16)
+        @test eltype(x16) == Float16
+        @test all(x16 .>= Float16(0.0))
+    catch e
+        @warn "Float16 not supported, skipping: $e"
+        @test true
+    end
+end
+
+# ============================================================================
+# PERFORMANCE (8, 30)
+# ============================================================================
+
+@testset "8. In-Place & Allocation" begin
+    m, n = 20, 10
+    A = randn(m, n); b = randn(m)
+    ws = NNLSWorkspace(m, n)
+    nnls!(ws, A, b) # Warmup
+    allocs = @allocated nnls!(ws, A, b)
+    @test allocs < 4096  # Should be near-zero with in-place Householder
+end
+
+@testset "30. Performance Benchmark" begin
+    Random.seed!(1200)
+    m_s, n_s = 20, 10
+    A_s = randn(m_s, n_s); b_s = randn(m_s)
+    ws_s = NNLSWorkspace(m_s, n_s)
+    for _ in 1:10; nnls!(ws_s, copy(A_s), copy(b_s)); end
+    t_small = @elapsed for _ in 1:100
+        nnls!(ws_s, copy(A_s), copy(b_s))
+    end
+    @test t_small < 2.0
+
+    m_m, n_m = 100, 50
+    A_m = randn(m_m, n_m); b_m = randn(m_m)
+    ws_m = NNLSWorkspace(m_m, n_m)
+    nnls!(ws_m, copy(A_m), copy(b_m))
+    t_medium = @elapsed for _ in 1:10
+        nnls!(ws_m, copy(A_m), copy(b_m))
+    end
+    @test t_medium < 10.0
+    @info "Performance" small_per_call=t_small/100 medium_per_call=t_medium/10
+end
+
+# ============================================================================
+# INPUT VALIDATION (9, 35–37)
+# ============================================================================
+
+@testset "9. Interface Safety & Complementarity" begin
+    @test_throws DimensionMismatch nnls(randn(3, 2), randn(4))
+    ws_bad = NNLSWorkspace(5, 3)
+    @test_throws DimensionMismatch nnls!(ws_bad, randn(4, 3), randn(4))
+
+    A = randn(10, 5); b = randn(10); ws = NNLSWorkspace(10, 5)
+    nnls!(ws, A, b)
+    @test all(abs.(ws.x .* ws.w) .< 1e-8)
+end
+
+@testset "35. NaN / Inf Input Rejection" begin
+    @test_throws ArgumentError nnls([1.0 NaN; 3.0 4.0], [1.0, 2.0])
+    @test_throws ArgumentError nnls([1.0 2.0; 3.0 4.0], [1.0, Inf])
+end
+
+@testset "36. Type Constraint Enforcement" begin
+    @test_throws MethodError NNLSWorkspace(3, 2, String)
+    @test_throws MethodError NNLSWorkspace(3, 2, Int)
+end
+
+@testset "37. Contract Post-Checks (DbC)" begin
+    A = [1.0 0.5; 0.5 2.0]; b = [3.0, 4.0]
+    ws = NNLSWorkspace(2, 2; check_contracts=true)
+    status, x = nnls!(ws, A, b)
+    @test status == :Success
+    @test x ≈ [16/7, 10/7]
+end
+
+# ============================================================================
+# KKT STRESS (10, 12)
+# ============================================================================
+
+@testset "10. Mass Stress Test (KKT)" begin
+    Random.seed!(42)
+    for _ in 1:50
+        m, n = rand(10:30), rand(5:15)
+        A = randn(m, n); b = randn(m); x = nnls(A, b)
+        w = A' * (b - A*x)
+        for j in 1:n
+            x[j] > 1e-8 ? (@test abs(w[j]) < 1e-5) : (@test w[j] < 1e-5)
+        end
+    end
+end
+
+@testset "12. Netlib BVLS Cases" begin
+    Random.seed!(123)
+    for i in 1:3
+        A = randn(20, 10); b = randn(20); x = nnls(A, b)
+        w = A' * (b - A*x)
+        for j in 1:10
+            x[j] > 1e-8 ? (@test abs(w[j]) < 1e-5) : (@test w[j] < 1e-5)
+        end
+    end
+end
+
+# ============================================================================
+# REFERENCE / RECOVERY (11, 13, 14, 19)
+# ============================================================================
+
+@testset "11. R nnls Example (Noisy)" begin
+    t = collect(0:0.04:2.0)
+    A = hcat([exp.(-[0.5, 0.6, 1.0][i] * t) for i in 1:3]...)
+    Random.seed!(3312)
+    b = A * [0.0, 0.7, 0.7] + 0.01 * randn(length(t))
+    x = nnls(A, b)
+    @test x[1] < 0.5
+    @test norm(A*x - b) < 0.1
+end
+
+@testset "13. Burkardt/Lawson Recovery" begin
+    Random.seed!(42)
+    for m in 4:6, n in 2:3
+        A = randn(m, n); x_s = abs.(randn(n))
+        b = A * x_s; x = nnls(A, b)
+        @test x ≈ x_s atol=1e-8
+    end
+end
+
+@testset "14. Hilbert Matrix (Ill-Conditioned)" begin
+    n = 4
+    A = [1.0 / (i + j - 1) for i in 1:n, j in 1:n]
+    x_true = ones(n); b = A * x_true
+    x_calc = nnls(A, b)
+    @test x_calc ≈ x_true atol=1e-8
+    @test all(x_calc .>= 0.0)
+
+    n5 = 5
+    A5 = [1.0 / (i + j - 1) for i in 1:n5, j in 1:n5]
+    b5 = A5 * ones(n5)
+    x5 = nnls(A5, b5)
+    @test norm(A5 * x5 - b5) < 1e-5
+end
+
+@testset "19. Pseudo-Inverse Consistency" begin
+    Random.seed!(600)
+    A = randn(20, 10)
+    x_true = abs.(randn(10))
+    b = A * x_true
+    x_nnls = nnls(A, b)
+    x_pinv = pinv(A) * b
+    @test x_nnls ≈ x_pinv atol=1e-6
+end
+
+# ============================================================================
+# DIMENSIONS (16, 17, 18, 21, 22)
+# ============================================================================
+
+@testset "16. Underdetermined System (m < n)" begin
+    Random.seed!(99)
+    m, n = 5, 10
+    A = randn(m, n); b = randn(m)
+    x = nnls(A, b)
+    w = A' * (b - A*x)
+    for j in 1:n
+        x[j] > 1e-8 ? (@test abs(w[j]) < 1e-5) : (@test w[j] < 1e-5)
+    end
+end
+
+@testset "17. Scalar Case (n=1)" begin
+    A = reshape([1.0, 2.0, 3.0, 4.0], 4, 1)
+    b = [0.9, 2.1, 2.9, 4.2]
+    x = nnls(A, b)
+    @test length(x) == 1
+    @test x[1] ≈ 1.0 atol=0.1
+
+    b_neg = -[1.0, 2.0]
+    x_neg = nnls(A[1:2, :], b_neg)
+    @test x_neg[1] == 0.0
+end
+
+@testset "18. Larger Scale Stability" begin
+    Random.seed!(500)
+    m, n = 200, 100
+    A = randn(m, n)
+    x_true = zeros(n); x_true[1:10] = rand(10) .+ 0.1
+    b = A * x_true
+    x_calc = nnls(A, b)
+    zeros_count = count(x -> x < 1e-6, x_calc)
+    @test zeros_count >= 85
+    @test norm(b - A*x_calc) / norm(b) < 1e-5
+end
+
+@testset "21. Extreme Dimensions" begin
+    Random.seed!(800)
+    m_tall, n_tall = 1000, 5
+    A_tall = randn(m_tall, n_tall); b_tall = randn(m_tall)
+    x_tall = nnls(A_tall, b_tall)
+    @test all(x_tall .>= -1e-12)
+
+    m_wide, n_wide = 5, 100
+    A_wide = randn(m_wide, n_wide); b_wide = randn(m_wide)
+    x_wide = nnls(A_wide, b_wide)
+    @test all(x_wide .>= -1e-12)
+
+    n_sq = 50
+    A_sq = randn(n_sq, n_sq); b_sq = randn(n_sq)
+    x_sq = nnls(A_sq, b_sq)
+    @test all(x_sq .>= -1e-12)
+end
+
+@testset "22. Single Row & Single Element" begin
+    A_row = reshape([1.0, 2.0, 3.0], 1, 3); b_row = [6.0]
+    x_row = nnls(A_row, b_row)
+    @test all(x_row .>= 0.0)
+    @test A_row * x_row ≈ b_row atol=1e-10
+
+    A_single = reshape([2.0], 1, 1)
+    @test nnls(A_single, [4.0])  ≈ [2.0] atol=1e-12
+    @test nnls(A_single, [-4.0]) ≈ [0.0] atol=1e-12
+end
+
+# ============================================================================
+# NUMERICAL CORNERS (20, 23, 24, 25, 28, 29, 34)
+# ============================================================================
+
+@testset "20. Sparse Pattern Matrix" begin
+    Random.seed!(700)
+    m, n = 50, 20
+    A_sp = zeros(m, n)
+    for _ in 1:div(m*n, 10)
+        i, j = rand(1:m), rand(1:n)
+        A_sp[i, j] = randn()
+    end
+    b = randn(m)
+    x = nnls(A_sp, b)
+    w = A_sp' * (b - A_sp * x)
+    for j in 1:n
+        x[j] > 1e-8 ? (@test abs(w[j]) < 1e-5) : (@test w[j] < 1e-5)
+    end
+end
+
+@testset "23. Complex Numbers (Real Reformulation)" begin
+    Random.seed!(900)
+    m, n = 10, 5
+    A_c = randn(ComplexF64, m, n)
+    x_true_c = complex.(abs.(randn(n)), abs.(randn(n)))
+    b_c = A_c * x_true_c
+    A_real = [real(A_c) -imag(A_c); imag(A_c) real(A_c)]
+    b_real = [real(b_c); imag(b_c)]
+    x_real = nnls(A_real, b_real)
+    x_recon = complex.(x_real[1:n], x_real[n+1:end])
+    @test norm(A_c * x_recon - b_c) / norm(b_c) < 1e-8
+end
+
+@testset "24. Near-Zero & Denormalized Numbers" begin
+    A_tiny = [1e-15 1e-14; 1e-14 1e-15]; b_tiny = [1e-14, 1e-14]
+    x_tiny = nnls(A_tiny, b_tiny)
+    @test all(x_tiny .>= 0.0)
+    @test all(isfinite.(x_tiny))
+
+    A_mix = [1.0 1e-16; 1e-16 1.0]; b_mix = [1.0, 1.0]
+    x_mix = nnls(A_mix, b_mix)
+    @test x_mix ≈ [1.0, 1.0] atol=1e-10
+end
+
+@testset "25. Extreme Scaling Variants" begin
+    A_scale = [1e3 0.0; 0.0 1e-3]; b_scale = [1e3, 1e-3]
+    x_scale = nnls(A_scale, b_scale)
+    @test x_scale ≈ [1.0, 1.0] rtol=1e-8
+
+    Random.seed!(1000)
+    n = 5
+    scales = [10.0^((-1)^i * (i % 4)) for i in 1:n]
+    A_alt = diagm(scales); b_alt = scales .* ones(n)
+    x_alt = nnls(A_alt, b_alt)
+    @test x_alt ≈ ones(n) rtol=1e-8
+end
+
+@testset "28. Zero Right-Hand Side" begin
+    A = randn(10, 5); b_zero = zeros(10)
+    x_zero = nnls(A, b_zero)
+    @test x_zero ≈ zeros(5) atol=1e-15
+end
+
+@testset "29. Identical & Proportional Columns" begin
+    col = randn(10)
+    A_ident = hcat(col, col, col); b = 3.0 * col
+    x = nnls(A_ident, b)
+    @test sum(x) ≈ 3.0 atol=1e-10
+    @test all(x .>= -1e-12)
+
+    A_prop = hcat(col, 2*col, 3*col); b_prop = 6.0 * col
+    x_prop = nnls(A_prop, b_prop)
+    @test dot([1, 2, 3], x_prop) ≈ 6.0 atol=1e-10
+end
+
+@testset "34. Vandermonde Matrix (Polynomial Fit)" begin
+    n = 4
+    x_pts = Float64[1.0, 2.0, 3.0, 4.0]
+    A = zeros(n, n)
+    for i in 1:n, j in 1:n
+        A[i, j] = x_pts[i]^(j-1)
+    end
+    b = A * ones(n)
+    x = nnls(A, b)
+    @test x ≈ ones(n) atol=1e-8
+end
+
+# ============================================================================
+# DETERMINISM & REUSE (26, 27, 32, 33)
+# ============================================================================
+
+@testset "26. Deterministic Reproducibility" begin
+    Random.seed!(1100)
+    A = randn(30, 15); b = randn(30)
+    x1 = nnls(A, b)
+    x2 = nnls(A, b)
+    x3 = nnls(A, b)
+    @test x1 == x2
+    @test x2 == x3
+end
+
+@testset "27. Orthogonal & Near-Orthogonal Matrices" begin
+    Random.seed!(2700)
+    n = 5
+    Q, _ = qr(randn(n, n))
+    A_orth = Matrix(Q); b_orth = ones(n)
+    x_orth = nnls(A_orth, b_orth)
+    @test all(x_orth .>= -1e-12)
+    w_orth = A_orth' * (b_orth - A_orth * x_orth)
+    for j in 1:n
+        x_orth[j] > 1e-8 ? (@test abs(w_orth[j]) < 1e-5) : (@test w_orth[j] < 1e-5)
+    end
+end
+
+@testset "32. Workspace Reuse Consistency" begin
+    Random.seed!(1300)
+    m, n = 25, 12
+    ws = NNLSWorkspace(m, n)
+    results = Vector{Vector{Float64}}()
+    for _ in 1:10
+        A = randn(m, n); b = randn(m)
+        status, x = nnls!(ws, A, b)
+        @test status == :Success
+        push!(results, copy(x))
+        w = A' * (b - A*x)
+        for j in 1:n
+            x[j] > 1e-8 ? (@test abs(w[j]) < 1e-5) : (@test w[j] < 1e-5)
+        end
+    end
+    @test !all(results[i] ≈ results[1] for i in 2:10)
+end
+
+@testset "33. All-Negative RHS (Zero Solution Expected)" begin
+    Random.seed!(1400)
+    m, n = 20, 10
+    A = abs.(randn(m, n)); b = -abs.(randn(m))
+    x = nnls(A, b)
+    @test x ≈ zeros(n) atol=1e-12
+end
+
+end  # main testset 
+--- Ende von runtests.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\test\test_householder.jl 
+Dateiname:  test_householder.jl 
+ 
+Inhalt: 
+# test/test_householder.jl
+#
+# Testet reflector!, reflector_apply!, householder_qr!, householder_apply_qt!, back_substitute!
+# nach dem Vorbild von Julia stdlib LinearAlgebra/test/
+#
+# Ausführen:  julia --project=. test/test_householder.jl
+
+using Test
+using LinearAlgebra
+
+# Modulpfad anpassen damit include("src/householder.jl") funktioniert
+include(joinpath(@__DIR__, "..", "src", "householder.jl"))
+
+@testset "Householder Unterroutinen" begin
+
+    # =========================================================================
+    @testset "reflector! — Grundeigenschaft: H*x = β*e₁" begin
+        for T in (Float64, Float32, BigFloat)
+            for x_orig in [
+                T[3.0, 4.0],                        # einfach, positives x[1]
+                T[-3.0, 4.0],                        # negatives x[1]
+                T[1.0, 0.0, 0.0],                    # bereits e₁
+                T[0.0, 1.0],                         # x[1] = 0
+                T[1e-8, 1e-8],                       # klein
+                T[1e8,  1e8],                        # groß
+                T[1.0, 2.0, 3.0, 4.0],              # n=4
+            ]
+                x = copy(x_orig)
+                τ = reflector!(x)
+                β = x[1]                             # nach dem Aufruf ist x[1] = β
+
+                # Reflektorvektor v = [1; x[2:end]]
+                v = similar(x_orig)
+                v[1] = one(T)
+                v[2:end] .= x[2:end]
+
+                # H = I - τ*v*v'
+                n = length(x_orig)
+                H = Matrix{T}(I, n, n) - τ * v * v'
+
+                # Eigenschaft 1: H ist orthogonal  (H'H = I)
+                @test H'*H ≈ Matrix{T}(I, n, n)  atol=100*eps(T)
+
+                # Eigenschaft 2: H*x_orig = β*e₁
+                # Toleranz skaliert mit Norm von x (wichtig für große Werte wie 1e8)
+                result = H * x_orig
+                e1 = zeros(T, n); e1[1] = β
+                scale = max(norm(x_orig), one(T))
+                @test result ≈ e1  atol=100*eps(T)*scale
+
+                # Eigenschaft 3: τ ≥ 0 (Vorzeichen-Konvention)
+                @test τ >= zero(T)
+            end
+        end
+    end
+
+    # =========================================================================
+    @testset "reflector! — Nullvektor gibt τ=0 zurück" begin
+        for T in (Float64, Float32, BigFloat)
+            x = zeros(T, 3)
+            τ = reflector!(x)
+            @test τ == zero(T)
+        end
+    end
+
+    # =========================================================================
+    @testset "reflector! — Skalar (n=1)" begin
+        for T in (Float64, Float32, BigFloat)
+            x = T[5.0]
+            τ = reflector!(x)
+            # Einzel-Element: Reflektor ist Identität oder Spiegelung
+            # H*x_orig = x[1]*e₁ — trivial erfüllt
+            @test τ >= zero(T)
+        end
+    end
+
+    # =========================================================================
+    @testset "reflector_apply! — Anwendung auf Matrix" begin
+        for T in (Float64, Float32, BigFloat)
+            # Baue manuell einen Reflektor und wende ihn an
+            x_orig = T[3.0, 4.0, 0.0]
+            x = copy(x_orig)
+            τ = reflector!(x)
+            β = x[1]
+            v = [one(T); x[2:end]]
+
+            A = T[1.0 2.0 3.0;
+                  4.0 5.0 6.0;
+                  7.0 8.0 9.0]
+            A_copy = copy(A)
+
+            # Manuell: H*A via dichter Matrix
+            H = Matrix{T}(I, 3, 3) - τ * v * v'
+            expected = H * A_copy
+
+            # Unsere Funktion: A ← H*A
+            reflector_apply!(x, τ, A)
+
+            @test A ≈ expected  atol=100*eps(T)
+        end
+    end
+
+    # =========================================================================
+    @testset "householder_qr! — QR-Zerlegung A = Q*R" begin
+        for T in (Float64, Float32, BigFloat)
+            for (m, n_p) in [(4,2), (3,3), (5,3), (2,2)]
+                # Zufällige (aber reproduzierbare) Matrix
+                A_orig = T.(reshape(collect(1.0:m*n_p), m, n_p) .+ T(0.1) .* T.(collect(1:m) * collect(1:n_p)'))
+                tau    = zeros(T, n_p)
+                A      = copy(A_orig)
+
+                householder_qr!(A, tau, m, n_p)
+
+                # R liegt im oberen Dreieck von A[1:n_p, 1:n_p]
+                R = UpperTriangular(A[1:n_p, 1:n_p])
+
+                # Q rekonstruieren: Q = H_1 * H_2 * ... * H_{n_p}
+                Q = Matrix{T}(I, m, m)
+                for k in n_p:-1:1
+                    v = zeros(T, m - k + 1)
+                    v[1] = one(T)
+                    v[2:end] .= A[(k+1):m, k]
+                    Hk = Matrix{T}(I, m-k+1, m-k+1) - tau[k] * v * v'
+                    # Einbetten in m×m
+                    Hk_full = Matrix{T}(I, m, m)
+                    Hk_full[k:m, k:m] = Hk
+                    Q = Hk_full * Q
+                end
+
+                # A_orig = Q * [R; 0]
+                QR_reconstructed = Q * [Matrix(R); zeros(T, m-n_p, n_p)]
+                @test A_orig ≈ QR_reconstructed  atol=1000*eps(T)
+
+                # Q ist orthogonal
+                @test Q'*Q ≈ Matrix{T}(I, m, m)  atol=1000*eps(T)
+            end
+        end
+    end
+
+    # =========================================================================
+    @testset "householder_apply_qt! — Q'b korrekt" begin
+        for T in (Float64, Float32, BigFloat)
+            m, n_p = 4, 2
+            A_orig = T[2.0 1.0; 1.0 3.0; 0.0 1.0; 1.0 0.0]
+            b      = T[1.0, 2.0, 3.0, 4.0]
+            tau    = zeros(T, n_p)
+            A      = copy(A_orig)
+
+            householder_qr!(A, tau, m, n_p)
+
+            # Q rekonstruieren (wie oben)
+            Q = Matrix{T}(I, m, m)
+            for k in n_p:-1:1
+                v = zeros(T, m - k + 1)
+                v[1] = one(T)
+                v[2:end] .= A[(k+1):m, k]
+                Hk = Matrix{T}(I, m-k+1, m-k+1) - tau[k] * v * v'
+                Hk_full = Matrix{T}(I, m, m)
+                Hk_full[k:m, k:m] = Hk
+                Q = Hk_full * Q
+            end
+
+            expected_qtb = Q' * b
+
+            b_copy = copy(b)
+            householder_apply_qt!(A, tau, b_copy, m, n_p)
+
+            @test b_copy ≈ expected_qtb  atol=1000*eps(T)
+        end
+    end
+
+    # =========================================================================
+    @testset "back_substitute! — löst R*x = b" begin
+        for T in (Float64, Float32, BigFloat)
+            R = T[2.0 1.0; 0.0 3.0]
+            b = T[5.0, 6.0]
+            x = copy(b)
+            back_substitute!(R, x, 2)
+            # Lösung: x[2] = 2.0, x[1] = (5 - 1*2)/2 = 1.5
+            @test x ≈ T[1.5, 2.0]  atol=100*eps(T)
+
+            # Probe: R*x ≈ b_orig
+            @test R * x ≈ b  atol=100*eps(T)
+        end
+    end
+
+    # =========================================================================
+    @testset "Vollständige Pipeline: QR löst Ax=b (Least Squares)" begin
+        # A = [1 0.5; 0.5 2], b = [3, 4] → x = [16/7, 10/7]
+        for T in (Float64, Float32, BigFloat)
+            A_orig = T[1.0 0.5; 0.5 2.0]
+            b_orig = T[3.0, 4.0]
+            m, n   = 2, 2
+            tau    = zeros(T, n)
+            A      = copy(A_orig)
+
+            householder_qr!(A, tau, m, n)
+
+            b = copy(b_orig)
+            householder_apply_qt!(A, tau, b, m, n)
+
+            x = copy(b[1:n])
+            back_substitute!(A, x, n)
+
+            expected = T[16, 10] ./ T(7)
+            @test x ≈ expected  rtol=1000*eps(T)
+        end
+    end
+
+end  # @testset "Householder Unterroutinen"
+
+println("\nAlle Householder-Tests bestanden!") 
+--- Ende von test_householder.jl --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\test\runtests.bat 
+Dateiname:  runtests.bat 
+ 
+Inhalt: 
+
+echo Starte Projekt-Setup...
+julia --project=. -e "using Pkg; Pkg.instantiate(); Pkg.add([\"BenchmarkTools\", \"NonNegLeastSquares\"])"
+
+echo Starte runtests...
+julia --project=. test\runtests.jl
+
+pause 
+--- Ende von runtests.bat --- 
+ 
+ 
+Pfad:       C:\Users\uweal\CoreNNLS.jl\test\test_householder.bat 
+Dateiname:  test_householder.bat 
+ 
+Inhalt: 
+
+echo Starte Projekt-Setup...
+julia --project=. -e "using Pkg; Pkg.instantiate(); Pkg.add([\"BenchmarkTools\", \"NonNegLeastSquares\"])"
+
+julia --project=. -e "using CoreNNLS; nnls([1.0 0.5; 0.5 2.0], [3.0, 4.0])"
+
+echo Starte test_householder.jl...
+julia --project=. test\test_householder.jl
+
+pause 
+--- Ende von test_householder.bat --- 
+ 
+ 

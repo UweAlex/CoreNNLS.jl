@@ -1,134 +1,219 @@
+# =============================================================================
+# File:    types.jl
+# Project: CoreNNLS.jl
+# Date:    2025-02
+# Purpose: Core data structures for the Lawson-Hanson NNLS solver.
+#          Defines solver options, the pre-allocated workspace, and
+#          the active-set management routines that operate on it.
+#
+# Design:  All heap allocations happen once at workspace construction.
+#          The hot path (nnls!) is allocation-free after that.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Solver options
+# -----------------------------------------------------------------------------
+
 """
-    NNLSOptions{T}
+    NNLSOptions{T<:AbstractFloat}
 
-Parameters controlling solver behavior.
+Immutable configuration for the NNLS solver.
 
-# Fields
-- `dual_tol`:  Tolerance for dual feasibility (KKT optimality of free gradient).
-- `feas_tol`:  Tolerance for feasibility of intermediate LS solutions (s >= -feas_tol).
-- `zero_tol`:  Threshold below which a variable is clamped to zero.
-- `rank_tol`:  Tolerance for detecting rank deficiency in QR diagonal.
-- `max_iter`:  Maximum outer iterations (anti-cycling safeguard).
-- `check_contracts`: Enable runtime DbC post-condition checks (default: false).
+Fields
+------
+- `max_iter`        : Maximum number of outer (active-set) iterations.
+- `check_contracts` : Enable Design-by-Contract post-condition checks (slow).
 """
 struct NNLSOptions{T<:AbstractFloat}
-    dual_tol::T
-    feas_tol::T
-    zero_tol::T
-    rank_tol::T
     max_iter::Int
     check_contracts::Bool
 end
 
-# Manual keyword constructor — robust on Julia 1.6+
+"""
+    NNLSOptions{T}(; max_iter=1000, check_contracts=false)
+
+Construct solver options for element type `T`.
+
+# Keyword arguments
+- `max_iter`        : Upper bound on outer iterations (default: 1000).
+- `check_contracts` : Run KKT and non-negativity checks after solve (default: false).
+
+# Returns
+`NNLSOptions{T}`
+"""
 function NNLSOptions{T}(;
-    dual_tol::T        = T(100) * eps(T),
-    feas_tol::T        = T(100) * eps(T),
-    zero_tol::T        = T(100) * eps(T),
-    rank_tol::T        = T(10)  * eps(T),
-    max_iter::Int      = 1000,
+    max_iter::Int         = 1000,
     check_contracts::Bool = false,
 ) where {T<:AbstractFloat}
-    return NNLSOptions{T}(dual_tol, feas_tol, zero_tol, rank_tol, max_iter, check_contracts)
+    return NNLSOptions{T}(max_iter, check_contracts)
 end
 
-# Convenience: infer T from first positional argument (rarely used directly)
-function NNLSOptions(dual_tol::T; kwargs...) where {T<:AbstractFloat}
-    return NNLSOptions{T}(; dual_tol=dual_tol, kwargs...)
-end
+# -----------------------------------------------------------------------------
+# Pre-allocated workspace
+# -----------------------------------------------------------------------------
 
 """
-    NNLSWorkspace{T}
+    NNLSWorkspace{T<:AbstractFloat}
 
-Pre-allocated workspace for Lawson-Hanson NNLS.
+Mutable workspace holding all buffers required by `nnls!`.
+Allocate once with `NNLSWorkspace(m, n)`, then reuse across multiple solves
+of the same problem dimensions to avoid repeated heap allocation.
 
-Maintains a passive index list for O(n_p) inner-loop operations
-instead of O(n) full scans.
+Fields
+------
+Dimensions:
+- `m`, `n`           : Problem size (m rows, n columns).
+
+Primal / dual vectors:
+- `x`                : Current non-negative solution estimate (length n).
+- `w`                : Dual / gradient vector w = Aᵀ(b − Ax) (length n).
+- `s`                : Unconstrained least-squares solution on passive set (length n).
+- `r`                : Residual r = b − Ax (length m).
+
+Active-set book-keeping:
+- `passive_set`      : BitVector — passive_set[j] = true iff variable j is in the passive set.
+- `passive_indices`  : Ordered list of passive column indices (1-indexed, length n).
+- `n_passive`        : Number of currently passive variables.
+
+QR factorisation buffers:
+- `A_passive`        : Compact QR storage — columns of the passive submatrix,
+                       overwritten in-place by Householder reflectors (m × n).
+- `tau`              : Householder scalars τₖ for each reflector (length n).
+- `perm`             : Column permutation for pivoted QR rebuild;
+                       perm[k] = position in passive_indices (length n).
+- `col_norms_sq`     : Squared column norms used for pivot selection (length n).
+- `Qtb_work`         : Scratch buffer for Qᵀb computation — keeps `r` invariant (length m).
+- `r_scale`          : Diagonal preconditioning factors for the triangular solve;
+                       r_scale[k] = 1/|R[k,k]|.  Computed on-the-fly when the
+                       estimated condition number of R exceeds 1/√eps(T).  Length n.
+
+Solver state:
+- `options`          : `NNLSOptions{T}` configuration.
+- `iter`             : Iteration counter (reset to 0 at the start of each solve).
 """
 mutable struct NNLSWorkspace{T<:AbstractFloat}
-    # Dimensions
     m::Int
     n::Int
 
-    # Solution & Vectors
-    x::Vector{T}           # Solution (size n)
-    w::Vector{T}           # Dual vector (gradient), size n
-    s::Vector{T}           # Buffer for LS sub-problem solution (size n)
-    r::Vector{T}           # Residual vector r = b - Ax (size m)
+    x::Vector{T}
+    w::Vector{T}
+    s::Vector{T}
+    r::Vector{T}
 
-    # Active Set Management
-    passive_set::BitVector          # true = Passive (candidate for non-zero)
-    passive_indices::Vector{Int}    # Ordered list of passive column indices
-    n_passive::Int                  # Current count of passive variables
+    passive_set::BitVector
+    passive_indices::Vector{Int}
+    n_passive::Int
 
-    # Internal Buffers for QR Decomposition
-    A_passive::Matrix{T}           # Buffer for sub-matrix A[:, P] (max size m x n)
+    A_passive::Matrix{T}
+    tau::Vector{T}
+    perm::Vector{Int}
+    col_norms_sq::Vector{T}
+    Qtb_work::Vector{T}
+    r_scale::Vector{T}   # diagonal preconditioning factors 1/|R[k,k]| (length n)
 
-    # Configuration
     options::NNLSOptions{T}
-
-    # State / Diagnostics
     iter::Int
 end
 
 """
-    NNLSWorkspace(m, n, [T=Float64]; kwargs...)
+    NNLSWorkspace(m, n [, T=Float64]; max_iter=1000, check_contracts=false)
 
-Construct workspace for an m x n NNLS problem with element type `T`.
-All keyword arguments are forwarded to [`NNLSOptions`](@ref).
+Allocate a workspace for an m × n NNLS problem of element type `T`.
+
+# Arguments
+- `m`               : Number of rows.
+- `n`               : Number of columns.
+- `T`               : Element type (default: `Float64`; also supports `Float32`, `BigFloat`).
+
+# Keyword arguments
+- `max_iter`        : Maximum outer iterations (default: 1000).
+- `check_contracts` : Enable post-solve correctness checks (default: false).
+
+# Returns
+`NNLSWorkspace{T}` — ready for use with `nnls!`.
+
+# Example
+```julia
+ws = NNLSWorkspace(100, 30)
+result = nnls!(ws, A, b)
+```
 """
-function NNLSWorkspace(m::Int, n::Int, ::Type{T}=Float64; kwargs...) where {T<:AbstractFloat}
+function NNLSWorkspace(m::Int, n::Int, ::Type{T}=Float64;
+                       max_iter::Int         = 1000,
+                       check_contracts::Bool = false) where {T<:AbstractFloat}
     return NNLSWorkspace{T}(
         m, n,
-        zeros(T, n),        # x
-        zeros(T, n),        # w
-        zeros(T, n),        # s
-        zeros(T, m),        # r
-        falses(n),          # passive_set
-        zeros(Int, n),      # passive_indices
-        0,                  # n_passive
-        zeros(T, m, n),     # A_passive buffer
-        NNLSOptions{T}(; kwargs...),
-        0
+        zeros(T, n),   # x
+        zeros(T, n),   # w
+        zeros(T, n),   # s
+        zeros(T, m),   # r
+        falses(n),           # passive_set
+        zeros(Int, n),       # passive_indices
+        0,                   # n_passive
+        zeros(T, m, n),      # A_passive
+        zeros(T, n),         # tau
+        collect(1:n),        # perm: identity permutation as starting point
+        zeros(T, n),         # col_norms_sq
+        zeros(T, m),         # Qtb_work
+        ones(T, n),          # r_scale: identity until preconditioning is needed
+        NNLSOptions{T}(; max_iter=max_iter, check_contracts=check_contracts),
+        0,                   # iter
     )
 end
 
-# --------------------------------------------------------------------------
-# Passive index list helpers
-# --------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Active-set management
+# -----------------------------------------------------------------------------
 
-"""Reset the passive set and index list to empty (all variables active/zero)."""
+"""
+    reset_passive!(ws)
+
+Clear the passive set: mark all variables as active and reset the counter.
+
+# Arguments
+- `ws` : `NNLSWorkspace` to reset.
+"""
 function reset_passive!(ws::NNLSWorkspace)
     fill!(ws.passive_set, false)
     ws.n_passive = 0
     return nothing
 end
 
-"""Add column `j` to the passive set."""
+"""
+    add_passive!(ws, j)
+
+Move variable `j` from the active set into the passive set.
+No-op if `j` is already passive.
+
+# Arguments
+- `ws` : `NNLSWorkspace`.
+- `j`  : Column index (1-indexed) to add to the passive set.
+"""
 function add_passive!(ws::NNLSWorkspace, j::Int)
     if !ws.passive_set[j]
         ws.passive_set[j] = true
         ws.n_passive += 1
         ws.passive_indices[ws.n_passive] = j
-        # keep sorted for deterministic QR column order
-        sort!(view(ws.passive_indices, 1:ws.n_passive))
     end
     return nothing
 end
 
-"""Remove column `j` from the passive set."""
-function remove_passive!(ws::NNLSWorkspace, j::Int)
-    if ws.passive_set[j]
-        ws.passive_set[j] = false
-        # compact the index list
-        write_pos = 0
-        for k in 1:ws.n_passive
-            if ws.passive_indices[k] != j
-                write_pos += 1
-                ws.passive_indices[write_pos] = ws.passive_indices[k]
-            end
-        end
-        ws.n_passive = write_pos
+"""
+    remove_passive_at!(ws, pos)
+
+Remove the variable at position `pos` in `passive_indices` from the passive set.
+Shifts the remaining entries left to keep the list contiguous.
+
+# Arguments
+- `ws`  : `NNLSWorkspace`.
+- `pos` : Position (1-indexed) within `passive_indices` to remove.
+"""
+function remove_passive_at!(ws::NNLSWorkspace, pos::Int)
+    j = ws.passive_indices[pos]
+    ws.passive_set[j] = false
+    for k in pos:(ws.n_passive - 1)
+        ws.passive_indices[k] = ws.passive_indices[k + 1]
     end
+    ws.n_passive -= 1
     return nothing
 end

@@ -1,0 +1,5 @@
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+CoreNNLS = "e0c1f8e0-0001-4000-8000-000000000001"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+NonNegLeastSquares = "b7351bd1-99d9-5c5d-8786-f205a815c4d7"
