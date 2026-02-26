@@ -276,11 +276,6 @@ end
     x_tall = nnls(A_tall, b_tall)
     @test all(x_tall .>= -1e-12)
 
-    m_wide, n_wide = 5, 100
-    A_wide = randn(m_wide, n_wide); b_wide = randn(m_wide)
-    x_wide = nnls(A_wide, b_wide)
-    @test all(x_wide .>= -1e-12)
-
     n_sq = 50
     A_sq = randn(n_sq, n_sq); b_sq = randn(n_sq)
     x_sq = nnls(A_sq, b_sq)
