@@ -2,6 +2,7 @@
 
 **Non-Negative Least Squares (NNLS) solver for Julia — fast, accurate, allocation-free.**
 
+[![CI](https://github.com/UweAlex/CoreNNLS.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/UweAlex/CoreNNLS.jl/actions/workflows/ci.yml)
 [![Julia](https://img.shields.io/badge/Julia-1.9+-purple)](https://julialang.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
