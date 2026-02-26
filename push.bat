@@ -39,7 +39,7 @@ git commit -m "%COMMIT_MSG%"
 echo.
 
 echo Pushe nach GitHub...
-git push -u origin master
+git push
 
 echo.
 echo ================================================
